@@ -1,0 +1,131 @@
+
+  
+  
+  /* Mobile view */
+  .Login {
+    margin: 2rem auto;
+    width: 80%;
+    height: auto;
+    background-color: rgb(238, 236, 248);
+    padding: 2rem 1rem;
+    border-radius: 5px;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    background: url('../assets/ucclogo.png');
+    background-position: center;
+    background-repeat:no-repeat;
+    background-size:16rem;
+
+    
+  }
+
+  .Form{
+    margin: 4rem auto;
+  }
+
+  .indexNumber , .password{
+    width: 90%;
+    margin: 2rem auto;
+    height: 2rem;
+    border:none ;
+    border-radius: 7px;
+    font-size: larger;
+    color:  #1a1a1a;
+    box-shadow: 2px 2px 0.1px 0.1px #646cff;
+    background-color: rgb(238, 236, 248);
+    
+    z-index: 1;
+
+  }
+  .indexNumber:focus ,.password:focus {
+   
+    border-top:2px solid #646cff;
+    outline: none;
+    border-radius: 7px;
+    background-color: white;
+  }
+  .signIn{
+    width: 80%;
+    color:white;
+    background-color: blue;
+    margin: 1.5rem auto;
+    height: 3rem;
+    font-size: larger;
+    border: 2px solid blue;
+    outline: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.2s;
+    z-index: 1;
+    transition: border-color 0.25s;
+    border: 1px solid transparent;
+    
+  }
+
+  .signIn:focus{
+    transform: scale(0.8);
+    background-color: #646cff;
+    border: none;
+    outline: none;
+
+  }
+  .signIn:hover{
+    background-color: #646cff;
+    border: none;
+    outline: none;
+  }
+  
+  /* Tablet view */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .Login{
+        margin: 4rem auto;
+            width:90vw;
+           
+      }
+
+      .signIn{
+       
+        height: 3rem;
+        
+        border-radius: 15px;
+      }
+
+
+      .indexNumber , .password{
+       
+        height: 3rem;
+       
+    
+      }
+    
+  
+    
+  }
+  
+  /* Desktop view */
+  @media (min-width: 1024px) {
+
+    .signIn{
+        
+        height: 3.6rem;
+        margin-top: 1rem;
+        
+        border-radius: 20px;
+      }
+      .Form{
+        margin-top: 2rem;
+      }
+
+      .Login{
+        margin: 2rem auto;
+            width:30vw;
+            height: auto;;
+           
+      }
+   
+  }
+  

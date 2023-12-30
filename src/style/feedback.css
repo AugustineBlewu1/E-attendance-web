@@ -1,0 +1,24 @@
+.textArea {
+    width: 60%;
+    margin:auto auto;
+}
+
+#text:focus{
+    border: 2px solid black;
+    outline: none;
+}
+
+#text{
+    margin-bottom: 2rem;
+}
+.feedback-p{
+    font-size: 0.84rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .textArea {
+        width: 90%;
+
+    }
+
+}

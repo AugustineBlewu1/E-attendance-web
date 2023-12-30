@@ -1,0 +1,104 @@
+ /* Mobile view */
+ body{
+    background-color: rgb(238, 236, 248);
+    margin: 0;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      height: 100vh;
+ }
+ 
+    .landingPage{
+        margin: 3rem auto;
+        width:80%;
+        height: auto;;
+        background-color:rgb(255,255,255);
+        padding: 4rem 1rem;
+        border-radius: 5px;
+        text-align: center;
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 1rem;
+       box-shadow: 0 0 20px rgba(0, 0, 0, 0.15)
+    }
+   
+    .typewriter{
+      color: blue;
+    }
+    figure{
+      margin-top:-2rem;
+    }
+    
+    .ucclogo{
+      width: 80%;
+      height: auto;
+      
+    }
+
+    .lecturer, .student{
+      width: 80%;
+      height: 2.6rem;
+      margin-top: 1rem;
+      border-radius: 10px;
+      font-size: large;
+      color: white;
+      background-color: blue;
+      border: 2px solid white;
+
+    }
+    .lecturer:hover,.student:hover{
+      border: 2px solid black;
+      background-color: white;
+      color: black;
+      cursor: pointer;
+    }
+ .link:hover{
+   cursor: pointer;
+ }
+
+   
+ 
+ /* Tablet view */
+ @media (min-width: 768px) and (max-width: 1023px) {
+
+   .landingPage{
+      margin: 2rem auto;
+      width:80vw;
+      padding: 3rem 1rem;
+      border-radius: 10px;
+      font-size: 1rem;
+  }
+
+  figure{
+   margin-top:-1rem;
+ }
+ 
+ .ucclogo{
+   width: 60%;
+   
+ }
+
+ .lecturer, .student{
+   width: 90%;
+ }}
+ 
+ /* Desktop view */
+ @media (min-width: 1024px) {
+   .landingPage{
+      margin: 2rem auto;
+      width:70vw;
+      padding: 3rem 1rem;
+      border-radius: 20px;
+      display: flex;
+  }
+  .section-2{
+   background-color:yellow;
+   width: 50%;
+   border-radius: 10px;
+
+  }
+  
+  .header-3{
+   margin-top: 6rem;
+  }
+  
+ }

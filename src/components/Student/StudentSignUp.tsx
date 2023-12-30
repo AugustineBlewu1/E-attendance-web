@@ -1,0 +1,111 @@
+import React, { useState } from 'react';
+import '../../style/signup.css';
+import { SignUP } from './signUp';
+
+export default function StudentSignUp() {
+  const [message, setMessage] = useState<boolean>(false);
+  const [password, setPassword] = useState<string>('');
+  const [rePassword, setRePassword] = useState<string>('');
+  
+
+  // Select level
+  const level: number[] = [100, 200, 300, 400, 500, 600];
+
+  const [formData, setFormData] = useState<SignUP>({
+    name: '',
+    id: '',
+    level: '100', // Change type to string and provide a default value
+    department: '',
+    contact: '',
+    email: '',
+    password: '',
+  });
+
+  
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === rePassword) {
+      console.log('Form submitted:', formData, 'Password:', password);
+      setMessage(false);
+  
+      setFormData({
+        name: '',
+        id: '',
+        level: '100', // Reset to default value
+        department: '',
+        contact: '',
+        email: '',
+        password: '',
+      });
+    } else {
+      setMessage(!message);
+    }
+  };
+  
+
+  return (
+    <div className="signup-container">
+      <h2>Student Sign Up</h2>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="name">Name:</label>
+        <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
+
+        <label htmlFor="id">Index Number:</label>
+        <input type="text" id="id" name="id" value={formData.id} onChange={handleChange} required />
+
+        <label htmlFor="level">Level</label>
+        <select name="level" value={formData.level} onChange={handleChange}>
+          {level.map((slevel) => (
+            <option value={slevel.toString()} key={slevel}>
+              {slevel}
+            </option>
+          ))}
+        </select>
+
+        <label htmlFor="department">Department:</label>
+        <input
+          type="text"
+          id="department"
+          name="department"
+          value={formData.department}
+          onChange={handleChange}
+          required
+        />
+
+        <label htmlFor="contact">Contact:</label>
+        <input
+          type="text"
+          id="contact"
+          name="contact"
+          value={formData.contact}
+          onChange={handleChange}
+          required
+        />
+
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <label htmlFor="password">Password</label>
+        <input type="password" id="password" name="password" onChange={(e) => setPassword(e.target.value)} />
+
+        <label htmlFor="Re-typepassword">Re-type Password</label>
+        <input type="password" id="Re-typepassword" onChange={(e) => setRePassword(e.target.value)} />
+        {message && <p>Passwords do not match</p>}
+
+        <button type="submit">Save</button>
+      </form>
+    </div>
+  );
+}
