@@ -2,8 +2,8 @@
 
 /* Base styles */
 .signup-container {
-    width: 60vw;
-    margin: auto;
+    width: 45vw;
+    margin: 3rem auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -26,9 +26,13 @@
     color: #333;
   }
   
-  form {
+  .s-form {
     display: flex;
     flex-direction: column;
+  
+    margin: 0 auto;
+    
+    
   }
   
   label {
@@ -42,26 +46,15 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 12px;
+  
+    
   }
   
   select {
     height: 100px; /* Adjust the height as needed for the dropdown */
   }
   
-  .course-checkboxes {
-    display: flex;
-    flex-direction: column;
-  }
   
-  .course-checkboxes label {
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .course-checkboxes input {
-    margin-right: 8px;
-  }
   
   button {
     background-color: blue;
@@ -83,6 +76,12 @@
   @media screen and (max-width: 768px) {
     .signup-container {
       width: 70vw; /* Adjust the width for smaller screens */
+    }
+
+    .s-form {
+      display: flex;
+      flex-direction: column;
+
     }
   }
   

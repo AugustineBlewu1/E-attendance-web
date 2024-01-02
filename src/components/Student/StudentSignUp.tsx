@@ -14,7 +14,7 @@ export default function StudentSignUp() {
   const [formData, setFormData] = useState<SignUP>({
     name: '',
     id: '',
-    level: '100', // Change type to string and provide a default value
+    level: '100', 
     department: '',
     contact: '',
     email: '',
@@ -37,7 +37,7 @@ export default function StudentSignUp() {
       setFormData({
         name: '',
         id: '',
-        level: '100', // Reset to default value
+        level: '100', 
         department: '',
         contact: '',
         email: '',
@@ -52,7 +52,7 @@ export default function StudentSignUp() {
   return (
     <div className="signup-container">
       <h2>Student Sign Up</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='s-form'>
         <label htmlFor="name">Name:</label>
         <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
 
