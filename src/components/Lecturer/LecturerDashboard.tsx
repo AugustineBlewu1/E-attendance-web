@@ -9,6 +9,7 @@ import { useState } from 'react';
     import {TbListDetails ,TbReport}  from 'react-icons/tb'
     import {CiBoxList} from "react-icons/ci"
     import {HiOutlineQrcode} from "react-icons/hi"
+    import {RiTimeFill} from "react-icons/ri"
     
     
     import Profile from '../../assets/profile.png'
@@ -83,7 +84,14 @@ export default function LecturerDashboard() {
     
             <div className="aside-2">
               <div className="aside-top">
-                <h1 style={{ textAlign: "center", color: "white" }}> Dr. Ernest Obese </h1>
+              <span className="aside-flex">
+            <h1 style={{ textAlign: 'center', color: 'white',
+          marginTop:'-0.7rem' }}>Lecturer's Name</h1>
+            <p className="date" style={{
+              marginLeft:'8rem',
+              fontSize:"0.7rem"
+            }}><RiTimeFill/>{Date()}</p>
+            </span>
               </div>
               <div className="aside-down">
                 {selectedItem === 'lecturerDetails' && (<p>come from database</p>)}

@@ -25,8 +25,19 @@ html{
     overflow-y: auto;
     overflow-wrap: auto;
     box-sizing: border-box;
+    position:relative
+
     
     
+
+}
+
+.aside-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-top: 1rem ;
 
 }
 .aside-top{
@@ -232,7 +243,8 @@ li{
     
 }
 .aside-2{
-    width: 65vw;   
+    width: 65vw;  
+    
 
 }
 
@@ -258,7 +270,10 @@ li{
 
     
 }
+.date{
+    display:none  ;
 
+}
 .icons{
     width:10%;
     margin-right:0.2rem;

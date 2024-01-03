@@ -4,7 +4,8 @@ import '../../style/Login.css';
 import React, { useState } from 'react';
 
 import {Props} from '../Login'
-
+import Logo from "../../assets/ucclogo.png"
+import {FaUser,FaKey} from "react-icons/fa6"
 // ... (imports)
 
 
@@ -42,7 +43,10 @@ import {Props} from '../Login'
   
     return (
       <div className="Login">
-        <h1>Lecturer's Login Section</h1>
+        <figure className="P-logo">
+          <img src={Logo} alt="Pharmacy Logo" className="p-logo" />
+        </figure>
+        <p className="header" >Lecturer's Login </p>
         <form
           id="lecturerForm"
           className="Form"
@@ -59,7 +63,7 @@ import {Props} from '../Login'
             name="lecturer_id"
             onChange={(e) => handleChange(e)}
             value={inputs.lecturer_id}
-          />
+          /><span className="login-icons "><FaUser/></span>
   
           <input
             type="password"
@@ -69,11 +73,11 @@ import {Props} from '../Login'
             onChange={handleChange}
             value={inputs.passWord}
             required
-          />
+          /><span className="login-icons "><FaKey/></span>
   
           
             <button type="submit" className="signIn">
-              Sign In
+              LOGIN
             </button>
         
           <p style={{ fontSize: '0.9rem' }} >
