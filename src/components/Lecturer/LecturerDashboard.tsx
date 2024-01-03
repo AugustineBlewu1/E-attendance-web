@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
-    
+
+    import Feedback from './Feedback';
     import '../../style/Dashboard.css';
     import { Link } from "react-router-dom";
     import Logo from '../../assets/ucclogo.png';
@@ -22,10 +23,6 @@ export default function LecturerDashboard() {
       const [selectedItem, setSelectedItem] = useState<null|string>(null);
       const [profile, setProfile] = useState<boolean>(false);
     
-     
-    
-      
-     
     
       const handleItemClick = (itemName:null|string):void => {
         setSelectedItem(itemName);
@@ -93,7 +90,7 @@ export default function LecturerDashboard() {
                 {selectedItem === 'qrcode' &&  <p>qrcode</p>}
                 {selectedItem === 'classList' && <p>claslist</p>}
                 {selectedItem === 'dailyReport' && <p>daily report</p>}
-                {selectedItem === 'feedback' && (<p>feedback</p>)}
+                {selectedItem === 'feedback' && (<Feedback/>)}
                 {selectedItem === 'settings' && (<h3>settings</h3>)}
               </div>
             </div>
