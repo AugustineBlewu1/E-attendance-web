@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 
 import {Props} from '../Login'
 import Logo from "../../assets/ucclogo.png"
-import {FaUser,FaKey} from "react-icons/fa6"
+
 // ... (imports)
 
 
@@ -63,7 +63,7 @@ import {FaUser,FaKey} from "react-icons/fa6"
             name="lecturer_id"
             onChange={(e) => handleChange(e)}
             value={inputs.lecturer_id}
-          /><span className="login-icons "><FaUser/></span>
+          />
   
           <input
             type="password"
@@ -73,7 +73,7 @@ import {FaUser,FaKey} from "react-icons/fa6"
             onChange={handleChange}
             value={inputs.passWord}
             required
-          /><span className="login-icons "><FaKey/></span>
+          />
   
           
             <button type="submit" className="signIn">

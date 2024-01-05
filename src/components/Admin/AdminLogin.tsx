@@ -3,6 +3,7 @@ import { useNavigate} from "react-router-dom";
 import '../../style/Login.css';
 import React, { useState } from 'react';
 import {Props} from '../Login'
+import Logo from '../../assets/ucclogo.png'
 
 // ... (imports)
 
@@ -41,7 +42,10 @@ import {Props} from '../Login'
   
     return (
       <div className="Login">
-        <h1>Administrator's Login Section</h1>
+        <figure className="P-logo">
+          <img src={Logo} alt="Pharmacy Logo" className="p-logo" />
+        </figure>
+        <p className="header" >Admin's Login </p>
         <form
           id="lecturerForm"
           className="Form"
@@ -73,7 +77,7 @@ import {Props} from '../Login'
   
           
             <button type="submit" className="signIn">
-              Sign In
+              LOGIN
             </button>
         
           <p style={{ fontSize: '0.9rem' }}>

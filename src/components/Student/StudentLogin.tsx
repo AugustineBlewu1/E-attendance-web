@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {Props} from '../Login'
 
+import Logo from '../../assets/ucclogo.png'
+
 import '../../style/Login.css';
 
 function StudentLogin() {
@@ -42,7 +44,10 @@ function StudentLogin() {
 
   return (
     <div className="Login">
-      <h1>Student's Login Section</h1>
+      <figure className="P-logo">
+          <img src={Logo} alt="Pharmacy Logo" className="p-logo" />
+        </figure>
+        <p className="header" >Student's Login </p>
       <form
         id="studentForm"
         className="Form"
@@ -56,7 +61,7 @@ function StudentLogin() {
           type="text"
           className="indexNumber"
           placeholder="Student ID"
-          name="studentID" // This should match the key in your PHP script
+          name="studentID" 
           onChange={handleChange}
           value={inputs.studentID}
         />
@@ -64,19 +69,19 @@ function StudentLogin() {
         <input
           type="password"
           className="password"
-          placeholder="password" // Corrected the spelling to match your PHP script
-          name="passWord" // This should match the key in your PHP script
+          placeholder="password" 
+          name="passWord" 
           onChange={handleChange}
           value={inputs.passWord}
           required
         />
 
         <button type="submit" className="signIn ">
-          Sign In
+          LOGIN
         </button>
         <p style={{ fontSize: "0.9rem" }}>
           Forget Password?{" "}
-          <span style={{ color: "red" }}>Click here</span>{" "}
+          <span style={{ color: "red", marginRight:'0.8rem'}}>Click here</span>{" "}
           <Link to="/SignUp">Sign Up</Link>
         </p>
       </form>

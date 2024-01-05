@@ -49,13 +49,13 @@
   
 
   .Form{
-    margin: 4rem auto;
+    margin: 2rem auto;
   }
 
   .indexNumber , .password{
     width: 90%;
-    margin: 2rem auto;
-    height: 2rem;
+    margin: 1rem auto;
+    height: 1.8rem;
     border:none ;
     border-radius: 7px;
     font-size: larger;
@@ -79,17 +79,18 @@
     color:white;
     background-color: blue;
     margin: 1.5rem auto;
-    height: 2rem;
+    height: 2.4rem;
     font-size: larger;
     border: 2px solid blue;
     outline: none;
-    border-radius: 2px;
+    border-radius: 15px;
     cursor: pointer;
     text-align: center;
     transition: 0.2s;
     z-index: 1;
     transition: border-color 0.25s;
     border: 1px solid transparent;
+    
     
   }
 
@@ -103,6 +104,7 @@
   .signIn:hover{
     background-color: #646cff;
     border: none;
+    color:white;
     outline: none;
   }
   
@@ -152,7 +154,7 @@
 
       .Login{
         margin: 2rem auto;
-            width:35vw;
+            width:31vw;
             height: auto;;
            
       }

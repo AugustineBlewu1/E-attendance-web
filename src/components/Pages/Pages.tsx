@@ -6,7 +6,7 @@ import StudentSignUp from "../Student/StudentSignUp";
 import LecturerDashboard from '../Lecturer/LecturerDashboard';
 import StudentDashboard from "../Student/StudentDashboard";
 import {BrowserRouter as Router, Routes , Route} from "react-router-dom"
-
+import Copyright from "../Copyright";
 function Pages() {
   return (
     <>
@@ -14,10 +14,10 @@ function Pages() {
      <Router>
      
        <Routes>
-        <Route path="/" element={<LandingPage/>} />
-        <Route path="/LecturerLogin" element={<LecturerLogin/>} />
-        <Route path="/StudentLogin" element={<StudentLogin/>} />
-        <Route path="/AdminLogin" element={<AdminLogin/>} />
+        <Route path="/" element={<><LandingPage/> <Copyright/></>} />
+        <Route path="/LecturerLogin" element={<><LecturerLogin/><Copyright/></>} />
+        <Route path="/StudentLogin" element={<><StudentLogin/><Copyright/></>} />
+        <Route path="/AdminLogin" element={<><AdminLogin/><Copyright/></>} />
         <Route path="/SignUp" element={<StudentSignUp/>} />
         <Route path="/LecturerDashboard" element={<LecturerDashboard/>} />
         <Route path="/StudentDashboard" element={<StudentDashboard/>} />
