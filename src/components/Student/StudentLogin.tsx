@@ -67,22 +67,24 @@ function StudentLogin() {
         />
 
         <input
-          type="password"
+          type="Password"
           className="password"
-          placeholder="password" 
+          placeholder="Password" 
           name="passWord" 
           onChange={handleChange}
           value={inputs.passWord}
           required
         />
 
-        <button type="submit" className="signIn ">
+        <button type="submit" className="signIn">
           LOGIN
-        </button>
+        </button> 
+        <br />
+        <Link to="/SignUp">Sign Up</Link>
+
         <p style={{ fontSize: "0.9rem" }}>
           Forget Password?{" "}
           <span style={{ color: "red", marginRight:'0.8rem'}}>Click here</span>{" "}
-          <Link to="/SignUp">Sign Up</Link>
         </p>
       </form>
     </div>

@@ -27,7 +27,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto; /* Centers the figure horizontally within its container */
+    margin: 30px auto; /* Centers the figure horizontally within its container */
   }
 
   .login-icons {
@@ -50,6 +50,7 @@
 
   .Form{
     margin: 2rem auto;
+    padding: 20px;
   }
 
   .indexNumber , .password{
@@ -67,13 +68,15 @@
     z-index: 1;
 
   }
+  
   .indexNumber:focus ,.password:focus {
    
-    border-top:2px solid #646cff;
+    border:2px solid #646cff;
     outline: none;
     border-radius: 7px;
     background-color: white;
   }
+
   .signIn{
     width: 80%;
     color:white;

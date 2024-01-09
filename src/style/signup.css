@@ -9,9 +9,58 @@
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     opacity: 0;
+    background-color: #fff;
     animation: fadeIn 1s forwards;
   }
   
+  .indexNumber , .password{
+    width: 100%;
+    margin: 1rem auto;
+    height: 1.8rem;
+    border:none ;
+    border-radius: 7px;
+    font-size: larger;
+    color:  #1a1a1a;
+    position: relative;
+    /* box-shadow: 2px 2px 0.1px 0.1px #646cff; */
+    background-color: rgb(238, 236, 248);
+    
+    z-index: 1;
+
+  }
+  
+  .indexNumber:focus ,.password:focus {
+   
+    border:2px solid #646cff;
+    outline: none;
+    border-radius: 7px;
+    background-color: white;
+  }
+
+  .dropDown {
+    width: 100%;
+    margin: 1rem auto;
+    height: 3rem;
+    border:none ;
+    border-radius: 7px;
+    font-size: larger;
+    color:  #1a1a1a;
+    position: relative;
+    /* box-shadow: 2px 2px 0.1px 0.1px #646cff; */
+    background-color: rgb(238, 236, 248);
+    
+    z-index: 1;
+
+  }
+  
+  .dropDown:focus {
+   
+    border:2px solid #646cff;
+    outline: none;
+    border-radius: 7px;
+    background-color: white;
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -31,6 +80,7 @@
     flex-direction: column;
   
     margin: 0 auto;
+    padding: 30px
     
     
   }
