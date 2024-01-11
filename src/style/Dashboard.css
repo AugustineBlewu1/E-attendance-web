@@ -27,9 +27,6 @@ html{
     box-sizing: border-box;
     position:relative
 
-    
-    
-
 }
 
 .aside-flex {
@@ -126,7 +123,9 @@ figcaption{
     border: 2px solid #fff; 
       background-color: white;
 }
-
+.f-icons{
+    margin-left: -1rem;
+}
 
 .icons{
     width:8%;
@@ -137,7 +136,7 @@ figcaption{
     background-color:white;
     color: rgb(11, 119, 83);;
     z-index: 1;
-    width :12%;
+    width :8%;
     height: auto;
     position:absolute;
     margin-left: 1rem;

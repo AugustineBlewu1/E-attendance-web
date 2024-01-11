@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+    import { useState } from 'react';
 
     import Feedback from './Feedback';
     import '../../style/Dashboard.css';
@@ -15,10 +15,15 @@ import { useState } from 'react';
     import Profile from '../../assets/profile.png'
    
     import { FaSignOutAlt, FaComment, FaCog } from "react-icons/fa";
+    import DateTimeDisplay from "../Date"
 
     
 
 export default function LecturerDashboard() {
+
+  
+  
+  
     
       //const [lecturerData, setLecturerData] = useState({});
       const [selectedItem, setSelectedItem] = useState<null|string>(null);
@@ -69,13 +74,13 @@ export default function LecturerDashboard() {
                 {profile && (
                   <ul className='profile-list'>
                     <li className='profile-li' onClick={() => { handleItemClick('settings'); setProfile(!profile); }}>
-                      <FaCog />Setting
+                      <span className="f-icons"><FaCog /></span> Setting
                     </li>
                     <li className='profile-li' onClick={() => { handleItemClick('feedback'); setProfile(!profile); }}>
-                      <FaComment />Feedback
+                      <span className="f-icons"><FaComment /></span> Feedback
                     </li>
                     <li className='profile-li' onClick={() => setProfile(!profile)}>
-                      <Link to='/' className='Link'><FaSignOutAlt />Logout</Link>
+                      <Link to='/' className='Link'><span className="f-icons"><FaSignOutAlt /></span>Logout</Link>
                     </li>
                   </ul>
                 )}
@@ -86,11 +91,16 @@ export default function LecturerDashboard() {
               <div className="aside-top">
               <span className="aside-flex">
             <h1 style={{ textAlign: 'center', color: 'white',
-          marginTop:'-0.7rem' }}>Lecturer's Name</h1>
+          marginTop:'-0.7rem' }}>Welcome, Lecturer's Name</h1>
             <p className="date" style={{
               marginLeft:'8rem',
-              fontSize:"0.7rem"
-            }}><RiTimeFill/>{Date()}</p>
+              fontSize:"0.7rem",
+              border:"2px solid white",
+              height:'2.9rem',
+              backgroundColor:"white",
+              color:"green",
+              
+            }}><RiTimeFill/><DateTimeDisplay/></p>
             </span>
               </div>
               <div className="aside-down">

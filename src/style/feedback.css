@@ -7,6 +7,9 @@
     border: 2px solid black;
     outline: none;
 }
+.f-icons{
+    margin-right: 0.5rem;
+}
 
 #text{
     margin-bottom: 2rem;
