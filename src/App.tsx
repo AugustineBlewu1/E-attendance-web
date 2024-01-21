@@ -5,15 +5,13 @@ import store from "./services/store";
 function App() {
   return (
     <>
-     <Provider store={store}>
-      <div className="App">
-        {/* Your App content */}
-        
-         <Pages/>
+      <Provider store={store}>
+        <div className="App">
+          {/* Your App content */}
 
-
-      </div>
-    </Provider>
+          <Pages />
+        </div>
+      </Provider>
     </>
   );
 }

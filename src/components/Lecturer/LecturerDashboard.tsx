@@ -13,11 +13,18 @@ import { RiTimeFill } from "react-icons/ri";
 import Profile from "../../assets/profile.png";
 
 import { FaSignOutAlt, FaComment, FaCog } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { UserState } from "../../services/userReducer";
+import QrCodePage from "./QrCodePage";
 
 export default function LecturerDashboard() {
   //const [lecturerData, setLecturerData] = useState({});
   const [selectedItem, setSelectedItem] = useState<null | string>(null);
   const [profile, setProfile] = useState<boolean>(false);
+  const user  = useSelector<UserState>((state) => state);
+
+
+  console.log('User',user)
 
   const handleItemClick = (itemName: null | string): void => {
     setSelectedItem(itemName);
@@ -26,6 +33,7 @@ export default function LecturerDashboard() {
   return (
     <div className="container">
       <div className="aside-1">
+        <div >
         <div className="header-c">
           <figure className="f-logo">
             <img className="logo" src={Logo} alt=" logo" />
@@ -67,6 +75,9 @@ export default function LecturerDashboard() {
 
 
         {/* Click to view the profile */}
+        
+        </div>
+        <div className="">
         <div className="">
           { profile && (
             <ul className="profile-list">
@@ -90,7 +101,7 @@ export default function LecturerDashboard() {
                 <FaComment />
                 Feedback
               </li>
-              <li className="profile-li" onClick={() => setProfile(!profile)}>
+              <li className="" onClick={() => setProfile(!profile)}>
                 <Link to="/" className="Link">
                   <FaSignOutAlt />
                   Logout
@@ -99,12 +110,10 @@ export default function LecturerDashboard() {
             </ul>
           )}
         </div>
-
-        <div className="">
-          <figure className="" onClick={() => setProfile(!profile)}>
+          <figure className="figClass" onClick={() => setProfile(!profile)}>
             <img className="pp" src={Profile} alt="profile" />
+            <span>Profile</span>
           </figure>
-          <figcaption>Profile</figcaption>
         </div>
       </div>
 
@@ -134,7 +143,7 @@ export default function LecturerDashboard() {
         </div>
         <div className="aside-down">
           {selectedItem === "lecturerDetails" && <p>come from database</p>}
-          {selectedItem === "qrcode" && <p>qrcode</p>}
+          {selectedItem === "qrcode" && <QrCodePage />}
           {selectedItem === "classList" && <p>claslist</p>}
           {selectedItem === "dailyReport" && <p>daily report</p>}
           {selectedItem === "feedback" && <Feedback />}

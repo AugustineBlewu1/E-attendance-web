@@ -1,7 +1,7 @@
 import { User } from "./User";
 import { UserAction } from "./userActions";
 
-type UserState = User | null;
+export type UserState = User | null;
 
 const userReducer = (state: UserState = null, action: UserAction): UserState => {
   switch (action.type) {

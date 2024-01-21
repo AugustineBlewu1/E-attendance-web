@@ -13,3 +13,11 @@ export interface LoginResponse{
     user: User,
     access_token: string
 }
+
+export interface Courses {
+    course_id: number,
+    name: string,
+    course_code: string,
+    created_at: string,
+    updated_at: string
+}

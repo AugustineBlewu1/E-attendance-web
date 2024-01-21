@@ -7,7 +7,9 @@ import Logo from "../../assets/ucclogo.png";
 import HttpService from "../../services/HttpService";
 import { LoginResponse } from "../../services/User";
 import { setUser } from "../../services/userActions";
+import { useDispatch } from "react-redux";
 // ... (imports)
+
 
 function LecturerLogin() {
  
@@ -17,6 +19,8 @@ function LecturerLogin() {
     lecturer_id: "",
     passWord: "",
   });
+  const dispatch = useDispatch();
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const name: string = e.target.name;
@@ -46,7 +50,8 @@ function LecturerLogin() {
         email: result.user?.email,
         accessToken: result?.access_token,
       };
-      setUser(user);
+      dispatch(setUser(user));
+      
     } catch (error: any) {
       // console.log(error?.message);
       window.alert(error?.message);
