@@ -1,9 +1,19 @@
+import { Provider } from "react-redux";
 import Pages from "./components/Pages/Pages";
+import store from "./services/store";
 
 function App() {
   return (
     <>
-    <Pages/>
+     <Provider store={store}>
+      <div className="App">
+        {/* Your App content */}
+        
+         <Pages/>
+
+
+      </div>
+    </Provider>
     </>
   );
 }

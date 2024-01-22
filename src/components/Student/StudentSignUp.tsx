@@ -54,13 +54,13 @@ export default function StudentSignUp() {
       <h2>Student Sign Up</h2>
       <form onSubmit={handleSubmit} className='s-form'>
         <label htmlFor="name">Name:</label>
-        <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
+        <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className='indexNumber' required />
 
         <label htmlFor="id">Index Number:</label>
-        <input type="text" id="id" name="id" value={formData.id} onChange={handleChange} required />
+        <input type="text" id="id" name="id" value={formData.id} onChange={handleChange} required  className='indexNumber'/>
 
         <label htmlFor="level">Level</label>
-        <select name="level" value={formData.level} onChange={handleChange}>
+        <select name="level" value={formData.level} onChange={handleChange} className='dropDown'>
           {level.map((slevel) => (
             <option value={slevel.toString()} key={slevel}>
               {slevel}
@@ -75,6 +75,7 @@ export default function StudentSignUp() {
           name="department"
           value={formData.department}
           onChange={handleChange}
+          className='indexNumber'
           required
         />
 
@@ -85,6 +86,7 @@ export default function StudentSignUp() {
           name="contact"
           value={formData.contact}
           onChange={handleChange}
+          className='indexNumber'
           required
         />
 
@@ -95,16 +97,17 @@ export default function StudentSignUp() {
           name="email"
           value={formData.email}
           onChange={handleChange}
+          className='indexNumber'
           required
         />
         <label htmlFor="password">Password</label>
-        <input type="password" id="password" name="password" onChange={(e) => setPassword(e.target.value)} />
+        <input type="password" id="password" name="password" onChange={(e) => setPassword(e.target.value)} className='password' />
 
         <label htmlFor="Re-typepassword">Re-type Password</label>
-        <input type="password" id="Re-typepassword" onChange={(e) => setRePassword(e.target.value)} />
+        <input type="password" id="Re-typepassword" onChange={(e) => setRePassword(e.target.value)} className='password' />
         {message && <p>Passwords do not match</p>}
 
-        <button type="submit">Save</button>
+        <button type="submit" className='signIn'>Save</button>
       </form>
     </div>
   );
