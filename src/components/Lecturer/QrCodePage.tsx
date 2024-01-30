@@ -7,21 +7,29 @@ import { Button, useDisclosure, useToast } from "@chakra-ui/react";
 import CustomModal from "../UI/CustomModal";
 import { SubmitHandler, useForm } from "react-hook-form";
 import QRCode from "react-qr-code";
+import { decode, encode } from "../../services/store/security";
 
 const QrCodePage = () => {
   const user = useSelector(selectCurrentUser);
   const [courses, SetCourses] = useState<Courses[]>([]);
   const [loading, setLoading] = useState(false);
   const [courseId, setCourseId] = useState<number>(0);
-  const [setQRCodeValue, SetQRCodeValue] = useState({});
-
+  const [setQRCodeValue, SetQRCodeValue] = useState('');
   const toast = useToast();
 
+  //qrcode modal
   const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false });
   const {
     isOpen: isOpenQR,
     onOpen: onOpenQR,
     onClose: onCloseQR,
+  } = useDisclosure({ defaultIsOpen: false });
+
+  //Display qr code modal
+  const {
+    isOpen: isdisplayQRCode,
+    onOpen: onOpenQRDISPLAY,
+    onClose: onCloseQRDisplay,
   } = useDisclosure({ defaultIsOpen: false });
 
   type Inputs = {
@@ -33,15 +41,19 @@ const QrCodePage = () => {
   type QrCOde = {
     courseVenue: string;
   };
+
+    //register  a new course
+
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {},
   });
+
+  //Generate a new qr Code
 
   const {
     register: qrGenerate,
@@ -53,9 +65,12 @@ const QrCodePage = () => {
     defaultValues: {},
   });
 
+  //get courses on first initialization of pages
+  //dependency on user
   useEffect(() => {
     getCourse();
-  }, []);
+  }, [user]);
+
 
   const getCourse = async () => {
     const course = await HttpService.getWithToken<any>(
@@ -119,7 +134,7 @@ const QrCodePage = () => {
         {
           course_id: courseId.toString(),
           venue: data?.courseVenue,
-          user_id: user?.id,
+          user_id: user?.id.toString(),
         }
       );
 
@@ -144,15 +159,20 @@ const QrCodePage = () => {
           isClosable: true,
           position: "top-right",
         });
+        resetQr();
+        onCloseQR();
         setLoading(false);
+        console.log('data here', saveQrResponse?.data);
+
+        const encodedData = encode(JSON.stringify(saveQrResponse?.data));
+        SetQRCodeValue(encodedData);
+        onOpenQRDISPLAY();
+
       }
       console.log(saveQrResponse);
       setLoading(false);
-
-      resetQr();
-      onCloseQR();
-      SetQRCodeValue({"Data" : "Testing"})
     } catch (error) {
+      console.log(error)
       toast({
         title: "Error",
         description: "Request Failed",
@@ -279,7 +299,7 @@ const QrCodePage = () => {
               <input
                 className="border border-primary rounded mt-2 mb-2 py-2 pl-2 text-sm text-left w-full"
                 type="text"
-                placeholder="Course venuw"
+                placeholder="Course venue"
                 {...qrGenerate("courseVenue", {
                   required: "Course Venue field is required",
                   validate: (value) =>
@@ -298,23 +318,22 @@ const QrCodePage = () => {
 
       <CustomModal
         headerText="Generated QR CODE"
-        footerText="Save"
-        isOpen={isOpenQR}
-        loading={loading}
-        onClose={onCloseQR}
-        onSubmit={handleQrGenerate(onSubmitQr)}
+        footerText="Okay"
+        isOpen={isdisplayQRCode}
+        loading={false}
+        onClose={onCloseQRDisplay}
+        onSubmit={() => {}}
         children={
           <div>
             <div
               style={{
                 height: "auto",
                 margin: "0 auto",
-                maxWidth: 64,
                 width: "100%",
               }}
             >
               <QRCode
-                size={256}
+                size={1000}
                 style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                 value={setQRCodeValue.toString()}
                 viewBox={`0 0 256 256`}

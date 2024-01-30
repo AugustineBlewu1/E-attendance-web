@@ -8,7 +8,9 @@ import HttpService from "../../services/HttpService";
 import { LoginResponse } from "../../services/User";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../services/userReducer";
+import { useToast } from "@chakra-ui/react";
 // ... (imports)
+
 
 
 function LecturerLogin() {
@@ -20,6 +22,7 @@ function LecturerLogin() {
     passWord: "",
   });
   const dispatch = useDispatch();
+  const toast = useToast();
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -40,7 +43,14 @@ function LecturerLogin() {
         { email: inputs.lecturer_id, password: inputs.passWord }
       );
       // console.log(result);
-      window.alert(result?.message);
+      toast({
+        title: "Error",
+        description:result?.message,
+        status: "error",
+        duration: 7000,
+        isClosable: true,
+        position: "top-right",
+      });
       navigate("/LecturerDashboard");
       let user = {
         name: result.user?.name,
@@ -54,7 +64,14 @@ function LecturerLogin() {
       
     } catch (error: any) {
       // console.log(error?.message);
-      window.alert(error?.message);
+      toast({
+        title: "Error",
+        description: error?.message,
+        status: "error",
+        duration: 7000,
+        isClosable: true,
+        position: "top-right",
+      });
     } finally {
       setLoading(false);
     }
