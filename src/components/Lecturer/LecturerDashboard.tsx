@@ -14,14 +14,14 @@ import Profile from "../../assets/profile.png";
 
 import { FaSignOutAlt, FaComment, FaCog } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { UserState } from "../../services/userReducer";
+import { UserState, selectCurrentUser } from "../../services/userReducer";
 import QrCodePage from "./QrCodePage";
 
 export default function LecturerDashboard() {
   //const [lecturerData, setLecturerData] = useState({});
   const [selectedItem, setSelectedItem] = useState<null | string>(null);
   const [profile, setProfile] = useState<boolean>(false);
-  const user  = useSelector<UserState>((state) => state);
+  const user  = useSelector(selectCurrentUser);
 
 
   console.log('User',user)

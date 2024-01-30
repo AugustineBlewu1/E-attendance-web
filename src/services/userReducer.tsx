@@ -1,32 +1,35 @@
+import { createSlice } from "@reduxjs/toolkit";
 import { User } from "./User";
-import { UserAction } from "./userActions";
 
 export type UserState = User | null;
 
-const userReducer = (state: UserState = null, action: UserAction): UserState => {
-  switch (action.type) {
-    case 'SET_USER':
-      return action.payload;
-    default:
-      return state;
+
+
+const userSlice = createSlice({
+  name : 'auth',
+  initialState : {user : null, token : null} ,
+  reducers : {
+      setCredentials : (state, action) => {
+          console.log('User Payload', action.payload)
+          const { accessToken } = action.payload
+          state.user = action.payload
+          state.token = accessToken
+          console.log('User State', state.user)
+          console.log('Token', state.token)
+      },
+      logOut: (state) => {
+          state.user = null
+          state.token = null
+      },
+
   }
-};
-export default userReducer;
+})
+
+export const { setCredentials , logOut} = userSlice.actions
 
 
-// function userReducer(state = initialState, action) {
-//   switch (action.type) {
-//     case "LOGIN_SUCCESS":
-//       return {
-//         ...state,
-//         user: action.payload.user,
-//       };
-//     case "LOGOUT":
-//       return {
-//         ...state,
-//         user: null,
-//       };
-//     default:
-//       return state;
-//   }
-//  }
+export default userSlice.reducer;
+
+export const selectCurrentUser = (state: { auth: { user: User; }; }) => state.auth.user
+export const selectCurrentToken = (state: { auth: { token: any; }; }) => state.auth.token
+

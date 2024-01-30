@@ -6,8 +6,8 @@ import { Props } from "../Login";
 import Logo from "../../assets/ucclogo.png";
 import HttpService from "../../services/HttpService";
 import { LoginResponse } from "../../services/User";
-import { setUser } from "../../services/userActions";
 import { useDispatch } from "react-redux";
+import { setCredentials } from "../../services/userReducer";
 // ... (imports)
 
 
@@ -50,7 +50,7 @@ function LecturerLogin() {
         email: result.user?.email,
         accessToken: result?.access_token,
       };
-      dispatch(setUser(user));
+      dispatch(setCredentials(user));
       
     } catch (error: any) {
       // console.log(error?.message);
