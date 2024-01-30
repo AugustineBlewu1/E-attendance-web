@@ -29,7 +29,7 @@ export default function LecturerDashboard() {
   };
 
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row bg-slate-200">
       <div className="w-[20%] bg-green h-screen overflow-auto flex flex-col justify-between">
         <div >
         <div className="flex justify-center flex-row space-x-2 text-center items-center py-3">

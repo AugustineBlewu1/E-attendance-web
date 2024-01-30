@@ -10,6 +10,7 @@ import Copyright from "../Copyright";
 import RequireAuth from "../RequireAuth";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor } from "../../services/store";
+import CoursePage from "../Lecturer/CoursePage";
 function Pages() {
   return (
     <>
@@ -26,6 +27,7 @@ function Pages() {
 
         <Route element={<RequireAuth />}>
         <Route path="/LecturerDashboard" element={<LecturerDashboard/>} />
+        <Route path="/LecturerDashboard/:id" element={<CoursePage/>} />
         <Route path="/StudentDashboard" element={<StudentDashboard/>} />
 
         </Route>

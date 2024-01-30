@@ -22,6 +22,19 @@ class HttpService {
     }
   }
 
+  static async postWithToken<T>(url: string, token: string, data: any): Promise<T> {
+    try {
+      const response: AxiosResponse<T> = await axios.post(url, data,  {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error fetching data: ${error}`);
+    }
+  }
+
   static async post<T>(url: string, data: any): Promise<T> {
     try {
       const response: AxiosResponse<T> = await axios.post(url, data);
