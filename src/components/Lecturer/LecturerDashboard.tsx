@@ -1,20 +1,18 @@
 import { useState } from "react";
 
 import Feedback from "./Feedback";
-import "../../style/Dashboard.css";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/ucclogo.png";
 
-import { TbListDetails, TbReport } from "react-icons/tb";
+import { TbReport } from "react-icons/tb";
 import { CiBoxList } from "react-icons/ci";
 import { HiOutlineQrcode } from "react-icons/hi";
-import { RiTimeFill } from "react-icons/ri";
 
 import Profile from "../../assets/profile.png";
 
 import { FaSignOutAlt, FaComment, FaCog } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { UserState, selectCurrentUser } from "../../services/userReducer";
+import {  selectCurrentUser } from "../../services/userReducer";
 import QrCodePage from "./QrCodePage";
 
 export default function LecturerDashboard() {
@@ -31,20 +29,20 @@ export default function LecturerDashboard() {
   };
 
   return (
-    <div className="container">
-      <div className="aside-1">
+    <div className="flex flex-row">
+      <div className="w-[20%] bg-green h-screen overflow-auto flex flex-col justify-between">
         <div >
-        <div className="header-c">
-          <figure className="f-logo">
+        <div className="flex justify-center flex-row space-x-2 text-center items-center py-3">
+          <figure className="w-[20%] bg-white rounded-full h-fit">
             <img className="logo" src={Logo} alt=" logo" />
           </figure>
-          <p className="university-n">
+          <p className="text-sm text-white">
             School of Pharmacy <br /> E-Attendance
           </p>
         </div>
 
-        <ul className="aside-items" style={{ cursor: "pointer" }}>
-          <li
+        <ul className="ml-8 space-y-6 mt-10" style={{ cursor: "pointer" }}>
+          {/* <li
             onClick={() => handleItemClick("lecturerDetails")}
             className="li-i"
           >
@@ -52,20 +50,21 @@ export default function LecturerDashboard() {
               <TbListDetails />
             </span>{" "}
             Lecturer's Details
-          </li>
-          <li onClick={() => handleItemClick("qrcode")} className="li-i">
-            <span className="images">
-              <HiOutlineQrcode />
-            </span>
-            Generate QRcode
-          </li>
-          <li onClick={() => handleItemClick("classList")} className="li-i">
+          </li> */}
+          
+          <li onClick={() => handleItemClick("classList")} className="flex flex-row items-center text-white">
             <span className="images">
               <CiBoxList />
             </span>{" "}
             Class List
           </li>
-          <li onClick={() => handleItemClick("dailyReport")} className="li-i">
+          <li onClick={() => handleItemClick("qrcode")} className="flex flex-row items-center text-white">
+            <span className="images">
+              <HiOutlineQrcode />
+            </span>
+            Generate QRcode
+          </li>
+          <li onClick={() => handleItemClick("dailyReport")} className="flex flex-row items-center text-white">
             <span className="images">
               <TbReport />
             </span>{" "}
@@ -77,7 +76,6 @@ export default function LecturerDashboard() {
         {/* Click to view the profile */}
         
         </div>
-        <div className="">
         <div className="">
           { profile && (
             <ul className="profile-list">
@@ -114,35 +112,31 @@ export default function LecturerDashboard() {
             <img className="pp" src={Profile} alt="profile" />
             <span>Profile</span>
           </figure>
-        </div>
       </div>
 
-      <div className="aside-2">
+      <div className="w-[80%]">
         <div className="aside-top">
           <span className="aside-flex">
             <h1
               style={{
-                textAlign: "center",
                 color: "white",
                 marginTop: "-0.7rem",
+                marginRight: "10px",
+                fontSize: "14px"
               }}
             >
-              Lecturer's Name
+              {
+                user?.name
+              }
+              {
+                user?.email
+              }
             </h1>
-            <p
-              className="date"
-              style={{
-                marginLeft: "8rem",
-                fontSize: "0.7rem",
-              }}
-            >
-              <RiTimeFill />
-              {Date()}
-            </p>
+              
           </span>
         </div>
         <div className="aside-down">
-          {selectedItem === "lecturerDetails" && <p>come from database</p>}
+          {/* {selectedItem === "lecturerDetails" && <p>come from database</p>} */}
           {selectedItem === "qrcode" && <QrCodePage />}
           {selectedItem === "classList" && <p>claslist</p>}
           {selectedItem === "dailyReport" && <p>daily report</p>}
