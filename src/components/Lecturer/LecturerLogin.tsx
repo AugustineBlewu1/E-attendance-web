@@ -42,11 +42,12 @@ function LecturerLogin() {
         "http://127.0.0.1/api/v1/auth/login",
         { email: inputs.lecturer_id, password: inputs.passWord }
       );
-      // console.log(result);
+
+       console.log(result);
       toast({
-        title: "Error",
+        title: "Success",
         description:result?.message,
-        status: "error",
+        status: "success",
         duration: 7000,
         isClosable: true,
         position: "top-right",
@@ -62,6 +63,10 @@ function LecturerLogin() {
       };
       dispatch(setCredentials(user));
       
+      setInputs({
+        lecturer_id: "",
+        passWord: "",
+      });
     } catch (error: any) {
       // console.log(error?.message);
       toast({
@@ -77,10 +82,7 @@ function LecturerLogin() {
     }
 
     // Clear the input values after successful form submission
-    setInputs({
-      lecturer_id: "",
-      passWord: "",
-    });
+    
   };
 
   return (

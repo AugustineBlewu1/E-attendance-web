@@ -91,10 +91,10 @@ const QrCodePage = () => {
         code: data?.courseCode,
         name: data?.courseName,
         level: data?.courseLevel,
-        semester_id: 7,
+        semester_id: 1,
       }
     );
-
+      console.log(saveCourseResponse)
     if (saveCourseResponse.hasOwnProperty("error")) {
       toast({
         title: "Error",
@@ -104,6 +104,10 @@ const QrCodePage = () => {
         isClosable: true,
         position: "top-right",
       });
+      setLoading(false);
+
+    reset();
+    onClose();
     } else {
       toast({
         title: "Course Created",
@@ -116,10 +120,7 @@ const QrCodePage = () => {
       getCourse();
     }
     console.log(saveCourseResponse);
-    setLoading(false);
-
-    reset();
-    onClose();
+    
 
     //country id
   };
