@@ -6,8 +6,12 @@ import { Props } from "../Login";
 import Logo from "../../assets/ucclogo.png";
 import HttpService from "../../services/HttpService";
 import { LoginResponse } from "../../services/User";
-import { setUser } from "../../services/userActions";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../services/userReducer";
+import { useToast } from "@chakra-ui/react";
 // ... (imports)
+
+
 
 function LecturerLogin() {
  
@@ -17,6 +21,9 @@ function LecturerLogin() {
     lecturer_id: "",
     passWord: "",
   });
+  const dispatch = useDispatch();
+  const toast = useToast();
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const name: string = e.target.name;
@@ -35,8 +42,16 @@ function LecturerLogin() {
         "http://127.0.0.1/api/v1/auth/login",
         { email: inputs.lecturer_id, password: inputs.passWord }
       );
-      // console.log(result);
-      window.alert(result?.message);
+
+       console.log(result);
+      toast({
+        title: "Success",
+        description:result?.message,
+        status: "success",
+        duration: 7000,
+        isClosable: true,
+        position: "top-right",
+      });
       navigate("/LecturerDashboard");
       let user = {
         name: result.user?.name,
@@ -46,19 +61,28 @@ function LecturerLogin() {
         email: result.user?.email,
         accessToken: result?.access_token,
       };
-      setUser(user);
+      dispatch(setCredentials(user));
+      
+      setInputs({
+        lecturer_id: "",
+        passWord: "",
+      });
     } catch (error: any) {
       // console.log(error?.message);
-      window.alert(error?.message);
+      toast({
+        title: "Error",
+        description: error?.message,
+        status: "error",
+        duration: 7000,
+        isClosable: true,
+        position: "top-right",
+      });
     } finally {
       setLoading(false);
     }
 
     // Clear the input values after successful form submission
-    setInputs({
-      lecturer_id: "",
-      passWord: "",
-    });
+    
   };
 
   return (
@@ -66,7 +90,7 @@ function LecturerLogin() {
       <figure className="P-logo">
         <img src={Logo} alt="Pharmacy Logo" className="p-logo" />
       </figure>
-      <p className="header">Lecturer's Login </p>
+      <p className="">Lecturer's Login </p>
       <form
         id="lecturerForm"
         className="Form"
@@ -74,10 +98,12 @@ function LecturerLogin() {
         onSubmit={handleSubmit}
       >
         {/* ... (unchanged input fields) */}
+      <div className="space-y-6">
 
+      
         <input
           type="email"
-          className="indexNumber"
+          className="py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
           placeholder="Email"
           name="lecturer_id"
           onChange={(e) => handleChange(e)}
@@ -87,17 +113,17 @@ function LecturerLogin() {
 
         <input
           type="password"
-          className="password"
+          className="py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
           placeholder="Password"
           name="passWord"
           onChange={handleChange}
           value={inputs.passWord}
           required
         />
-
+</div>
         {loading && <span>Loading ...</span>}
         {loading == false && (
-          <button type="submit" className="signIn">
+          <button type="submit" className="w-[80%] bg-primary border-2 rounded-full py-2 mt-4 text-white hover:bg-[#0000ffa7] hover:border-none">
             LOGIN
           </button>
         )}

@@ -1,5 +1,6 @@
 export interface SignUP{
-    name:string,
+    fname:string,
+    lname:string,
     id: string|number,
     level:number|string,
     department: string,
