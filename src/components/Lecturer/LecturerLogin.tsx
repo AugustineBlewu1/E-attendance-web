@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "../../style/Login.css";
+
 import React, { useState } from "react";
 
 import { Props } from "../Login";
@@ -86,11 +86,16 @@ function LecturerLogin() {
   };
 
   return (
-    <div className="Login">
-      <figure className="P-logo">
-        <img src={Logo} alt="Pharmacy Logo" className="p-logo" />
+    <div className=" h-screen flex justify-center items-center">
+      <div className="max-w-[80%] h-auto mx-auto  shadow-shadow-1 border-solid  border-2 rounded 
+      md:max-w-[85%]   md:px-9
+       lg:px-4 lg:max-w-[30%] lg:rounded-xl ">
+      <figure className="max-w-[30%] bg-white flex justify-center items-center my-5 mx-auto
+      lg:my-3 ">
+        <img src={Logo} alt="Pharmacy Logo" className="max-w-[80%] bg-white flex justify-center items-center my-2 mx-auto
+        lg:max-w-[65%]" />
       </figure>
-      <p className="">Lecturer's Login </p>
+      <p className=" text-center ">Lecturer's Login </p>
       <form
         id="lecturerForm"
         className="Form"
@@ -98,12 +103,12 @@ function LecturerLogin() {
         onSubmit={handleSubmit}
       >
         {/* ... (unchanged input fields) */}
-      <div className="space-y-6">
+      <div className="space-y-2 ">
 
       
         <input
           type="email"
-          className="py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
+          className="py-2 my-[1.5rem] w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
           placeholder="Email"
           name="lecturer_id"
           onChange={(e) => handleChange(e)}
@@ -121,17 +126,24 @@ function LecturerLogin() {
           required
         />
 </div>
-        {loading && <span>Loading ...</span>}
+
+   <div className="">
+   {loading && <span className="text-primary text-center " >Loading ...</span>}
         {loading == false && (
-          <button type="submit" className="w-[80%] bg-primary border-2 rounded-full py-2 mt-4 text-white hover:bg-[#0000ffa7] hover:border-none">
+          <button type="submit" className=" w-[80%] mt-[3rem] mx-[10%] bg-primary border-2 rounded-full py-2  text-white    hover:bg-[#0000ffc7] hover:text-white hover:border-none
+          lg:mt-[2rem]">
             LOGIN
           </button>
         )}
 
-        <p style={{ fontSize: "0.9rem" }}>
-          Forget Password? <span style={{ color: "red" }}>Click here</span>
+   </div>
+        
+        <p className='text-[0.9rem] mt-[2rem]  text-center
+        lg:mt-[1.5rem]'>
+          Forget Password? <span className='text-primary hover:text-active focus:text-active cursor-pointer'>Click here</span>
         </p>
       </form>
+    </div>
     </div>
   );
 }

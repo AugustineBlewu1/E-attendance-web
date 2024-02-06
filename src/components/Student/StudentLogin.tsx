@@ -83,11 +83,16 @@ function StudentLogin() {
   };
 
   return (
-    <div className="Login">
-      <figure className="P-logo">
-        <img src={Logo} alt="Pharmacy Logo" className="p-logo" />
+    <div className='h-screen flex justify-center items-center'>
+      <div className="max-w-[80%] h-auto mx-auto  shadow-shadow-1 border-solid  border-2 rounded 
+      md:max-w-[85%]   md:px-9
+       lg:px-4 lg:max-w-[30%] lg:rounded-xl">
+      <figure className="max-w-[30%] bg-white flex justify-center items-center my-5 mx-auto
+      lg:my-3">
+        <img src={Logo} alt="Pharmacy Logo" className=" max-w-[80%] bg-white flex justify-center items-center my-2 mx-auto
+        lg:max-w-[65%]" />
       </figure>
-      <p className="header">Student's Login </p>
+      <p className="text-center">Student's Login </p>
       <form
         id="studentForm"
         className="Form"
@@ -97,9 +102,10 @@ function StudentLogin() {
       >
         {/* ... (unchanged input fields) */}
 
+        <div className="space-y-2">
         <input
           type="text"
-          className="py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
+          className=" py-2 my-[1.5rem] w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
           placeholder="Student ID"
           name="studentID"
           onChange={handleChange}
@@ -108,32 +114,35 @@ function StudentLogin() {
 
         <input
           type="Password"
-          className="py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2 mt-4"
+          className="py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
           placeholder="Password"
           name="passWord"
           onChange={handleChange}
           value={inputs.passWord}
           required
         />
+        </div>
 
+        <div className="">
+   {loading && <span className="text-primary text-center " >Loading ...</span>}
         {loading == false && (
-          <button
-            type="submit"
-            className="w-[80%] bg-primary border-2 rounded-full py-2 mt-6 text-white hover:bg-[#0000ffa7] hover:border-none"
-          >
+          <button type="submit" className=" w-[80%] mt-[3rem] mx-[10%] bg-primary border-2 rounded-full py-2  text-white    hover:bg-[#0000ffc7] hover:text-white hover:border-none
+          lg:mt-[2rem]">
             LOGIN
           </button>
         )}
-        <br />
-        <Link to="/SignUp">Sign Up</Link>
 
-        <p style={{ fontSize: "0.9rem" }}>
-          Forget Password?{" "}
-          <span style={{ color: "red", marginRight: "0.8rem" }}>
-            Click here
-          </span>{" "}
+   </div>
+        
+        <Link to="/SignUp" className="lg:border-2 border-gradient-to-r from-blue-500 via-green-500 to-red  lg:w-[6rem] text-center lg:rounded-xl h-auto absolute top-8 right-8 hover:text-primary hover:border-primary">Sign Up</Link>
+
+        <p className='text-[0.9rem] mt-[2rem]  text-center
+        lg:mt-[1.5rem]'>
+          Forget Password? <span className='text-primary hover:text-active focus:text-active cursor-pointer'>Click here</span>
         </p>
+         
       </form>
+    </div>
     </div>
   );
 }

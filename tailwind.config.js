@@ -28,10 +28,12 @@ export default {
         'light-black': '#FFEEC5',
         'grey-bg': '#EFEFEF',
         'grey': '#828282',
-        'sidebar-bg': '#252628'
+        'sidebar-bg': '#252628',
+        'active':"#FF0000"
       },
       boxShadow: {
-          '3xl': '0 10px 40px rgba(0, 0, 0, 0.1)'
+          '3xl': '0 10px 40px rgba(0, 0, 0, 0.1)',
+          'shadow-1':'0 0 20px rgba(0, 0, 0, 0.15)'
       }
     },
   },

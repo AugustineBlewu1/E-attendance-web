@@ -1,4 +1,4 @@
-import '../style/copyright.css'
+
 
 export default function Copyright() {
     let style={
@@ -8,23 +8,13 @@ export default function Copyright() {
     }
 
   return (
-    <div style={{
-        width:"100vw",
-        height:'auto',
-        backgroundColor:'blue',
-        textAlign:"center",
-        color:"white",
-        padding:'0.1rem 0',
-        fontSize:"small"
-        
-
-    }}>
-      &copy; 2024 <a className='a-link' href="https://sopps.ucc.edu.gh/" target='_blank'>School of Pharmacy and Pharmaceutical Sciences, SoPPS.</a>All right Reserved
+    <div className='w-full lg:bg-grey-bg h-auto text-center text-sm absolute bottom-0'>
+      &copy; 2024 Copyright <a className='hover:text-primary focus:text-active' href="https://sopps.ucc.edu.gh/" target='_blank'>School of Pharmacy and Pharmaceutical Sciences.</a> All rights Reserved
       <section style={style}>
-      <span  ><a className="a-link" href="https://sopps.ucc.edu.gh/about" target="_blank" >About Us |</a></span>
-      <span ><a className="a-link" href="#">Contact Us |</a></span>
-      <span ><a className="a-link" href="#">Privacy Policy |</a></span>
-      <span ><a className="a-link" href="#">Help</a></span>
+      <span  ><a className="hover:text-primary focus:text-active" href="https://sopps.ucc.edu.gh/about" target="_blank" >About Us </a> <span> | </span></span>
+      <span ><a className=" hover:text-primary focus:text-active " href="#">Contact Us  </a> <span> | </span></span>
+      <span ><a className="hover:text-primary focus:text-active " href="#">Privacy Policy  </a> <span> | </span></span>
+      <span ><a className=" hover:text-primary focus:text-active " href="#">Help</a></span>
       </section>
     </div>
   )
