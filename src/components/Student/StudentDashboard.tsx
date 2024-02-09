@@ -6,6 +6,7 @@ import Profile from "../../assets/profile.png";
 import { FaSignOutAlt, FaComment, FaCog } from "react-icons/fa";
 import Feedback from "../Lecturer/Feedback";
 import { RiTimeFill } from "react-icons/ri";
+import QrScanPage from "./QrScanPage";
 
 const StudentDashboard = () => {
   const [selectedItem, setSelectedItem] = useState<null | string>(null);
@@ -106,9 +107,9 @@ const StudentDashboard = () => {
               <ul>{/* Data from the database */} love</ul>
             )}
 
-            {selectedItem === "scanner" && <p>scanner</p>}
+            {selectedItem === "scanner" && <QrScanPage />}
 
-            {selectedItem === "dailyReport" && <p>Daily Report</p>}
+            {selectedItem === "dailyReport" &&  <p></p>}
 
             {selectedItem === "feedback" && <Feedback />}
             {selectedItem === "settings" && <h3>Settings</h3>}
