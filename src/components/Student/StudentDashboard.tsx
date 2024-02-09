@@ -30,7 +30,7 @@ const StudentDashboard = () => {
               </p>
             </div>
 
-            <ul className="aside-items" style={{ cursor: "pointer" }}>
+            <ul className="aside-items cursor-pointer" >
               <li
                 onClick={() => handleItemClick("StudentDetails")}
                 className="li-i"

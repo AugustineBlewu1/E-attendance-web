@@ -1,5 +1,5 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
-import '../../style/feedback.css';
+
 
 interface FeedbackState {
   text: string;
@@ -48,14 +48,15 @@ function Feedback() {
     
 
   return (
-    <div className='textArea'>
-      <h2>Feedback</h2>
-      <p className='feedback-p'>
+    <div className='mt-[2%]  mx-auto w-[80%]'>
+      <h2 className=' font-bold'>Feedback</h2>
+      <p className='text-justify w-[80%]'>
         Your feedback regarding the e-attendance system is very needful. It will make us improve the system's functionality and give you a better experience.
       </p>
       <form onSubmit={handleSubmit}>
-        <label htmlFor='text'>Feedback:</label>
+        <label htmlFor='text'>Feedback:</label><br />
         <textarea
+        className='mt-5 w-[80%] rounded border-[2px] border-solid hover:border-black'
           id='text'
           name='text'
           rows={6}
@@ -63,10 +64,10 @@ function Feedback() {
           placeholder='Tell us your experience ...'
           value={textarea.text}
           onChange={handleChange}
-        ></textarea>
+        ></textarea> <br />
         {isMessage && <p style={{ color: 'red', fontSize: '0.8rem' }}>Text area is empty</p>}
 
-        <button type='submit'>Send</button>
+        <button type='submit' className='w-[20%] h-[2rem] bg-primary text-white mt-6 border-[2px] border-solid hover:text-primary hover:bg-white hover:border-primary '>Send</button>
       </form>
     </div>
   );

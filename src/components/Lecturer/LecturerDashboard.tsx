@@ -29,42 +29,37 @@ export default function LecturerDashboard() {
   };
 
   return (
-    <div className="flex flex-row bg-slate-200">
-      <div className="w-[20%] bg-green h-screen overflow-auto flex flex-col justify-between">
+    <div className="  flex flex-row bg-slate-200">
+      <div className="humburger max-w-[45%] bg-green h-screen overflow-auto flex  flex-col justify-between 
+      md:w-[30%] lg:w-[20%]"> 
         <div >
         <div className="flex justify-center flex-row space-x-2 text-center items-center py-3">
-          <figure className="w-[20%] bg-white rounded-full h-fit">
-            <img className="logo" src={Logo} alt=" logo" />
+          <figure className="w-[40%] bg-white rounded-full h-fit 
+          md:w-[30%]
+          lg:w-[20%]">
+            <img className="w-[100%] h-auto" src={Logo} alt=" logo" />
           </figure>
-          <p className="text-sm text-white">
+          <p className="text-xs  text-white md:text-sm">
             School of Pharmacy <br /> E-Attendance
           </p>
         </div>
 
-        <ul className="ml-8 space-y-6 mt-10" style={{ cursor: "pointer" }}>
-          {/* <li
-            onClick={() => handleItemClick("lecturerDetails")}
-            className="li-i"
-          >
-            <span className="images">
-              <TbListDetails />
-            </span>{" "}
-            Lecturer's Details
-          </li> */}
+        <ul className="ml-3 space-y-6 mt-10 md:ml-8 cursor-pointer " >
+         
           
-          <li onClick={() => handleItemClick("classList")} className="flex flex-row items-center text-white">
+          <li onClick={() => handleItemClick("classList")} className="flex flex-row items-center text-white hover:text-primary active:text-active">
             <span className="images">
               <CiBoxList />
             </span>{" "}
             Class List
           </li>
-          <li onClick={() => handleItemClick("qrcode")} className="flex flex-row items-center text-white">
+          <li onClick={() => handleItemClick("qrcode")} className="flex flex-row items-center text-white   hover:text-primary active:text-active  ">
             <span className="images">
               <HiOutlineQrcode />
             </span>
             Generate QRcode
           </li>
-          <li onClick={() => handleItemClick("dailyReport")} className="flex flex-row items-center text-white">
+          <li onClick={() => handleItemClick("dailyReport")} className="flex flex-row items-center text-white hover:text-primary active:text-active   ">
             <span className="images">
               <TbReport />
             </span>{" "}
@@ -76,11 +71,11 @@ export default function LecturerDashboard() {
         {/* Click to view the profile */}
         
         </div>
-        <div className="">
+        <div className="  ">
           { profile && (
-            <ul className="profile-list">
+            <ul className=" flex  w-[90%]  justify-evenly cursor-pointer mx-auto bg-grey-bg z-10 h-auto px-2 py-3 rounded-md border-r-2 border-black mt-[55%] ">
               <li
-                className="profile-li"
+                className=" border-r-2 hover:text-primary active:text-active"
                 onClick={() => {
                   handleItemClick("settings");
                   setProfile(!profile);
@@ -90,7 +85,7 @@ export default function LecturerDashboard() {
                 Setting
               </li>
               <li
-                className="profile-li"
+                className=" border-r-2  hover:text-primary active:text-active"
                 onClick={() => {
                   handleItemClick("feedback");
                   setProfile(!profile);
@@ -99,8 +94,8 @@ export default function LecturerDashboard() {
                 <FaComment />
                 Feedback
               </li>
-              <li className="" onClick={() => setProfile(!profile)}>
-                <Link to="/" className="Link">
+              <li className="hover:text-primary active:text-active" onClick={() => setProfile(!profile)}>
+                <Link to="/" className=" ">
                   <FaSignOutAlt />
                   Logout
                 </Link>
@@ -108,9 +103,9 @@ export default function LecturerDashboard() {
             </ul>
           )}
         </div>
-          <figure className="figClass" onClick={() => setProfile(!profile)}>
-            <img className="pp" src={Profile} alt="profile" />
-            <span>Profile</span>
+          <figure className="w-[100%] flex flex-col justify-center items-end pr-6 mb-[15%]   " onClick={() => setProfile(!profile)}>
+            <img className="pp  " src={Profile} alt="profile" />
+            <span className="text-white hover:text-primary active:text-active ">Profile</span>
           </figure>
       </div>
 
@@ -136,7 +131,7 @@ export default function LecturerDashboard() {
           </span>
         </div>
         <div className="aside-down">
-          {/* {selectedItem === "lecturerDetails" && <p>come from database</p>} */}
+        
           {selectedItem === "qrcode" && <QrCodePage />}
           {selectedItem === "classList" && <p>claslist</p>}
           {selectedItem === "dailyReport" && <p>daily report</p>}
