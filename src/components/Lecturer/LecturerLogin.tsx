@@ -52,7 +52,6 @@ function LecturerLogin() {
         isClosable: true,
         position: "top-right",
       });
-      navigate("/LecturerDashboard");
       let user = {
         name: result.user?.name,
         id: result?.user?.id,
@@ -62,7 +61,8 @@ function LecturerLogin() {
         accessToken: result?.access_token,
       };
       dispatch(setCredentials(user));
-      
+      navigate("/lecturerDashboard");
+
       setInputs({
         lecturer_id: "",
         passWord: "",

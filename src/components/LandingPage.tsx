@@ -38,15 +38,15 @@ function LandingPage() {
 />
 </div>
 
-<Link to="/AdminLogin" >
+<Link to="/adminLogin" >
   <button className='my-10 md:my-8 border-[3px] border-solid border-primary bg-white text-bold outline-none w-[70%] h-[2rem] hover:text-white hover:bg-primary rounded active:border-black '>Administrator</button><br />
 </Link>
 
-<Link to="/LecturerLogin" >
+<Link to="/lecturerLogin" >
   <button className='mb-10 md:mb-8 border-[3px] border-solid border-primary bg-white text-bold outline-none w-[70%] h-[2rem] hover:text-white hover:bg-primary rounded active:border-black '>Lecturer</button><br />
 </Link>
 
-<Link to="/StudentLogin" >
+<Link to="/studentLogin" >
   <button className='mb-10 md:mb-8 border-[3px] border-solid border-primary bg-white text-bold outline-none w-[70%] h-[2rem] hover:text-white hover:bg-primary rounded active:border-black '>Student</button><br />
 </Link>
       </div>

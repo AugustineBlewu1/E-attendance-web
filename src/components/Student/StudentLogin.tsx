@@ -55,9 +55,10 @@ function StudentLogin() {
         contact: result.student?.phone_number,
         email: result.student?.email,
         accessToken: result?.access_token,
+        phone_number: result?.student?.phone_number
       };
-      dispatch(setStudentCredentials(user));
-      navigate("/StudentDashboard");
+      dispatch(setStudentCredentials({...user}));
+      navigate("/studentDashboard");
 
       setInputs({
         studentID: "", // Change from lecturerID to lecturer_id

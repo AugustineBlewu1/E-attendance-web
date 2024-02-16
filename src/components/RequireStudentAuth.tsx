@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { selectCurrentToken } from "../services/userReducer";
+import { selectCurrentStudentToken } from "../services/studentReducer";
 
-const RequireAuth = () => {
-  const token = useSelector(selectCurrentToken);
+const RequireAuthStudent = () => {
+  const token = useSelector(selectCurrentStudentToken);
   const location = useLocation();
-
+console.log(token)
   return token ? (
     <Outlet />
   ) : (
@@ -13,4 +13,4 @@ const RequireAuth = () => {
   );
 };
 
-export default RequireAuth;
+export default RequireAuthStudent;

@@ -23,7 +23,9 @@ export default {
       },
       colors: {
         'primary': '#0000FF',
-        'green': '#04A551',
+        'green': '#037452',
+        'green-light' : '#c1ffec',
+        'green-light-mini' : '#04A551',
         'red': '#FFEEC5',
         'light-black': '#FFEEC5',
         'grey-bg': '#EFEFEF',

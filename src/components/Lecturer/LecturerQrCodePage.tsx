@@ -7,9 +7,9 @@ import { Button, useDisclosure, useToast } from "@chakra-ui/react";
 import CustomModal from "../UI/CustomModal";
 import { SubmitHandler, useForm } from "react-hook-form";
 import QRCode from "react-qr-code";
-import { decode, encode } from "../../services/store/security";
+import { encodeJson } from "../../services/store/security";
 
-const QrCodePage = () => {
+const LecturerQrCodePage = () => {
   const user = useSelector(selectCurrentUser);
   const [courses, SetCourses] = useState<Courses[]>([]);
   const [loading, setLoading] = useState(false);
@@ -105,9 +105,6 @@ const QrCodePage = () => {
         position: "top-right",
       });
       setLoading(false);
-
-    reset();
-    onClose();
     } else {
       toast({
         title: "Course Created",
@@ -117,7 +114,11 @@ const QrCodePage = () => {
         isClosable: true,
         position: "top-right",
       });
+      reset();
       getCourse();
+      onClose();
+      setLoading(false);
+
     }
     console.log(saveCourseResponse);
     
@@ -165,7 +166,7 @@ const QrCodePage = () => {
         setLoading(false);
         console.log('data here', saveQrResponse?.data);
 
-        const encodedData = encode(JSON.stringify(saveQrResponse?.data));
+        const encodedData = encodeJson(JSON.stringify(saveQrResponse?.data));
         SetQRCodeValue(encodedData);
         onOpenQRDISPLAY();
 
@@ -254,16 +255,16 @@ const QrCodePage = () => {
       />
       <div>
         <Button
-          className="bg-primary float-right my-4 mx-4 hover:border-none"
+          className="bg-primary  my-4 mx-4 hover:border-none"
           onClick={onOpen}
         >
           Add New Course
         </Button>
       </div>
-      <div className="flex flex-row">
+      <div className="grid md:grid-cols-3 grid-cols-1">
         {courses?.map((e) => (
           <div
-            className="bg-white rounded-lg w-[20%] my-4 mx-4 hover:shadow-2xl hover:cursor-pointer"
+            className="bg-white rounded-lg border-2 my-4 mx-4 hover:shadow-2xl hover:cursor-pointer"
             key={e.course_id}
           >
             <div className="flex flex-col py-5 px-5 space-y-2">
@@ -274,7 +275,7 @@ const QrCodePage = () => {
                 (new Date()?.getMonth() + 1)
               ).slice(-2)}-${("0" + new Date()?.getDate()).slice(-2)}`}</span>
 
-              <span
+              <span className="border-2  w-fit p-2 rounded-lg bg-gray-200"
                 onClick={() => {
                   onOpenQR();
                   setCourseId(e?.course_id);
@@ -348,4 +349,4 @@ const QrCodePage = () => {
   );
 };
 
-export default QrCodePage;
+export default LecturerQrCodePage;

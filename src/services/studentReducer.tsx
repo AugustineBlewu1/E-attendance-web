@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { User, UserStudent } from "./User";
-
-export type UserState = User | null;
+import {  UserStudent } from "./User";
 
 
 
@@ -30,6 +28,6 @@ export const { setStudentCredentials , logOutStudent} = userStudentSlice.actions
 
 export default userStudentSlice.reducer;
 
-export const selectCurrentStudentUser = (state: { authStudent: { user: UserStudent; }; }) => state.authStudent.user
-export const selectCurrentStudentToken = (state: { authStudent: { token: any; }; }) => state.authStudent.token
+export const selectCurrentStudentUser = (state: { authStudent: { user: UserStudent; }; }) => state?.authStudent?.user
+export const selectCurrentStudentToken = (state: { authStudent: { token: any; }; }) => state?.authStudent?.token
 

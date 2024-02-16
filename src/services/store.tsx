@@ -5,10 +5,12 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, REGISTER } from "redux-persist";
 import  storage  from "redux-persist/lib/storage";
 import userReducer from "./userReducer";
+import studentReducer from "./studentReducer";
 
 
 const rootReducer = combineReducers({
     auth : userReducer,
+    authStudent: studentReducer
 })
 
 

@@ -13,8 +13,9 @@ export interface UserStudent{
     department: string,
     phone_number: number|string,
     email: string|number,   
-    accessToken: string     
-    student_id: string
+    accessToken: string ,    
+    student_id: string,
+
 }
 
 export interface LoginResponse{
