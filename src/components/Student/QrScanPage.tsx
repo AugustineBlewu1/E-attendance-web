@@ -1,89 +1,170 @@
-import { useState } from "react";
-import { QrReader } from "react-qr-reader";
-import { decode, decodeJson } from "../../services/store/security";
+import { useEffect, useRef, useState } from "react";
+import { decodeJson } from "../../services/store/security";
 import { CircularProgress, useToast } from "@chakra-ui/react";
 import HttpService from "../../services/HttpService";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../services/userReducer";
 import { selectCurrentStudentUser } from "../../services/studentReducer";
 import { UserStudent } from "../../services/User";
+import { useNavigate } from "react-router-dom";
+import QrScanner from "qr-scanner";
+
 const QrScanPage = () => {
-  const [data, setData] = useState<any>();
   const toast = useToast();
-  const [showScan, setShowScan] = useState(false);
   const user = useSelector(selectCurrentStudentUser);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const scanner = useRef<QrScanner>();
+  const videoEl = useRef<HTMLVideoElement>(null);
+  const qrBoxEl = useRef<HTMLDivElement>(null);
+  const [qrOn, setQrOn] = useState<boolean>(true);
 
-  const submitScanData = async ({ qrCode }: any) => {
+  const onScanSuccess = (result: QrScanner.ScanResult) => {
+    console.log(result);
+    // ✅ Handle success.
+    // 😎 You can do whatever you want with the scanned result.
+
+    const decode = decodeJson(result?.data);
+    console.log("decode", decode);
+    const id = (decode as any)?.id;
+    console.log("id", id);
+
+    submitScanData(id);
+  };
+
+  // Fail
+  const onScanFail = (err: string | Error) => {
+    // 🖨 Print the "err" to browser console.
+    console.log(err);
+  };
+
+  useEffect(() => {
+    if (videoEl?.current && !scanner.current) {
+      scanner.current = new QrScanner(videoEl?.current, onScanSuccess, {
+        onDecodeError: onScanFail,
+        preferredCamera: "environment",
+        highlightScanRegion: true,
+        highlightCodeOutline: true,
+        overlay: qrBoxEl?.current || undefined,
+      });
+
+      // 🚀 Start QR Scanner
+      scanner?.current
+        ?.start()
+        .then(() => setQrOn(true))
+        .catch((err) => {
+          if (err) setQrOn(false);
+        });
+    }
+
+    // 🧹 Clean up on unmount.
+    // 🚨 This removes the QR Scanner from rendering and using camera when it is closed or removed from the UI.
+    return () => {
+      if (!videoEl?.current) {
+        scanner?.current?.stop();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!qrOn)
+      alert(
+        "Camera is blocked or not accessible. Please allow camera in your browser permissions and Reload."
+      );
+  }, [qrOn]);
+
+  const submitScanData = async (qrCode: any) => {
     setLoading(true);
 
-    const saveCourseResponse = await HttpService.postWithToken<any>(
-      "http://127.0.0.1/api/v1/qrCodeScan",
-      `${(user as UserStudent)?.accessToken}`,
-      {
-        qr_code_id: qrCode,
-        student_id: user?.id,
+    console.log("Qrcode", qrCode);
+    console.log("Student", user?.id);
+    try {
+      const saveCourseResponse = await HttpService.postWithToken<any>(
+        "/api/v1/qrCodeScan",
+        `${(user as UserStudent)?.accessToken}`,
+        {
+          qr_code_id: qrCode?.toString(),
+          student_id: user?.id?.toString(),
+        }
+      );
+      console.log("Response", saveCourseResponse);
+      if (saveCourseResponse.hasOwnProperty("error")) {
+        toast({
+          title: "Error",
+          description: (saveCourseResponse as any).data?.message,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
+        setLoading(false);
+      } else {
+        toast({
+          title: "Scan Succesful",
+          description: (saveCourseResponse as any).data?.message,
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
+        setLoading(false);
+        navigate(-1);
       }
-    );
-    console.log(saveCourseResponse);
-    if (saveCourseResponse.hasOwnProperty("error")) {
+    } catch (error) {
       toast({
         title: "Error",
-        description: (saveCourseResponse as any).data?.message,
+        description: (error as any)?.response?.data?.message,
         status: "error",
-        duration: 7000,
+        duration: 9000,
         isClosable: true,
         position: "top-right",
       });
-      setLoading(false);
-    } else {
-      toast({
-        title: "Scan Succesful",
-        description: (saveCourseResponse as any).data?.message,
-        status: "success",
-        duration: 7000,
-        isClosable: true,
-        position: "top-right",
-      });
-      setLoading(false);
+      navigate(-1);
+      console.log("catch error", error);
     }
   };
 
   return (
     <>
-      <div className="text-center font-bold">Scanning...</div>
+      <div className="text-center">
+        {loading === true ? (
+          <>
+            {" "}
+            <CircularProgress
+              isIndeterminate
+              color="#04A551"
+              size="50px"
+              thickness={"10px"}
+            />
+            <span className="ml-4"> Loading</span>
+          </>
+        ) : (
+          <>
+            <div className="text-center font-bold">Scanning...</div>
 
-      {loading === true ? (
-        <>
-          {" "}
-          <CircularProgress
-            isIndeterminate
-            color="#04A551"
-            size="20px"
-            thickness={"40px"}
-          />
-          <span className="ml-4"> Loading</span>
-        </>
-      ) : (
-        <QrReader
-          onResult={(result, error) => {
-            if (!!result) {
-              console.log(result);
-                const decode = decodeJson(result?.getText());
-                console.log('decode',decode);
+            <video ref={videoEl} className="md:w-[30%] w-full py-5 "></video>
 
-              console.log("data", data);
-              submitScanData((decode as any)?.id);
-            }
+            {/* <QrReader
+              onResult={(result, error) => {
+                if (!!result) {
+                  console.log(result);
+                  const decode = decodeJson(result?.getText());
+                  console.log("decode", decode);
+                  const id = (decode as any)?.id
+                  console.log("id", id);
 
-            if (!!error) {
-              console.info(error);
-            }
-          }}
-          className="md:w-[30%] w-full py-5 "
-          constraints={{ facingMode: "user" }}
-        />
-      )}
+                  submitScanData(id);
+                }
+
+                if (!!error) {
+                  console.info(error);
+                }
+              }}
+              className="md:w-[30%] w-full py-5 "
+              constraints={{ facingMode: "user" }}
+            /> */}
+          </>
+        )}
+      </div>
     </>
   );
 };

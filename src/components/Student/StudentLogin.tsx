@@ -35,7 +35,7 @@ function StudentLogin() {
     console.log(inputs);
     try {
       const result = await HttpService.post<LoginStudentResponse>(
-        "http://127.0.0.1/api/v1/auth/student/login",
+        "/api/v1/auth/student/login",
         { student_id: inputs.studentID, password: inputs.passWord }
       );
 

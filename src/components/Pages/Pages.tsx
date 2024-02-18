@@ -17,6 +17,7 @@ import QrScanPage from "../Student/QrScanPage";
 import RequireAuthStudent from "../RequireStudentAuth";
 import MainLecturerLayout from "./_MainLecturerLayout";
 import LecturerQrCodePage from "../Lecturer/LecturerQrCodePage";
+import MyQrCodes from "../Student/MyQrCodes";
 function Pages() {
   return (
     <>
@@ -100,7 +101,16 @@ function Pages() {
                 element={
                   <MainStudentLayout
                     content={<QrScanPage />}
-                    path="/studentScan"
+                    path="/studentScan/:id"
+                  />
+                }
+              />
+              <Route
+                path="/myQrCodes"
+                element={
+                  <MainStudentLayout
+                    content={<MyQrCodes />}
+                    path="/myQrCodes"
                   />
                 }
               />

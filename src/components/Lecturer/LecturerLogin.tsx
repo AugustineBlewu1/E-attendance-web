@@ -39,7 +39,7 @@ function LecturerLogin() {
 
     try {
       const result = await HttpService.post<LoginResponse>(
-        "http://127.0.0.1/api/v1/auth/login",
+        "/api/v1/auth/login",
         { email: inputs.lecturer_id, password: inputs.passWord }
       );
 

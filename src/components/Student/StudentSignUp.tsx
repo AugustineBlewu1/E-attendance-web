@@ -56,7 +56,7 @@ const  StudentSignUp = ()  => {
 
       try {
         const result = await HttpService.post<any>(
-          "http://127.0.0.1/api/v1/auth/registerStudent",
+          "/api/v1/auth/registerStudent",
           {
             first_name: formData.fname,
             last_name: formData.lname,

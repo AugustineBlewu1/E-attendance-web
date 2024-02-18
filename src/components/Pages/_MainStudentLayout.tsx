@@ -1,4 +1,3 @@
-
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import Logo from "../../assets/ucclogo.png";
@@ -9,23 +8,33 @@ import {
   Cog6ToothIcon,
   HomeIcon,
   XMarkIcon,
-  SquaresPlusIcon
+  SquaresPlusIcon,
+  ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 import { useDispatch } from "react-redux";
-import { logOutStudent, selectCurrentStudentUser } from "../../services/studentReducer";
+import {
+  logOutStudent,
+  selectCurrentStudentUser,
+} from "../../services/studentReducer";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const navigation = [
-  { name: "Dashboard", href: "/studentDashboard", icon: HomeIcon, current: true },
+  {
+    name: "Dashboard",
+    href: "/studentDashboard",
+    icon: HomeIcon,
+    current: true,
+  },
   { name: "Scan", href: "/studentScan", icon: SquaresPlusIcon, current: false },
-//   { name: "Projects", href: "#", icon: FolderIcon, current: false },
-//   { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-//   { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
+  //   { name: "Projects", href: "#", icon: FolderIcon, current: false },
+  //   { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
+  //   { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
+  { name: "Reports", href: "/myQrCodes", icon: ChartPieIcon, current: false },
 ];
 
 const userNavigation = [
@@ -37,13 +46,13 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function MainStudentLayout({content , path} : any) {
+export default function MainStudentLayout({ content, path }: any) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeNavItem, setActiveNavItem] = useState(path);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const user = useSelector(selectCurrentStudentUser)
+  const user = useSelector(selectCurrentStudentUser);
 
   return (
     <>
@@ -103,7 +112,11 @@ export default function MainStudentLayout({content , path} : any) {
                   {/* Sidebar component, swap this element with another sidebar if you like */}
                   <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-green px-6 pb-4">
                     <div className="flex h-16 shrink-0 items-center flex-row space-x-2">
-                      <img className="logo h-8 w-8 bg-white rounded-lg" src={Logo} alt=" logo" />
+                      <img
+                        className="logo h-8 w-8 bg-white rounded-lg"
+                        src={Logo}
+                        alt=" logo"
+                      />
 
                       <p className="text-sm text-white">
                         School of Pharmacy <br /> E-Attendance
@@ -118,7 +131,7 @@ export default function MainStudentLayout({content , path} : any) {
                                 <a
                                   href={item.href}
                                   className={classNames(
-                                    (item?.href === activeNavItem)
+                                    item?.href === activeNavItem
                                       ? "bg-green-light-mini text-white"
                                       : "text-indigo-200 hover:text-white hover:bg-green-light-mini",
                                     "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
@@ -126,7 +139,7 @@ export default function MainStudentLayout({content , path} : any) {
                                 >
                                   <item.icon
                                     className={classNames(
-                                        (item?.href === activeNavItem)
+                                      item?.href === activeNavItem
                                         ? "text-white"
                                         : "text-indigo-200 group-hover:text-white",
                                       "h-6 w-6 shrink-0"
@@ -139,7 +152,7 @@ export default function MainStudentLayout({content , path} : any) {
                             ))}
                           </ul>
                         </li>
-                       
+
                         <li className="mt-auto">
                           <a
                             href="#"
@@ -171,7 +184,11 @@ export default function MainStudentLayout({content , path} : any) {
                 src="https://tailwindui.com/img/logos/mark.svg?color=white"
                 alt="Your Company"
               /> */}
-              <img className="logo h-8 w-8 bg-white rounded-lg m-4" src={Logo} alt=" logo" />
+              <img
+                className="logo h-8 w-8 bg-white rounded-lg m-4"
+                src={Logo}
+                alt=" logo"
+              />
 
               <p className="text-sm text-white">
                 School of Pharmacy <br /> E-Attendance
@@ -186,7 +203,7 @@ export default function MainStudentLayout({content , path} : any) {
                         <a
                           href={item.href}
                           className={classNames(
-                            (item?.href === activeNavItem)
+                            item?.href === activeNavItem
                               ? "bg-green-light-mini text-white"
                               : "text-indigo-200 hover:text-white hover:bg-green-light-mini",
                             "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
@@ -194,7 +211,7 @@ export default function MainStudentLayout({content , path} : any) {
                         >
                           <item.icon
                             className={classNames(
-                                (item?.href === activeNavItem)
+                              item?.href === activeNavItem
                                 ? "text-white"
                                 : "text-indigo-200 group-hover:text-white",
                               "h-6 w-6 shrink-0"
@@ -207,7 +224,7 @@ export default function MainStudentLayout({content , path} : any) {
                     ))}
                   </ul>
                 </li>
-                
+
                 <li className="mt-auto">
                   <a
                     href="#"
@@ -242,23 +259,23 @@ export default function MainStudentLayout({content , path} : any) {
               aria-hidden="true"
             />
 
-            <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-              <form className="relative flex flex-1" action="#" method="GET">
-                <label htmlFor="search-field" className="sr-only">
-                  Search
-                </label>
-                <MagnifyingGlassIcon
-                  className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
-                  aria-hidden="true"
-                />
-                <input
-                  id="search-field"
-                  className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
-                  placeholder="Search..."
-                  type="search"
-                  name="search"
-                />
-              </form>
+            <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-between items-center">
+              <div className=" flex flex-row items-center space-x-4">
+                <span>
+                  {path !== "/studentDashboard" && (
+                    <ArrowLeftIcon
+                      onClick={() => navigate(-1)}
+                      className="hover:cursor-pointer w-4 h-4"
+                    />
+                  )}
+                </span>
+                <span>
+                  {path?.replace("/", "").charAt(0).toUpperCase() +
+                    path?.replace("/", "").slice(1)}
+                </span>
+              </div>
+
+             
               <div className="flex items-center gap-x-4 lg:gap-x-6">
                 <button
                   type="button"
@@ -315,7 +332,7 @@ export default function MainStudentLayout({content , path} : any) {
                                 active ? "bg-gray-50" : "",
                                 "block px-3 py-1 text-sm leading-6 text-gray-900"
                               )}
-                              onClick={() => dispatch(logOutStudent()) }
+                              onClick={() => dispatch(logOutStudent())}
                             >
                               {item.name}
                             </a>
@@ -329,7 +346,6 @@ export default function MainStudentLayout({content , path} : any) {
             </div>
           </div>
 
-        
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">{content}</div>
           </main>

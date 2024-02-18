@@ -74,7 +74,7 @@ const LecturerQrCodePage = () => {
 
   const getCourse = async () => {
     const course = await HttpService.getWithToken<any>(
-      "http://127.0.0.1/api/v1/courses",
+      "/api/v1/courses",
       `${(user as User)?.accessToken}`
     );
     console.log("Courses", course?.data);
@@ -85,7 +85,7 @@ const LecturerQrCodePage = () => {
     console.log(data);
     setLoading(true);
     const saveCourseResponse = await HttpService.postWithToken<any>(
-      "http://127.0.0.1/api/v1/courses",
+      "/api/v1/courses",
       `${(user as User)?.accessToken}`,
       {
         code: data?.courseCode,
@@ -131,7 +131,7 @@ const LecturerQrCodePage = () => {
     setLoading(true);
     try {
       const saveQrResponse = await HttpService.postWithToken<any>(
-        "http://127.0.0.1/api/v1/qrCode",
+        "/api/v1/qrCode",
         `${(user as User)?.accessToken}`,
         {
           course_id: courseId.toString(),

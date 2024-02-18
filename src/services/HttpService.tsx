@@ -1,9 +1,13 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
+
+const urlPath = 'http://127.0.0.1' ;
+//  import.meta.env.VITE_APP_URL;
 
 class HttpService {
+
   static async get<T>(url: string): Promise<T> {
     try {
-      const response: AxiosResponse<T> = await axios.get(url);
+      const response: AxiosResponse<T> = await axios.get(urlPath + url);
       return response.data;
     } catch (error) {
       throw new Error(`Error fetching data: ${error}`);
@@ -11,7 +15,7 @@ class HttpService {
   }
   static async getWithToken<T>(url: string, token: string): Promise<T> {
     try {
-      const response: AxiosResponse<T> = await axios.get(url, {
+      const response: AxiosResponse<T> = await axios.get(urlPath + url, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -24,20 +28,21 @@ class HttpService {
 
   static async postWithToken<T>(url: string, token: string, data: any): Promise<T> {
     try {
-      const response: AxiosResponse<T> = await axios.post(url, data,  {
+      const response: AxiosResponse<T> = await axios.post(urlPath + url, data,  {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
     } catch (error) {
-      throw new Error(`Error fetching data: ${error}`);
+      const axiosError = error as AxiosError;
+      throw axiosError;
     }
   }
 
   static async post<T>(url: string, data: any): Promise<T> {
     try {
-      const response: AxiosResponse<T> = await axios.post(url, data);
+      const response: AxiosResponse<T> = await axios.post(urlPath + url, data);
 
       return response.data;
     } catch (error: any) {

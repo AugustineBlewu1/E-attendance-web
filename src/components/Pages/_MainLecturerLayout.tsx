@@ -26,7 +26,8 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
-  SquaresPlusIcon
+  SquaresPlusIcon,
+  ArrowLeftIcon
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
@@ -35,6 +36,7 @@ import {
 import { useDispatch } from "react-redux";
 import { logOut, selectCurrentUser } from "../../services/userReducer";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const navigation = [
   { name: "Dashboard", href: "/lecturerDashboard", icon: HomeIcon, current: true },
@@ -58,6 +60,8 @@ export default function MainLecturerLayout({content , path} : any) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeNavItem, setActiveNavItem] = useState(path);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 const user = useSelector(selectCurrentUser)
 
   return (
@@ -257,23 +261,21 @@ const user = useSelector(selectCurrentUser)
               aria-hidden="true"
             />
 
-            <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-              <form className="relative flex flex-1" action="#" method="GET">
-                <label htmlFor="search-field" className="sr-only">
-                  Search
-                </label>
-                <MagnifyingGlassIcon
-                  className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
-                  aria-hidden="true"
-                />
-                <input
-                  id="search-field"
-                  className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
-                  placeholder="Search..."
-                  type="search"
-                  name="search"
-                />
-              </form>
+            <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-between items-center">
+            <div className=" flex flex-row items-center space-x-4">
+                <span>
+                  {path !== "/studentDashboard" && (
+                    <ArrowLeftIcon
+                      onClick={() => navigate(-1)}
+                      className="hover:cursor-pointer w-4 h-4"
+                    />
+                  )}
+                </span>
+                <span>
+                  {path?.replace("/", "").charAt(0).toUpperCase() +
+                    path?.replace("/", "").slice(1)}
+                </span>
+              </div>
               <div className="flex items-center gap-x-4 lg:gap-x-6">
                 <button
                   type="button"
