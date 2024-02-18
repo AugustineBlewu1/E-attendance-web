@@ -67,9 +67,10 @@ function Pages() {
                 element={<MainLecturerLayout  content={<LecturerDashboard />} path="/lecturerDashboard" /> }
               />
               <Route
-                path="/course"
+                path="/course/:id"
                 element={<MainLecturerLayout  content={<CoursePage />} path="/course" /> }
               />
+             
               <Route
                 path="/qrCode"
                 element={<MainLecturerLayout  content={<LecturerQrCodePage />} path="/qrCode" /> }

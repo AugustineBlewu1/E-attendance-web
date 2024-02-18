@@ -15,7 +15,7 @@ export interface QrCode {
   created_at: string;
   updated_at: string;
   course: Course;
-  user: User
+  user: User | null
 }
 
 export interface Course {

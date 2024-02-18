@@ -1,7 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 // 'http://127.0.0.1'
-const urlPath =   import.meta.env.VITE_APP_URL;
+const urlPath =  'http://127.0.0.1' ;
+// ?? import.meta.env.VITE_APP_URL;
 
 class HttpService {
 
@@ -22,7 +23,8 @@ class HttpService {
       });
       return response.data;
     } catch (error) {
-      throw new Error(`Error fetching data: ${error}`);
+      const axiosError = error as AxiosError;
+      throw axiosError;
     }
   }
 

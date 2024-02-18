@@ -8,6 +8,7 @@ import CustomModal from "../UI/CustomModal";
 import { SubmitHandler, useForm } from "react-hook-form";
 import QRCode from "react-qr-code";
 import { encodeJson } from "../../services/store/security";
+import { useNavigate } from "react-router-dom";
 
 const LecturerQrCodePage = () => {
   const user = useSelector(selectCurrentUser);
@@ -16,6 +17,7 @@ const LecturerQrCodePage = () => {
   const [courseId, setCourseId] = useState<number>(0);
   const [setQRCodeValue, SetQRCodeValue] = useState('');
   const toast = useToast();
+  const navigate = useNavigate();
 
   //qrcode modal
   const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false });
@@ -265,7 +267,9 @@ const LecturerQrCodePage = () => {
         {courses?.map((e) => (
           <div
             className="bg-white rounded-lg border-2 my-4 mx-4 hover:shadow-2xl hover:cursor-pointer"
-            key={e.course_id}
+            key={e?.course_id} onClick={()=> navigate(`/course/${e?.course_id}` , {
+              state: {id: e?.course_id}
+            })}
           >
             <div className="flex flex-col py-5 px-5 space-y-2">
               <span className="text-sm">{e?.name}</span>

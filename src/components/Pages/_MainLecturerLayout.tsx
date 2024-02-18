@@ -40,7 +40,7 @@ import { useNavigate } from "react-router-dom";
 
 const navigation = [
   { name: "Dashboard", href: "/lecturerDashboard", icon: HomeIcon, current: true },
-  { name: "Class List", href: "/course", icon: UsersIcon, current: false },
+  // { name: "Class List", href: "/course", icon: UsersIcon, current: false },
   { name: "QrCode", href: "/qrCode", icon: SquaresPlusIcon, current: false },
 //   { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
 //   { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },

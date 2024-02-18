@@ -2,9 +2,7 @@ import { Link } from "react-router-dom";
 
 
 const QrCodePage = () => {
-
-
-
+    
     return (
         <>
         <Link to={"/studentScan/scanning"}>
