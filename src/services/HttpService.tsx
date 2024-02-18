@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-const urlPath = 'http://127.0.0.1' ;
-//  import.meta.env.VITE_APP_URL;
+// 'http://127.0.0.1'
+const urlPath =   import.meta.env.VITE_APP_URL;
 
 class HttpService {
 
