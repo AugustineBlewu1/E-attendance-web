@@ -18,20 +18,15 @@ import Logo from "../../assets/ucclogo.png";
 import {
   Bars3Icon,
   BellIcon,
-  CalendarIcon,
   ChartPieIcon,
   Cog6ToothIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
   HomeIcon,
-  UsersIcon,
   XMarkIcon,
   SquaresPlusIcon,
   ArrowLeftIcon
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
-  MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 import { useDispatch } from "react-redux";
 import { logOut, selectCurrentUser } from "../../services/userReducer";
@@ -58,7 +53,7 @@ function classNames(...classes: string[]) {
 
 export default function MainLecturerLayout({content , path} : any) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeNavItem, setActiveNavItem] = useState(path);
+  // const [activeNavItem, setActiveNavItem] = useState(path);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -137,7 +132,7 @@ const user = useSelector(selectCurrentUser)
                                 <a
                                   href={item.href}
                                   className={classNames(
-                                    (item?.href === activeNavItem)
+                                    (item?.href === path)
                                       ? "bg-green-light-mini text-white"
                                       : "text-indigo-200 hover:text-white hover:bg-green-light-mini",
                                     "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
@@ -145,7 +140,7 @@ const user = useSelector(selectCurrentUser)
                                 >
                                   <item.icon
                                     className={classNames(
-                                        (item?.href === activeNavItem)
+                                        (item?.href === path)
                                         ? "text-white"
                                         : "text-indigo-200 group-hover:text-white",
                                       "h-6 w-6 shrink-0"
@@ -205,7 +200,7 @@ const user = useSelector(selectCurrentUser)
                         <a
                           href={item.href}
                           className={classNames(
-                            (item?.href === activeNavItem)
+                            (item?.href === path)
                               ? "bg-green-light-mini text-white"
                               : "text-indigo-200 hover:text-white hover:bg-green-light-mini",
                             "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
@@ -213,7 +208,7 @@ const user = useSelector(selectCurrentUser)
                         >
                           <item.icon
                             className={classNames(
-                                (item?.href === activeNavItem)
+                                (item?.href === path)
                                 ? "text-white"
                                 : "text-indigo-200 group-hover:text-white",
                               "h-6 w-6 shrink-0"

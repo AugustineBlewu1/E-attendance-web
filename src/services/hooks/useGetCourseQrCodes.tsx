@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import {  QrCode } from "../types";
 import { useSelector } from "react-redux";
-import { selectCurrentStudentUser } from "../studentReducer";
 import HttpService from "../HttpService";
-import { User, UserStudent } from "../User";
+import { User } from "../User";
 import { selectCurrentUser } from "../userReducer";
 
 const useGetCourseQrCodes = (id: any) => {

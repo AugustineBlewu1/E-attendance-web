@@ -1,15 +1,15 @@
-import { useState } from "react";
+// import { useState } from "react";
 import "../../style/Dashboard.css";
 import useMyQrCode from "../../services/hooks/useMyQrCodes";
 import Loader from "../Loader";
 
 const StudentDashboard = () => {
-  const [selectedItem, setSelectedItem] = useState<null | string>(null);
-  const [profile, setProfile] = useState<boolean>(false);
+  // const [selectedItem, setSelectedItem] = useState<null | string>(null);
+  // const [profile, setProfile] = useState<boolean>(false);
 
-  const handleItemClick = (itemName: string | null) => {
-    setSelectedItem(itemName);
-  };
+  // const handleItemClick = (itemName: string | null) => {
+  //   setSelectedItem(itemName);
+  // };
 
   const qrdata = useMyQrCode();
 

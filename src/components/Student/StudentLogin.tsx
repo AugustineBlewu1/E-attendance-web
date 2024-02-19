@@ -5,9 +5,9 @@ import { Props } from "../Login";
 import Logo from "../../assets/ucclogo.png";
 
 import "../../style/Login.css";
-import { useToast } from "@chakra-ui/react";
+import { CircularProgress, useToast } from "@chakra-ui/react";
 import HttpService from "../../services/HttpService";
-import { LoginResponse, LoginStudentResponse } from "../../services/User";
+import {  LoginStudentResponse } from "../../services/User";
 import { useDispatch } from "react-redux";
 import { setStudentCredentials } from "../../services/studentReducer";
 
@@ -55,9 +55,9 @@ function StudentLogin() {
         contact: result.student?.phone_number,
         email: result.student?.email,
         accessToken: result?.access_token,
-        phone_number: result?.student?.phone_number
+        phone_number: result?.student?.phone_number,
       };
-      dispatch(setStudentCredentials({...user}));
+      dispatch(setStudentCredentials({ ...user }));
       navigate("/studentDashboard");
 
       setInputs({
@@ -84,66 +84,96 @@ function StudentLogin() {
   };
 
   return (
-    <div className='h-screen flex justify-center items-center overflow-y-auto'>
-      <div className="max-w-[80%] h-auto mx-auto  shadow-shadow-1 border-solid  border-2 rounded 
+    <div className="h-screen flex justify-center items-center overflow-y-auto">
+      <div
+        className="max-w-[80%] h-auto mx-auto  shadow-shadow-1 border-solid  border-2 rounded 
       md:max-w-[85%]   md:px-9
-       lg:px-2 lg:max-w-[30%] lg:rounded-xl">
-      <figure className="max-w-[30%] bg-white flex justify-center items-center my-5 mx-auto
-      lg:my-0">
-        <img src={Logo} alt="Pharmacy Logo" className=" max-w-[80%] bg-white flex justify-center items-center my-2 mx-auto
-        lg:max-w-[65%]" />
-      </figure>
-      <p className="text-center">Student's Login </p>
-      <form
-        id="studentForm"
-        className="Form"
-        action=""
-        method="POST"
-        onSubmit={handleSubmit}
+       lg:px-2 lg:max-w-[30%] lg:rounded-xl"
       >
-        {/* ... (unchanged input fields) */}
+        <figure
+          className="max-w-[30%] bg-white flex justify-center items-center my-5 mx-auto
+      lg:my-0"
+        >
+          <img
+            src={Logo}
+            alt="Pharmacy Logo"
+            className=" max-w-[80%] bg-white flex justify-center items-center my-2 mx-auto
+        lg:max-w-[65%]"
+          />
+        </figure>
+        <p className="text-center">Student's Login </p>
+        <form
+          id="studentForm"
+          className="Form"
+          action=""
+          method="POST"
+          onSubmit={handleSubmit}
+        >
+          {/* ... (unchanged input fields) */}
 
-        <div className="space-y-2">
-        <input
-          type="text"
-          className=" py-2 my-[1rem] w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
-          placeholder="Student ID"
-          name="studentID"
-          onChange={handleChange}
-          value={inputs.studentID}
-        />
+          <div className="space-y-2">
+            <input
+              type="text"
+              className=" py-2 my-[1rem] w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
+              placeholder="Student ID"
+              name="studentID"
+              onChange={handleChange}
+              value={inputs.studentID}
+            />
 
-        <input
-          type="Password"
-          className="py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
-          placeholder="Password"
-          name="passWord"
-          onChange={handleChange}
-          value={inputs.passWord}
-          required
-        />
-        </div>
+            <input
+              type="Password"
+              className="py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
+              placeholder="Password"
+              name="passWord"
+              onChange={handleChange}
+              value={inputs.passWord}
+              required
+            />
+          </div>
 
-        <div className="">
-   {loading && <span className="text-primary text-center " >Loading ...</span>}
-        {loading == false && (
-          <button type="submit" className=" w-[80%] mt-[3rem] mx-[10%] bg-primary border-2 rounded-full py-2  text-white    hover:bg-[#0000ffc7] hover:text-white hover:border-none
-          lg:mt-[1.3rem]">
-            LOGIN
-          </button>
-        )}
+          <div className="">
+            {loading && (
+              <div className="items-center flex flex-row">
+                {" "}
+                <CircularProgress
+                  isIndeterminate
+                  color="#04A551"
+                  size="20px"
+                  thickness={"10px"}
+                />
+                <span className="ml-4"> Loading</span>
+              </div>
+            )}
+            {loading == false && (
+              <button
+                type="submit"
+                className=" w-[80%] mt-[3rem] mx-[10%] bg-primary border-2 rounded-full py-2  text-white    hover:bg-[#0000ffc7] hover:text-white hover:border-none
+          lg:mt-[1.3rem]"
+              >
+                LOGIN
+              </button>
+            )}
+          </div>
 
-   </div>
-        
-        <Link to="/SignUp" className="lg:border-2 border-gradient-to-r from-blue-500 via-green-500 to-red  lg:w-[6rem] text-center lg:rounded-xl h-auto absolute top-8 right-8 hover:text-primary hover:border-primary">Sign Up</Link>
+          <Link
+            to="/SignUp"
+            className="lg:border-2 border-gradient-to-r from-blue-500 via-green-500 to-red  lg:w-[6rem] text-center lg:rounded-xl h-auto absolute top-8 right-8 hover:text-primary hover:border-primary"
+          >
+            Sign Up
+          </Link>
 
-        <p className='text-[0.9rem] mt-[2rem]  text-center
-        lg:mt-[1.4rem]'>
-          Forget Password? <span className='text-primary hover:text-active focus:text-active cursor-pointer'>Click here</span>
-        </p>
-         
-      </form>
-    </div>
+          <p
+            className="text-[0.9rem] mt-[2rem]  text-center
+        lg:mt-[1.4rem]"
+          >
+            Forget Password?{" "}
+            <span className="text-primary hover:text-active focus:text-active cursor-pointer">
+              Click here
+            </span>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }

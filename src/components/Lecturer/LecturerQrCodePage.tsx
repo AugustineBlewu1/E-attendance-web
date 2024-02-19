@@ -60,7 +60,7 @@ const LecturerQrCodePage = () => {
   const {
     register: qrGenerate,
     handleSubmit: handleQrGenerate,
-    watch: watchQr,
+    // watch: watchQr,
     reset: resetQr,
     formState: { errors: qrErrors },
   } = useForm<QrCOde>({

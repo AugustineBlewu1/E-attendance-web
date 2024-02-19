@@ -3,22 +3,22 @@ import useGetCourseQrCodes from "../../services/hooks/useGetCourseQrCodes";
 import Loader from "../Loader";
 import { format } from "date-fns";
 import QrCodeSample from "../../assets/sample_qr_code.png";
-import CustomModal from "../UI/CustomModal";
-import QRCode from "react-qr-code";
-import { useDisclosure } from "@chakra-ui/react";
-import { useState } from "react";
+// import CustomModal from "../UI/CustomModal";
+// import QRCode from "react-qr-code";
+// import { useDisclosure } from "@chakra-ui/react";
+// import { useState } from "react";
 
 const CoursePage = () => {
   const locaation = useLocation();
-  const [setQRCodeValue, SetQRCodeValue] = useState('');
+  // const [setQRCodeValue, SetQRCodeValue] = useState('');
 
   const courseQrCodes = useGetCourseQrCodes(locaation?.state?.id);
 //Display qr code modal
-const {
-  isOpen: isdisplayQRCode,
-  onOpen: onOpenQRDISPLAY,
-  onClose: onCloseQRDisplay,
-} = useDisclosure({ defaultIsOpen: false });
+// const {
+//   isOpen: isdisplayQRCode,
+//   onOpen: onOpenQRDISPLAY,
+//   onClose: onCloseQRDisplay,
+// } = useDisclosure({ defaultIsOpen: false });
 
   return (
     <>
@@ -26,7 +26,7 @@ const {
         <Loader></Loader>
       ) : (
         <>
-         <CustomModal
+         {/* <CustomModal
         headerText="Generated QR CODE"
         footerText="Okay"
         isOpen={isdisplayQRCode}
@@ -51,7 +51,7 @@ const {
             </div>
           </div>
         }
-      />
+      /> */}
           <div className="flex flex-col space-y-4">
             {courseQrCodes?.courseQrCode?.map((e) => (
               <div className="border-2 py-5 hover:shadow-lg rounded-lg px-10 flex justify-between flex-row ">
