@@ -259,7 +259,7 @@ const user = useSelector(selectCurrentUser)
             <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-between items-center">
             <div className=" flex flex-row items-center space-x-4">
                 <span>
-                  {path !== "/studentDashboard" && (
+                  {path !== "/lecturerDashboard" && (
                     <ArrowLeftIcon
                       onClick={() => navigate(-1)}
                       className="hover:cursor-pointer w-4 h-4"
