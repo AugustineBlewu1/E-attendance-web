@@ -15,7 +15,7 @@ const LecturerQrCodePage = () => {
   const [courses, SetCourses] = useState<Courses[]>([]);
   const [loading, setLoading] = useState(false);
   const [courseId, setCourseId] = useState<number>(0);
-  const [setQRCodeValue, SetQRCodeValue] = useState('');
+  const [setQRCodeValue, SetQRCodeValue] = useState("");
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -44,7 +44,7 @@ const LecturerQrCodePage = () => {
     courseVenue: string;
   };
 
-    //register  a new course
+  //register  a new course
 
   const {
     register,
@@ -73,7 +73,6 @@ const LecturerQrCodePage = () => {
     getCourse();
   }, [user]);
 
-
   const getCourse = async () => {
     const course = await HttpService.getWithToken<any>(
       "/api/v1/courses",
@@ -96,7 +95,7 @@ const LecturerQrCodePage = () => {
         semester_id: 1,
       }
     );
-      console.log(saveCourseResponse)
+    console.log(saveCourseResponse);
     if (saveCourseResponse.hasOwnProperty("error")) {
       toast({
         title: "Error",
@@ -120,10 +119,8 @@ const LecturerQrCodePage = () => {
       getCourse();
       onClose();
       setLoading(false);
-
     }
     console.log(saveCourseResponse);
-    
 
     //country id
   };
@@ -166,17 +163,16 @@ const LecturerQrCodePage = () => {
         resetQr();
         onCloseQR();
         setLoading(false);
-        console.log('data here', saveQrResponse?.data);
+        console.log("data here", saveQrResponse?.data);
 
         const encodedData = encodeJson(JSON.stringify(saveQrResponse?.data));
         SetQRCodeValue(encodedData);
         onOpenQRDISPLAY();
-
       }
       console.log(saveQrResponse);
       setLoading(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast({
         title: "Error",
         description: "Request Failed",
@@ -209,7 +205,9 @@ const LecturerQrCodePage = () => {
                   required: "Course Level is required",
                 })}
               >
-                <option selected disabled value="--select your level --">--select your level --</option>
+                <option selected disabled value="--select your level --">
+                  --select your level --
+                </option>
                 <option value="100">100</option>
                 <option value="200">200</option>
                 <option value="300">300</option>
@@ -267,19 +265,27 @@ const LecturerQrCodePage = () => {
         {courses?.map((e) => (
           <div
             className="bg-white rounded-lg border-2 my-4 mx-4 hover:shadow-2xl hover:cursor-pointer"
-            key={e?.course_id} onClick={()=> navigate(`/course/${e?.course_id}` , {
-              state: {id: e?.course_id}
-            })}
+            key={e?.course_id}
           >
             <div className="flex flex-col py-5 px-5 space-y-2">
-              <span className="text-sm">{e?.name}</span>
-              <span className="text-sm">{e?.course_code}</span>
-              <span className="text-sm">{`${new Date()?.getFullYear()}-${(
-                "0" +
-                (new Date()?.getMonth() + 1)
-              ).slice(-2)}-${("0" + new Date()?.getDate()).slice(-2)}`}</span>
+              <div
+                className="flex-col py-5 px-5 space-y-2"
+                onClick={() =>
+                  navigate(`/course/${e?.course_id}`, {
+                    state: { id: e?.course_id },
+                  })
+                }
+              >
+                <span className="text-sm">{e?.name}</span>
+                <span className="text-sm">{e?.course_code}</span>
+                <span className="text-sm">{`${new Date()?.getFullYear()}-${(
+                  "0" +
+                  (new Date()?.getMonth() + 1)
+                ).slice(-2)}-${("0" + new Date()?.getDate()).slice(-2)}`}</span>
+              </div>
 
-              <span className="border-2  w-fit p-2 rounded-lg bg-gray-200"
+              <span
+                className="border-2  w-fit p-2 rounded-lg bg-gray-200"
                 onClick={() => {
                   onOpenQR();
                   setCourseId(e?.course_id);
