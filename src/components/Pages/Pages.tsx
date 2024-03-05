@@ -18,6 +18,11 @@ import RequireAuthStudent from "../RequireStudentAuth";
 import MainLecturerLayout from "./_MainLecturerLayout";
 import LecturerQrCodePage from "../Lecturer/LecturerQrCodePage";
 import MyQrCodes from "../Student/MyQrCodes";
+import RequireAdmin from "../RequireAdmin";
+import AdminDashboard from "../Admin/AdminDashboard";
+import MainAdminLayout from "./_MainAdminLayout";
+import LecturerPage from "../Admin/LecturerPage";
+import StudentsPage from "../Admin/StudentsPage";
 function Pages() {
   return (
     <>
@@ -75,6 +80,31 @@ function Pages() {
                 path="/qrCode"
                 element={<MainLecturerLayout  content={<LecturerQrCodePage />} path="/qrCode" /> }
               />
+              {/* <Route path="/LecturerDashboard/:id" element={<CoursePage />} /> */}
+            </Route>
+
+            <Route element={<RequireAdmin />}>
+              <Route
+                path="/adminDashboard"
+                element={<MainAdminLayout  content={<AdminDashboard />} path="/adminDashboard" /> }
+              />
+              <Route
+                path="/lecturers"
+                element={<MainAdminLayout  content={<LecturerPage />} path="/lecturers" /> }
+              />
+              <Route
+                path="/students"
+                element={<MainAdminLayout  content={<StudentsPage />} path="/students" /> }
+              />
+              <Route
+                path="/course/:id"
+                element={<MainAdminLayout  content={<CoursePage />} path="/course" /> }
+              />
+             
+              {/* <Route
+                path="/qrCode"
+                element={<MainLecturerLayout  content={<LecturerQrCodePage />} path="/qrCode" /> }
+              /> */}
               {/* <Route path="/LecturerDashboard/:id" element={<CoursePage />} /> */}
             </Route>
 

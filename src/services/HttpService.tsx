@@ -44,7 +44,7 @@ class HttpService {
   static async post<T>(url: string, data: any): Promise<T> {
     try {
       const response: AxiosResponse<T> = await axios.post(urlPath + url, data);
-
+      console.log(response)
       return response.data;
     } catch (error: any) {
       throw new Error(
@@ -52,6 +52,25 @@ class HttpService {
       );
     }
   }
+
+
+static async postWithTokenForm<T>(url: string, token: string, formData: FormData): Promise<T> {
+    try {
+  
+    
+        const response: AxiosResponse<T> = await axios.post(urlPath + url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        const axiosError = error as AxiosError;
+        throw axiosError;
+    }
+}
+
 
   // You can add other HTTP methods like POST, PUT, DELETE as needed
 }

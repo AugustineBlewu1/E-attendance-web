@@ -4,17 +4,24 @@ export interface User{
     department: string,
     contact: number|string,
     email: string|number,   
-    accessToken: string     
+    accessToken: string     ,
+    first_name?: string,
+    last_name?: string,
+    role?: string,
+    created_at?: string | number | Date
 }
 
 export interface UserStudent{
     name:string,
     id: string|number,
     department: string,
+    first_name?: string,
+    last_name?: string,
     phone_number: number|string,
     email: string|number,   
     accessToken: string ,    
     student_id: string,
+    created_at?: string | number | Date
 
 }
 

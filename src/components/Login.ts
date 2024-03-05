@@ -3,6 +3,7 @@ export   interface Props {
     studentID?: string,
     email?:string
     AdminCode?:string|number,
-    passWord: string|number,
+    passWord?: string|number,
+    password?: string
   }
   

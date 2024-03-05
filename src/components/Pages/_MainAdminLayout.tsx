@@ -1,17 +1,3 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import Logo from "../../assets/ucclogo.png";
@@ -22,24 +8,23 @@ import {
   Cog6ToothIcon,
   HomeIcon,
   XMarkIcon,
-  SquaresPlusIcon,
-  ArrowLeftIcon
+  ArrowLeftIcon,
+  UsersIcon,
 } from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-} from "@heroicons/react/20/solid";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useDispatch } from "react-redux";
-import { logOut, selectCurrentUser } from "../../services/userReducer";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { logOutAdmin, selectCurrentAdmin } from "../../services/adminReducer";
 import { useToast } from "@chakra-ui/react";
 
 const navigation = [
-  { name: "Dashboard", href: "/lecturerDashboard", icon: HomeIcon, current: true },
-  // { name: "Class List", href: "/course", icon: UsersIcon, current: false },
-  { name: "QrCode", href: "/qrCode", icon: SquaresPlusIcon, current: false },
-//   { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-//   { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
+  { name: "Dashboard", href: "/adminDashboard", icon: HomeIcon, current: true },
+  { name: "Lectures", href: "/lecturers", icon: UsersIcon, current: false },
+  { name: "Students", href: "/students", icon: UsersIcon, current: false },
+  //   { name: "QrCode", href: "/qrCode", icon: SquaresPlusIcon, current: false },
+  //   { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
+  //   { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
   { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
 ];
 
@@ -52,13 +37,13 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function MainLecturerLayout({content , path} : any) {
+export default function MainAdminLayout({ content, path }: any) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   // const [activeNavItem, setActiveNavItem] = useState(path);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 const toast = useToast();
-const user = useSelector(selectCurrentUser)
+  const user = useSelector(selectCurrentAdmin);
 
   return (
     <>
@@ -118,7 +103,11 @@ const user = useSelector(selectCurrentUser)
                   {/* Sidebar component, swap this element with another sidebar if you like */}
                   <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-green px-6 pb-4">
                     <div className="flex h-16 shrink-0 items-center flex-row space-x-2">
-                      <img className="logo h-8 w-8 bg-white rounded-lg" src={Logo} alt=" logo" />
+                      <img
+                        className="logo h-8 w-8 bg-white rounded-lg"
+                        src={Logo}
+                        alt=" logo"
+                      />
 
                       <p className="text-sm text-white">
                         School of Pharmacy <br /> E-Attendance
@@ -133,7 +122,7 @@ const user = useSelector(selectCurrentUser)
                                 <a
                                   href={item.href}
                                   className={classNames(
-                                    (item?.href === path)
+                                    item?.href === path
                                       ? "bg-green-light-mini text-white"
                                       : "text-indigo-200 hover:text-white hover:bg-green-light-mini",
                                     "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
@@ -141,7 +130,7 @@ const user = useSelector(selectCurrentUser)
                                 >
                                   <item.icon
                                     className={classNames(
-                                        (item?.href === path)
+                                      item?.href === path
                                         ? "text-white"
                                         : "text-indigo-200 group-hover:text-white",
                                       "h-6 w-6 shrink-0"
@@ -154,7 +143,7 @@ const user = useSelector(selectCurrentUser)
                             ))}
                           </ul>
                         </li>
-                       
+
                         <li className="mt-auto">
                           <a
                             href="#"
@@ -169,7 +158,7 @@ const user = useSelector(selectCurrentUser)
                                 position: "top-right",
                               })
                             }
-                         >
+                          >
                             <Cog6ToothIcon
                               className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
                               aria-hidden="true"
@@ -196,7 +185,11 @@ const user = useSelector(selectCurrentUser)
                 src="https://tailwindui.com/img/logos/mark.svg?color=white"
                 alt="Your Company"
               /> */}
-              <img className="logo h-8 w-8 bg-white rounded-lg m-4" src={Logo} alt=" logo" />
+              <img
+                className="logo h-8 w-8 bg-white rounded-lg m-4"
+                src={Logo}
+                alt=" logo"
+              />
 
               <p className="text-sm text-white">
                 School of Pharmacy <br /> E-Attendance
@@ -211,7 +204,7 @@ const user = useSelector(selectCurrentUser)
                         <a
                           href={item.href}
                           className={classNames(
-                            (item?.href === path)
+                            item?.href === path
                               ? "bg-green-light-mini text-white"
                               : "text-indigo-200 hover:text-white hover:bg-green-light-mini",
                             "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
@@ -219,7 +212,7 @@ const user = useSelector(selectCurrentUser)
                         >
                           <item.icon
                             className={classNames(
-                                (item?.href === path)
+                              item?.href === path
                                 ? "text-white"
                                 : "text-indigo-200 group-hover:text-white",
                               "h-6 w-6 shrink-0"
@@ -232,7 +225,7 @@ const user = useSelector(selectCurrentUser)
                     ))}
                   </ul>
                 </li>
-                
+
                 <li className="mt-auto">
                   <a
                     href="#"
@@ -247,6 +240,7 @@ const user = useSelector(selectCurrentUser)
                         position: "top-right",
                       })
                     }
+                  
                   >
                     <Cog6ToothIcon
                       className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
@@ -278,7 +272,7 @@ const user = useSelector(selectCurrentUser)
             />
 
             <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-between items-center">
-            <div className=" flex flex-row items-center space-x-4">
+              <div className=" flex flex-row items-center space-x-4">
                 <span>
                   {path !== "/lecturerDashboard" && (
                     <ArrowLeftIcon
@@ -348,7 +342,7 @@ const user = useSelector(selectCurrentUser)
                                 active ? "bg-gray-50" : "",
                                 "block px-3 py-1 text-sm leading-6 text-gray-900"
                               )}
-                              onClick={() => dispatch(logOut()) }
+                              onClick={() => dispatch(logOutAdmin())}
                             >
                               {item.name}
                             </a>
@@ -362,7 +356,6 @@ const user = useSelector(selectCurrentUser)
             </div>
           </div>
 
-        
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">{content}</div>
           </main>

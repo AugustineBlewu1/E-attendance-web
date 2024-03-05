@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HttpService from "../../services/HttpService";
 import { Courses, User } from "../../services/User";
 import { useSelector } from "react-redux";
@@ -18,6 +18,7 @@ const LecturerQrCodePage = () => {
   const [setQRCodeValue, SetQRCodeValue] = useState("");
   const toast = useToast();
   const navigate = useNavigate();
+  const canvasRef = useRef(null);
 
   //qrcode modal
   const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false });
@@ -80,6 +81,19 @@ const LecturerQrCodePage = () => {
     );
     console.log("Courses", course?.data);
     SetCourses(course?.data);
+  };
+
+  const downloadQRCode = () => {
+    const canvas = canvasRef.current;
+    const pngUrl = (canvas as any)
+      ?.toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    let downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = "qrcode.png";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -331,11 +345,11 @@ const LecturerQrCodePage = () => {
 
       <CustomModal
         headerText="Generated QR CODE"
-        footerText="Okay"
+        footerText="Download"
         isOpen={isdisplayQRCode}
         loading={false}
         onClose={onCloseQRDisplay}
-        onSubmit={() => {}}
+        onSubmit={downloadQRCode}
         children={
           <div>
             <div
@@ -349,6 +363,7 @@ const LecturerQrCodePage = () => {
                 size={1000}
                 style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                 value={setQRCodeValue.toString()}
+                ref={canvasRef}
                 viewBox={`0 0 256 256`}
               />
             </div>

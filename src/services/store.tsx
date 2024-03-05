@@ -6,11 +6,13 @@ import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, REGISTE
 import  storage  from "redux-persist/lib/storage";
 import userReducer from "./userReducer";
 import studentReducer from "./studentReducer";
+import adminReducer from "./adminReducer";
 
 
 const rootReducer = combineReducers({
     auth : userReducer,
-    authStudent: studentReducer
+    authStudent: studentReducer,
+    authAdmin: adminReducer
 })
 
 

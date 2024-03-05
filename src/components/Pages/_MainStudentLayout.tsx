@@ -10,6 +10,7 @@ import {
   XMarkIcon,
   SquaresPlusIcon,
   ArrowLeftIcon,
+  UsersIcon,
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
@@ -21,6 +22,7 @@ import {
 } from "../../services/studentReducer";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
 
 const navigation = [
   {
@@ -30,14 +32,13 @@ const navigation = [
     current: true,
   },
   { name: "Scan", href: "/studentScan", icon: SquaresPlusIcon, current: false },
-  //   { name: "Projects", href: "#", icon: FolderIcon, current: false },
   //   { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
   //   { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
   { name: "Reports", href: "/myQrCodes", icon: ChartPieIcon, current: false },
 ];
 
 const userNavigation = [
-  { name: "Your profile", href: "#" },
+  // { name: "Your profile", href: "#" },
   { name: "Sign out", href: "#" },
 ];
 
@@ -50,7 +51,7 @@ export default function MainStudentLayout({ content, path }: any) {
   // const [activeNavItem, setActiveNavItem] = useState(path);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const toast = useToast()
   const user = useSelector(selectCurrentStudentUser);
 
   return (
@@ -156,6 +157,16 @@ export default function MainStudentLayout({ content, path }: any) {
                           <a
                             href="#"
                             className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-green-light-mini hover:text-white"
+                            onClick={() =>
+                              toast({
+                                title: "Info",
+                                description: "Coming Soon",
+                                status: "info",
+                                duration: 5000,
+                                isClosable: true,
+                                position: "top-right",
+                              })
+                            }
                           >
                             <Cog6ToothIcon
                               className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
@@ -228,7 +239,17 @@ export default function MainStudentLayout({ content, path }: any) {
                   <a
                     href="#"
                     className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-green-light-mini hover:text-white"
-                  >
+                    onClick={() =>
+                      toast({
+                        title: "Info",
+                        description: "Coming Soon",
+                        status: "info",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "top-right",
+                      })
+                    }
+                 >
                     <Cog6ToothIcon
                       className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
                       aria-hidden="true"
@@ -294,11 +315,11 @@ export default function MainStudentLayout({ content, path }: any) {
                 <Menu as="div" className="relative">
                   <Menu.Button className="-m-1.5 flex items-center p-1.5">
                     <span className="sr-only">Open user menu</span>
-                    <img
+                    {/* <img
                       className="h-8 w-8 rounded-full bg-gray-50"
                       src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                       alt=""
-                    />
+                    /> */}
                     <span className="hidden lg:flex lg:items-center">
                       <span
                         className="ml-4 text-sm font-semibold leading-6 text-gray-900"

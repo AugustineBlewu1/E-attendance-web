@@ -7,14 +7,16 @@ import Logo from "../../assets/ucclogo.png";
 import "../../style/Login.css";
 import { CircularProgress, useToast } from "@chakra-ui/react";
 import HttpService from "../../services/HttpService";
-import {  LoginStudentResponse } from "../../services/User";
+import { LoginStudentResponse } from "../../services/User";
 import { useDispatch } from "react-redux";
 import { setStudentCredentials } from "../../services/studentReducer";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 function StudentLogin() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
 
   const [inputs, setInputs] = useState<Props>({
     email: "",
@@ -27,6 +29,10 @@ function StudentLogin() {
     const name: string = e.target.name;
     const value: string = e.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -87,8 +93,8 @@ function StudentLogin() {
     <div className="h-screen flex justify-center items-center overflow-y-auto">
       <div
         className="max-w-[80%] h-auto mx-auto  shadow-shadow-1 border-solid  border-2 rounded 
-      md:max-w-[85%]   md:px-9
-       lg:px-2 lg:max-w-[30%] lg:rounded-xl"
+      md:max-w-[85%] md:px-9
+        lg:max-w-[30%] lg:rounded-xl px-4"
       >
         <figure
           className="max-w-[30%] bg-white flex justify-center items-center my-5 mx-auto
@@ -121,15 +127,24 @@ function StudentLogin() {
               value={inputs.studentID}
             />
 
-            <input
-              type="Password"
-              className="py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
-              placeholder="Password"
-              name="passWord"
-              onChange={handleChange}
-              value={inputs.passWord}
-              required
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                className="py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
+                placeholder="Password"
+                name="passWord"
+                onChange={handleChange}
+                value={inputs.passWord}
+                required
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute inset-y-0 right-0 pr-2 flex items-center"
+              >
+                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+              </button>
+            </div>
           </div>
 
           <div className="">
@@ -156,16 +171,26 @@ function StudentLogin() {
             )}
           </div>
 
-          <Link
+          {/* <Link
             to="/SignUp"
             className="lg:border-2 border-gradient-to-r from-blue-500 via-green-500 to-red  lg:w-[6rem] text-center lg:rounded-xl h-auto absolute top-8 right-8 hover:text-primary hover:border-primary"
           >
             Sign Up
-          </Link>
+          </Link> */}
 
           <p
             className="text-[0.9rem] mt-[2rem]  text-center
         lg:mt-[1.4rem]"
+            onClick={() =>
+              toast({
+                title: "Info",
+                description: "Coming Soon",
+                status: "info",
+                duration: 5000,
+                isClosable: true,
+                position: "top-right",
+              })
+            }
           >
             Forget Password?{" "}
             <span className="text-primary hover:text-active focus:text-active cursor-pointer">
