@@ -105,14 +105,14 @@ const StudentsPage = () => {
     }
   };
 
-  const getFullName = (row: any) => `${row.first_name} ${row.last_name}`;
+  // const getFullName = (row: any) => `${row.first_name} ${row.last_name}`;
 
-  const filterByFullName = (rows: any, id: any, filterValue: any) => {
-    return rows.filter((row: any) => {
-      const rowValue = getFullName(row.original);
-      return rowValue.toLowerCase().includes(filterValue.toLowerCase());
-    });
-  };
+  // const filterByFullName = (rows: any, id: any, filterValue: any) => {
+  //   return rows.filter((row: any) => {
+  //     const rowValue = getFullName(row.original);
+  //     return rowValue.toLowerCase().includes(filterValue.toLowerCase());
+  //   });
+  // };
 
   const handleFileChange = (e: any) => {
     const file = e.target.files[0];

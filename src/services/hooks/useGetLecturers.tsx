@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import HttpService from "../HttpService";
 import { User } from "../User";
-import { selectCurrentAdmin, selectCurrentAdminToken } from "../adminReducer";
+import { selectCurrentAdmin } from "../adminReducer";
 
 const useGetLecturers = () => {
     const [lecturers, setLectureers] = useState<User[]>([]);

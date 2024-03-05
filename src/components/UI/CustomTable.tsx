@@ -4,7 +4,7 @@ import {
   PaginationState,
   SortingState,
   Table,
-  filterFns,
+ 
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -33,7 +33,7 @@ const NewCustomTable = <T extends object>({ data, columns }: TableProps<T>) => {
 
   const filterFns = {
     // Add a new filter function for filtering by full name
-    fullName: (rows: any, id: any, filterValue: string) => {
+    fullName: (rows: any, filterValue: string) => {
       return rows.filter((row: any) => {
         const fullName = `${row.values.first_name} ${row.values.last_name}`;
         return fullName.toLowerCase().includes(filterValue.toLowerCase());

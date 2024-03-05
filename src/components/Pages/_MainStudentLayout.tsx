@@ -10,7 +10,7 @@ import {
   XMarkIcon,
   SquaresPlusIcon,
   ArrowLeftIcon,
-  UsersIcon,
+ 
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
