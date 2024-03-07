@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useGetCourseQrCodes from "../../services/hooks/useGetCourseQrCodes";
 import Loader from "../Loader";
 import { format } from "date-fns";
@@ -11,14 +11,14 @@ import QrCodeSample from "../../assets/sample_qr_code.png";
 const CoursePage = () => {
   const locaation = useLocation();
   // const [setQRCodeValue, SetQRCodeValue] = useState('');
-
+  const navigate = useNavigate();
   const courseQrCodes = useGetCourseQrCodes(locaation?.state?.id);
-//Display qr code modal
-// const {
-//   isOpen: isdisplayQRCode,
-//   onOpen: onOpenQRDISPLAY,
-//   onClose: onCloseQRDisplay,
-// } = useDisclosure({ defaultIsOpen: false });
+  //Display qr code modal
+  // const {
+  //   isOpen: isdisplayQRCode,
+  //   onOpen: onOpenQRDISPLAY,
+  //   onClose: onCloseQRDisplay,
+  // } = useDisclosure({ defaultIsOpen: false });
 
   return (
     <>
@@ -26,7 +26,7 @@ const CoursePage = () => {
         <Loader></Loader>
       ) : (
         <>
-         {/* <CustomModal
+          {/* <CustomModal
         headerText="Generated QR CODE"
         footerText="Okay"
         isOpen={isdisplayQRCode}
@@ -54,7 +54,14 @@ const CoursePage = () => {
       /> */}
           <div className="flex flex-col space-y-4">
             {courseQrCodes?.courseQrCode?.map((e) => (
-              <div className="border-2 py-5 hover:shadow-lg rounded-lg px-10 flex justify-between flex-row ">
+              <div
+                className="border-2 py-5 hover:shadow-lg rounded-lg px-10 flex justify-between flex-row hover:cursor-pointer "
+                onClick={() =>
+                  navigate(`/scannedStudents/${e?.id}`, {
+                    state: { id: e?.id },
+                  })
+                }
+              >
                 <div>
                   <span className="flex flex-col md:flex-row md:space-x-2">
                     <p className="font-bold">Course Name : </p>

@@ -1,3 +1,5 @@
+import { UserStudent } from "./User";
+
 export interface MyQrCode {
   id: number;
   qr_code_id: number;
@@ -35,3 +37,15 @@ export interface User {
   email: string
 
 }
+
+
+
+export interface ScannedStudent {
+  student: UserStudent,
+  created_at: string,
+  updated_at: string,
+  qr_code : QrCode,
+
+}
+
+

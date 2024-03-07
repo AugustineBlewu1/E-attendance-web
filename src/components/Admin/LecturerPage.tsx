@@ -52,7 +52,7 @@ const LecturerPage = () => {
           last_name: data?.last_name,
           email: data?.email,
           password: data?.password,
-          role: "admin",
+          role: "lecturer",
         }
       );
       console.log(saveCourseResponse);

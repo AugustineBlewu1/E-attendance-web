@@ -23,6 +23,7 @@ import AdminDashboard from "../Admin/AdminDashboard";
 import MainAdminLayout from "./_MainAdminLayout";
 import LecturerPage from "../Admin/LecturerPage";
 import StudentsPage from "../Admin/StudentsPage";
+import ScannedQrStudents from "../Lecturer/ScannedQrStudents";
 function Pages() {
   return (
     <>
@@ -74,6 +75,10 @@ function Pages() {
               <Route
                 path="/course/:id"
                 element={<MainLecturerLayout  content={<CoursePage />} path="/course" /> }
+              />
+              <Route
+                path="/scannedStudents/:id"
+                element={<MainLecturerLayout  content={<ScannedQrStudents />} path="/scannedStudents" /> }
               />
              
               <Route
