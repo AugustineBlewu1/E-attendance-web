@@ -51,7 +51,7 @@ const ScannedQrStudents = () => {
                   <span className="flex flex-col md:flex-row md:space-x-2">
                     <p className="font-light text-sm">Date Scanned : </p>{" "}
                     <span className="font-light text-sm">
-                      {format(new Date(e?.created_at), "dd/MM/yyy hh:mm")}
+                      {format(new Date(e?.created_at), "dd/MM/yyy hh:mm a")}
                     </span>
                   </span>
                 </div>
