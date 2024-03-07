@@ -45,7 +45,7 @@ const ScannedQrStudents = () => {
                   <span className="flex flex-col md:flex-row md:space-x-2">
                     <p className="font-bold">Full Name : </p>{" "}
                     <p>
-                      {e?.qr_code.user?.first_name} {e?.qr_code.user?.last_name}
+                      {e?.student?.first_name} {e?.student.user?.last_name}
                     </p>
                   </span>
                   <span className="flex flex-col md:flex-row md:space-x-2">

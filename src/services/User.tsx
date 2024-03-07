@@ -23,6 +23,7 @@ export interface UserStudent{
     accessToken: string ,    
     student_id: string,
     created_at?: string | number | Date
+    user?: User
 
 }
 
