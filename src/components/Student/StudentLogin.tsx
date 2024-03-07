@@ -11,6 +11,7 @@ import { LoginStudentResponse } from "../../services/User";
 import { useDispatch } from "react-redux";
 import { setStudentCredentials } from "../../services/studentReducer";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import Loading from "../UI/Loading";
 
 function StudentLogin() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ function StudentLogin() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setLoading(true)
     console.log(inputs);
     try {
       const result = await HttpService.post<LoginStudentResponse>(
@@ -65,6 +66,7 @@ function StudentLogin() {
       };
       dispatch(setStudentCredentials({ ...user }));
       navigate("/studentDashboard");
+      setLoading(false)
 
       setInputs({
         studentID: "", // Change from lecturerID to lecturer_id
@@ -72,6 +74,7 @@ function StudentLogin() {
       });
     } catch (error: any) {
       // console.log(error?.message);
+      setLoading(false)
       toast({
         title: "Error",
         description: error?.message,
@@ -147,20 +150,12 @@ function StudentLogin() {
             </div>
           </div>
 
-          <div className="">
-            {loading && (
-              <div className="items-center flex flex-row">
-                {" "}
-                <CircularProgress
-                  isIndeterminate
-                  color="#04A551"
-                  size="20px"
-                  thickness={"10px"}
-                />
-                <span className="ml-4"> Loading</span>
+          <div className="text-center pt-5">
+            {loading ? (
+              <div className="text-center pt-3">
+                <Loading />
               </div>
-            )}
-            {loading == false && (
+            ) : (
               <button
                 type="submit"
                 className=" w-[80%] mt-[3rem] mx-[10%] bg-primary border-2 rounded-full py-2  text-white    hover:bg-[#0000ffc7] hover:text-white hover:border-none
