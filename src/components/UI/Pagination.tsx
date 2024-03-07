@@ -12,7 +12,7 @@ const Pagination = ({ table }: any) => (
         placeholder=""
         value={table.getState().pageSize}
         onChange={(e) => table.setPageSize(parseInt(e.target.value,  10))}
-        options={[5,  10,  20].map((size) => (
+        options={[5,  10,  20, 30, 40, 50].map((size) => (
           <option key={size} value={size}>
             {size}
           </option>

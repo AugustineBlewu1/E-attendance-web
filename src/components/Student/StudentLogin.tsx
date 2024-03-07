@@ -5,7 +5,7 @@ import { Props } from "../Login";
 import Logo from "../../assets/ucclogo.png";
 
 import "../../style/Login.css";
-import { CircularProgress, useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import HttpService from "../../services/HttpService";
 import { LoginStudentResponse } from "../../services/User";
 import { useDispatch } from "react-redux";

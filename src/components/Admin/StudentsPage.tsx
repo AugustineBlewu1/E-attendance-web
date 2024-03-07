@@ -223,6 +223,16 @@ const StudentsPage = () => {
         </>
       ),
     }),
+    columnStudentHelper.accessor("level", {
+      header: () => "Level",
+      cell: (props) => (
+        <>
+          <div className="flex">
+            <span>{props?.getValue()}</span>
+          </div>
+        </>
+      ),
+    }),
 
     columnStudentHelper.accessor("created_at", {
       header: () => "Date Added",

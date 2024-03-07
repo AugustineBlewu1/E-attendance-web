@@ -18,6 +18,7 @@ export interface UserStudent{
     first_name?: string,
     last_name?: string,
     phone_number: number|string,
+    level: number | string,
     email: string|number,   
     accessToken: string ,    
     student_id: string,
