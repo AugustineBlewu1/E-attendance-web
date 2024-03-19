@@ -11,39 +11,45 @@ import { setCredentials } from "../../services/userReducer";
 import { useToast } from "@chakra-ui/react";
 import Loading from "../UI/Loading";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { SubmitHandler, useForm } from "react-hook-form";
 // ... (imports)
 
 function LecturerLogin() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [inputs, setInputs] = useState<Props>({
-    lecturer_id: "",
-    passWord: "",
-  });
+
   const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch();
   const toast = useToast();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const name: string = e.target.name;
-    const value: string = e.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
-  };
+
+  type Inputs = {
+    email: string;
+    password: string;
+  }
+
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+ 
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
-    e.preventDefault();
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
 
-    console.log(inputs);
+    console.log(data);
     setLoading(true);
 
     try {
       const result = await HttpService.post<LoginResponse>(
         "/api/v1/auth/login",
-        { email: inputs.lecturer_id, password: inputs.passWord }
+        { email: data?.email, password: data?.password }
       );
 
       console.log(result);
@@ -66,10 +72,7 @@ function LecturerLogin() {
       dispatch(setCredentials(user));
       navigate("/lecturerDashboard");
 
-      setInputs({
-        lecturer_id: "",
-        passWord: "",
-      });
+     
     } catch (error: any) {
       // console.log(error?.message);
       toast({
@@ -95,22 +98,21 @@ function LecturerLogin() {
         lg:max-w-[30%] lg:rounded-xl px-4"
       >
         <figure
-          className="max-w-[30%] bg-white flex justify-center items-center my-5 mx-auto
+          className="max-w-[30%] bg-white flex justify-center items-center my-0 md:my-5 pt-0 md:pt-5 mx-auto
       lg:my-0 "
         >
           <img
             src={Logo}
             alt="Pharmacy Logo"
-            className="max-w-[80%] bg-white flex justify-center items-center my-2 mx-auto
+            className="max-w-[80%] bg-white flex justify-center items-center my-2  mx-auto
         lg:max-w-[65%]"
           />
         </figure>
         <p className=" text-center ">Lecturer's Login </p>
         <form
-          id="lecturerForm"
-          className="Form"
           method="POST"
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
+          className=" py-12"
         >
           {/* ... (unchanged input fields) */}
           <div className="space-y-2 ">
@@ -118,22 +120,30 @@ function LecturerLogin() {
               type="email"
               className="py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
               placeholder="Email"
-              name="lecturer_id"
-              onChange={(e) => handleChange(e)}
-              value={inputs.lecturer_id}
-              required
+              {...register("email", {
+                required: "Email is required",
+              })}
             />
+            {errors.email && (
+                <span className="text-left text-rose-500 font-normal text-xs">
+                  {errors?.email?.message}
+                </span>
+              )}
 
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
                 className="py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
                 placeholder="Password"
-                name="passWord"
-                onChange={handleChange}
-                value={inputs.passWord}
-                required
+                {...register("password", {
+                  required: "Password is required",
+                })}
               />
+              {errors.password && (
+                <span className="text-left text-rose-500 font-normal text-xs">
+                  {errors?.password?.message}
+                </span>
+              )}
               <button
                 type="button"
                 onClick={togglePasswordVisibility}
@@ -144,7 +154,7 @@ function LecturerLogin() {
             </div>
           </div>
 
-          <div className="text-center pt-5">
+          <div className="text-center pt-2 md:pt-5">
             {loading ? (
               <div className="text-center pt-3">
                 <Loading />
@@ -152,7 +162,7 @@ function LecturerLogin() {
             ) : (
               <button
                 type="submit"
-                className=" w-[80%] mt-[3rem] mx-[10%] bg-primary border-2 rounded-full py-2  text-white    hover:bg-[#0000ffc7] hover:text-white hover:border-none
+                className=" w-[80%]  mx-[10%] bg-primary border-2 rounded-full py-2  text-white    hover:bg-[#0000ffc7] hover:text-white hover:border-none
           lg:mt-[1.3rem]"
               >
                 LOGIN
