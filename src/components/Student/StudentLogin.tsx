@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Props } from "../Login";
 
 import Logo from "../../assets/ucclogo.png";
 
@@ -12,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { setStudentCredentials } from "../../services/studentReducer";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import Loading from "../UI/Loading";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 function StudentLogin() {
   const navigate = useNavigate();
@@ -19,31 +19,32 @@ function StudentLogin() {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
-  const [inputs, setInputs] = useState<Props>({
-    email: "",
-    passWord: "",
-  });
 
   const toast = useToast();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const name: string = e.target.name;
-    const value: string = e.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
-  };
+  type Inputs = {
+    indexNumber: string;
+    password: string;
+  }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const  onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoading(true)
-    console.log(inputs);
+    console.log(data);
     try {
       const result = await HttpService.post<LoginStudentResponse>(
         "/api/v1/auth/student/login",
-        { student_id: inputs.studentID, password: inputs.passWord }
+        { student_id: data.indexNumber, password: data.password }
       );
 
       console.log(result);
@@ -68,10 +69,7 @@ function StudentLogin() {
       navigate("/studentDashboard");
       setLoading(false)
 
-      setInputs({
-        studentID: "", // Change from lecturerID to lecturer_id
-        passWord: "",
-      });
+     
     } catch (error: any) {
       // console.log(error?.message);
       setLoading(false)
@@ -112,34 +110,42 @@ function StudentLogin() {
         </figure>
         <p className="text-center">Student's Login </p>
         <form
-          id="studentForm"
-          className="Form"
+          className="py-12"
           action=""
           method="POST"
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
         >
           {/* ... (unchanged input fields) */}
 
           <div className="space-y-2">
             <input
               type="text"
-              className=" py-2 my-[1rem] w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
+              className=" py-2  w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
               placeholder="Student ID"
-              name="studentID"
-              onChange={handleChange}
-              value={inputs.studentID}
+              {...register("indexNumber", {
+                required: "Student Index is required",
+              })}
             />
+            {errors.indexNumber && (
+                <span className="text-left text-rose-500 font-normal text-xs">
+                  {errors?.indexNumber?.message}
+                </span>
+              )}
 
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
                 className="py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
                 placeholder="Password"
-                name="passWord"
-                onChange={handleChange}
-                value={inputs.passWord}
-                required
+                {...register("password", {
+                  required: "Password is required",
+                })}
               />
+              {errors.password && (
+                  <span className="text-left text-rose-500 font-normal text-xs">
+                    {errors?.password?.message}
+                  </span>
+                )}
               <button
                 type="button"
                 onClick={togglePasswordVisibility}

@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
-import { Props } from "../Login";
 import Logo from "../../assets/ucclogo.png";
 import HttpService from "../../services/HttpService";
 import { LoginResponse } from "../../services/User";
@@ -112,7 +111,7 @@ function LecturerLogin() {
         <form
           method="POST"
           onSubmit={handleSubmit(onSubmit)}
-          className=" py-12"
+          className="py-12"
         >
           {/* ... (unchanged input fields) */}
           <div className="space-y-2 ">

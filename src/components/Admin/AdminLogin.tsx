@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import React, {  useState } from "react";
-import { Props } from "../Login";
+import { useState } from "react";
 import Logo from "../../assets/ucclogo.png";
 import { LoginResponse } from "../../services/User";
 import HttpService from "../../services/HttpService";
@@ -9,6 +8,7 @@ import { useDispatch } from "react-redux";
 import Loading from "../UI/Loading";
 import { setAdminCredentials } from "../../services/adminReducer";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 // ... (imports)
 
@@ -19,35 +19,30 @@ function AdminLogin() {
   const [loading, SetLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const [inputs, setInputs] = useState<Props>({
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const name: string = e.target.name;
-    const value: string = e.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
+  type Inputs = {
+    email: string;
+    password: string;
   };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
-    e.preventDefault();
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     SetLoading(true);
 
     // Clear the input values after successful form submission
-    setInputs({
-      email: "",
-      password: "",
-    });
 
-    console.log(inputs);
+    console.log(data);
     try {
       const result = await HttpService.post<LoginResponse>(
         "/api/v1/auth/loginAdmin",
-        { email: inputs.email, password: inputs.password }
+        { email: data?.email, password: data?.password }
       );
 
       console.log(result);
@@ -71,11 +66,6 @@ function AdminLogin() {
       };
       dispatch(setAdminCredentials({ ...user }));
       navigate("/adminDashboard");
-
-      setInputs({
-        email: "", // Change from lecturerID to lecturer_id
-        password: "",
-      });
     } catch (error: any) {
       // console.log(error?.message);
       toast({
@@ -110,63 +100,62 @@ function AdminLogin() {
           />
         </figure>
         <p className="text-center">Admin's Login </p>
-        <form
-          id="lecturerForm"
-          className="Form"
-          method="POST"
-          onSubmit={handleSubmit}
-        >
+        <form className="py-12" method="POST" onSubmit={handleSubmit(onSubmit)}>
           {/* ... (unchanged input fields) */}
 
           <div className="space-y-2">
-             <input
-                type="text"
-                className="py-2  w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
-                placeholder="Email"
-                name="email"
-                onChange={(e) => handleChange(e)}
-                value={inputs.AdminCode}
-                required
-              />
-            
+            <input
+              type="text"
+              className="py-2  w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
+              placeholder="Email"
+              {...register("email", {
+                required: "Email is required",
+              })}
+            />
+            {errors.email && (
+              <span className="text-left text-rose-500 font-normal text-xs">
+                {errors?.email?.message}
+              </span>
+            )}
+
             <div className="relative">
-            
               <input
                 type={showPassword ? "text" : "password"}
                 className=" py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
                 placeholder="password"
-                name="password"
-                onChange={handleChange}
-                value={inputs.passWord}
-                required
+                {...register("password", {
+                  required: "Password is required",
+                })}
               />
-                <button
+              {errors.password && (
+                <span className="text-left text-rose-500 font-normal text-xs">
+                  {errors?.password?.message}
+                </span>
+              )}
+              <button
                 type="button"
                 onClick={togglePasswordVisibility}
                 className="absolute inset-y-0 right-0 pr-2 flex items-center"
               >
                 {showPassword ? <ViewIcon /> : <ViewOffIcon />}
               </button>
-          
-
             </div>
-           
           </div>
-
-          {loading ? (
-            <div className="text-center pt-5">
-              <Loading />
-            </div>
-          ) : (
-            <button
-              type="submit"
-              className=" w-[80%] mt-[3rem] mx-[10%] bg-primary border-2 rounded-full py-2  text-white    hover:bg-[#0000ffc7] hover:text-white hover:border-none
+          <div className="text-center pt-2 md:pt-5">
+            {loading ? (
+              <div className="text-center pt-3">
+                <Loading />
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className=" w-[80%]  mx-[10%] bg-primary border-2 rounded-full py-2  text-white    hover:bg-[#0000ffc7] hover:text-white hover:border-none
           lg:mt-[1.3rem]"
-            >
-              LOGIN
-            </button>
-          )}
-
+              >
+                LOGIN
+              </button>
+            )}
+          </div>
           <p
             className="text-[0.9rem] mt-[2rem]  text-center
         lg:mt-[1.4rem]"
