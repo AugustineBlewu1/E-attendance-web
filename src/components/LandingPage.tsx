@@ -3,6 +3,14 @@ import Typewriter from "typewriter-effect";
 import Logo from "../assets/ucclogo1.png";
 
 function LandingPage() {
+
+  // buttons containing links to either the administrator, student or lecturer's login
+const landingButton = [
+  {name:"Administrator",href:"/adminLogin"},
+  {name:"Lecture",href:"/lecturerLogin"},
+  {name:"Student",href:"/studentLogin"},
+
+]
   return (
     <div className="h-screen flex justify-center md:items-center">
       <div
@@ -50,28 +58,22 @@ function LandingPage() {
             />
           </div>
           <div className="flex flex-col space-y-6 mt-8 md:mt-0">
+                {
+                       landingButton.map((item)=>{
+                        return(
+                          <Link to={item.href} key={item.name}>
+                      <button className=" md:my-5 border-[3px] border-solid border-primary bg-white text-bold outline-none w-[70%] h-[2rem] hover:text-white hover:bg-primary rounded active:border-blue ">
+                        {item.name}
+                      </button>
+                      
+                    </Link>
+          
+                        )
+                      })
 
-         
-          <Link to="/adminLogin">
-            <button className=" md:my-8 border-[3px] border-solid border-primary bg-white text-bold outline-none w-[70%] h-[2rem] hover:text-white hover:bg-primary rounded active:border-black ">
-              Administrator
-            </button>
-            <br />
-          </Link>
-
-          <Link to="/lecturerLogin">
-            <button className=" md:mb-8 border-[3px] border-solid border-primary bg-white text-bold outline-none w-[70%] h-[2rem] hover:text-white hover:bg-primary rounded active:border-black ">
-              Lecturer
-            </button>
-            <br />
-          </Link>
-
-          <Link to="/studentLogin">
-            <button className="md:mb-8 border-[3px] border-solid border-primary bg-white text-bold outline-none w-[70%] h-[2rem] hover:text-white hover:bg-primary rounded active:border-black ">
-              Student
-            </button>
-            <br />
-          </Link>
+                }
+        
+          
           </div>
         </div>
       </div>
