@@ -3,7 +3,7 @@ import {  UserStudent } from "./User";
 
 
 
-const userStudentSlice = createSlice({
+const userStudentSlice :any = createSlice({
   name : 'authStudent',
   initialState : {user : null, token : null} ,
   reducers : {
