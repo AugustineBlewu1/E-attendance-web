@@ -24,6 +24,7 @@ import MainAdminLayout from "./_MainAdminLayout";
 import LecturerPage from "../Admin/LecturerPage";
 import StudentsPage from "../Admin/StudentsPage";
 import ScannedQrStudents from "../Lecturer/ScannedQrStudents";
+import PasswordChange from "../Student/PasswordChange";
 function Pages() {
   return (
     <>
@@ -61,6 +62,15 @@ function Pages() {
               element={
                 <>
                   <AdminLogin />
+                  <Copyright />
+                </>
+              }
+            />
+            <Route
+              path="/updatePassword"
+              element={
+                <>
+                  <PasswordChange />
                   <Copyright />
                 </>
               }

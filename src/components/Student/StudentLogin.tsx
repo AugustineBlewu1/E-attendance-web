@@ -48,14 +48,30 @@ function StudentLogin() {
       );
 
       console.log(result);
-      toast({
-        title: "Success",
-        description: result?.message,
-        status: "success",
-        duration: 7000,
-        isClosable: true,
-        position: "top-right",
-      });
+    
+
+      if(result?.student?.must_change_password === true){
+        navigate("/updatePassword", {
+          state : {token: result?.access_token}
+        });
+        toast({
+          title: "Update Password",
+          description: result?.message,
+          status: "info",
+          duration: 7000,
+          isClosable: true,
+          position: "top-right",
+        });
+
+      } else {
+        toast({
+          title: "Success",
+          description: result?.message,
+          status: "success",
+          duration: 7000,
+          isClosable: true,
+          position: "top-right",
+        });
       let user = {
         name: result.student?.name,
         id: result?.student?.id,
@@ -68,7 +84,7 @@ function StudentLogin() {
       dispatch(setStudentCredentials({ ...user }));
       navigate("/studentDashboard");
       setLoading(false)
-
+    }
      
     } catch (error: any) {
       // console.log(error?.message);

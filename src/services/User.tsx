@@ -23,7 +23,8 @@ export interface UserStudent{
     accessToken: string ,    
     student_id: string,
     created_at?: string | number | Date
-    user?: User
+    user?: User,
+    must_change_password: boolean
 
 }
 
@@ -36,6 +37,9 @@ export interface LoginStudentResponse{
     message: string,
     student: UserStudent,
     access_token: string
+}
+export interface PasswordUpdate{
+    message: string
 }
 
 export interface Courses {
