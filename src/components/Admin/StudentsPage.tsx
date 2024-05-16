@@ -251,7 +251,7 @@ const StudentsPage = () => {
   return (
     <>
       <CustomModal
-        headerText="Enter Lecturer Details"
+        headerText="Enter Student Details"
         footerText="Save"
         isOpen={isOpen}
         loading={loading}

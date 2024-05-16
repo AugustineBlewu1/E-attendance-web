@@ -9,6 +9,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import QRCode from "react-qr-code";
 import { encodeJson } from "../../services/store/security";
 import { useNavigate } from "react-router-dom";
+// import useGetVenues from "../../services/hooks/useGetVenues";
 
 const LecturerQrCodePage = () => {
   const user = useSelector(selectCurrentUser);
@@ -19,6 +20,7 @@ const LecturerQrCodePage = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const canvasRef = useRef(null);
+  // const venueList = useGetVenues();
 
   //qrcode modal
   const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false });

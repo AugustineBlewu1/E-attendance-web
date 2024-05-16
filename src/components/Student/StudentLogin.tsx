@@ -44,7 +44,7 @@ function StudentLogin() {
     try {
       const result = await HttpService.post<LoginStudentResponse>(
         "/api/v1/auth/student/login",
-        { student_id: data.indexNumber, password: data.password }
+        { student_id: data.indexNumber?.trim(), password: data.password?.trim() }
       );
 
       console.log(result);

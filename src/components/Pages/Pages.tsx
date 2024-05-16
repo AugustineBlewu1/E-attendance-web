@@ -25,6 +25,8 @@ import LecturerPage from "../Admin/LecturerPage";
 import StudentsPage from "../Admin/StudentsPage";
 import ScannedQrStudents from "../Lecturer/ScannedQrStudents";
 import PasswordChange from "../Student/PasswordChange";
+import VenuePage from "../Admin/VenuePage";
+import VenueList from "../Admin/VenueList";
 function Pages() {
   return (
     <>
@@ -106,6 +108,14 @@ function Pages() {
               <Route
                 path="/lecturers"
                 element={<MainAdminLayout  content={<LecturerPage />} path="/lecturers" /> }
+              />
+              <Route
+                path="/venues"
+                element={<MainAdminLayout  content={<VenueList />} path="/venues" /> }
+              />
+              <Route
+                path="/add_venue"
+                element={<MainAdminLayout  content={<VenuePage />} path="/add_venue" /> }
               />
               <Route
                 path="/students"

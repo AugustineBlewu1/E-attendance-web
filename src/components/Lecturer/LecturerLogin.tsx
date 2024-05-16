@@ -48,7 +48,7 @@ function LecturerLogin() {
     try {
       const result = await HttpService.post<LoginResponse>(
         "/api/v1/auth/login",
-        { email: data?.email, password: data?.password }
+        { email: data?.email?.trim(), password: data?.password?.trim() }
       );
 
       console.log(result);
