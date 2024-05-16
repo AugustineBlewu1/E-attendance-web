@@ -20,21 +20,26 @@ const landingButton = [
       >
         <div>
           <figure>
-            <img
+           <a href="#">
+             <img
               className="w-[20%]  py-[2rem] mx-auto md:py-[0.5rem] md:w-[50%] lg:max-w-[80%]"
               src={Logo}
               alt="ucc Logo"
             />
+           </a>
           </figure>
           <h4 className="text-center">
-            School of Pharmacy and Pharmaceutical Sciences <br /> Electronic
-            Attendance{" "}
+            University of Cape Coast <br/>
+            School of Pharmacy and Pharmaceutical Sciences <br />
+            
+            <span className="text-primary"> Electronic
+            Attendance{" "}</span>
           </h4>
         </div>
         <div className="md:bg-white md:w-[50%] md:h-[100%] text-center">
           <h2
-            style={{ color: "red" }}
-            className="my-7 animate-bounce text-decoration-wavy"
+      
+            className="my-7 animate-bounce text-decoration-wavy text-[#ed1b24]"
           >
             Who are you?
           </h2>
@@ -62,7 +67,7 @@ const landingButton = [
                        landingButton.map((item)=>{
                         return(
                           <Link to={item.href} key={item.name}>
-                      <button className=" md:my-5 border-[3px] border-solid border-primary bg-white text-bold outline-none w-[70%] h-[2rem] hover:text-white hover:bg-primary rounded active:border-blue ">
+                      <button className="  md:my-5 border-[3px] border-solid border-primary hover:border-primary bg-white text-bold outline-none w-[70%] h-[2rem] hover:text-white hover:bg-[#2e3094] rounded active:border-blu ">
                         {item.name}
                       </button>
                       

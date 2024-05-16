@@ -22,7 +22,7 @@ export default {
         inter: ['Inter', 'system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif']
       },
       colors: {
-        'primary': '#0000FF',
+        'primary': '#2e3094',
         'green': '#037452',
         'green-light' : '#c1ffec',
         'green-light-mini' : '#04A551',
