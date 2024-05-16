@@ -7,7 +7,7 @@ function LandingPage() {
   // buttons containing links to either the administrator, student or lecturer's login
 const landingButton = [
   {name:"Administrator",href:"/adminLogin"},
-  {name:"Lecture",href:"/lecturerLogin"},
+  {name:"Lecturer",href:"/lecturerLogin"},
   {name:"Student",href:"/studentLogin"},
 
 ]
