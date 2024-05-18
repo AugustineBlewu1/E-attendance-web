@@ -8,6 +8,7 @@ import { User } from "../../services/User";
 import { useSelector } from "react-redux";
 import { selectCurrentAdmin } from "../../services/adminReducer";
 import Loading from "../UI/Loading";
+import L from "leaflet";
 
 const VenuePage = () => {
   const toast = useToast();
@@ -117,6 +118,16 @@ const VenuePage = () => {
   const handleError = (error: { message: any }) => {
     setError(`Geolocation error: ${error.message}`);
   };
+
+  //icon
+  var myIcon = new L.Icon({
+    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+    iconSize: [25, 41], // size of the icon
+    iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
+    popupAnchor: [1, -34], // point from which the popup should open relative to the iconAnchor
+    shadowSize: [41, 41] // size of the shadow
+  });
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -243,7 +254,7 @@ const VenuePage = () => {
           />
           {corners.length > 0 && <Polygon positions={corners} color="blue" />}
           {currentPosition.lat !== null && (
-            <Marker position={currentPosition} />
+            <Marker position={currentPosition} icon={myIcon}/>
           )}
         </MapContainer>
       )}
