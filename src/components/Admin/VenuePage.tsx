@@ -152,19 +152,22 @@ const VenuePage = () => {
   }, []);
 
   // Function to check if the position is within the room
-  const isWithinRoom = (position: { lat: any; lng: any }) => {
-    if (corners.length < 4) return false;
+  const isWithinRoom = (position: { lat: any; lng: any; }) => {
+    if (corners.length < 3) return false;
 
     const { lat, lng } = position;
+    let isInside = false;
 
-    const [topLeft, topRight, bottomRight] = corners;
+    for (let i = 0, j = corners.length - 1; i < corners.length; j = i++) {
+      const xi = corners[i].lat, yi = corners[i].lng;
+      const xj = corners[j].lat, yj = corners[j].lng;
 
-    return (
-      lat <= topLeft.lat &&
-      lat >= bottomRight.lat &&
-      lng >= topLeft.lng &&
-      lng <= topRight.lng
-    );
+      const intersect = ((yi > lng) !== (yj > lng)) &&
+                        (lat < (xj - xi) * (lng - yi) / (yj - yi) + xi);
+      if (intersect) isInside = !isInside;
+    }
+
+    return isInside;
   };
 
   useEffect(() => {
