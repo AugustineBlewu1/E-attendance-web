@@ -9,6 +9,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import QRCode from "react-qr-code";
 import { encodeJson } from "../../services/store/security";
 import { useNavigate } from "react-router-dom";
+import useGetVenues from "../../services/hooks/useGetVenues";
 // import useGetVenues from "../../services/hooks/useGetVenues";
 
 const LecturerQrCodePage = () => {
@@ -20,7 +21,7 @@ const LecturerQrCodePage = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const canvasRef = useRef(null);
-  // const venueList = useGetVenues();
+   const venueList = useGetVenues(selectCurrentUser);
 
   //qrcode modal
   const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false });
@@ -84,6 +85,7 @@ const LecturerQrCodePage = () => {
     console.log("Courses", course?.data);
     SetCourses(course?.data);
   };
+  console.log('Venue',venueList);
 
   const downloadQRCode = () => {
     const canvas = canvasRef.current;
@@ -150,7 +152,7 @@ const LecturerQrCodePage = () => {
         `${(user as User)?.accessToken}`,
         {
           course_id: courseId.toString(),
-          venue: data?.courseVenue,
+          venue_id: data?.courseVenue,
           user_id: user?.id.toString(),
         }
       );
@@ -323,18 +325,24 @@ const LecturerQrCodePage = () => {
         onSubmit={handleQrGenerate(onSubmitQr)}
         children={
           <div>
-            <p>Provide the venue for the course</p>
+            <p>Select the venue for the course</p>
             <form action="">
-              <input
-                className="border border-primary rounded mt-2 mb-2 py-2 pl-2 text-sm text-left w-full"
-                type="text"
-                placeholder="Course venue"
+              <select
+                className="border border-primary rounded py-2 mt-2  h-11 pl-2 text-sm text-left w-full"
                 {...qrGenerate("courseVenue", {
                   required: "Course Venue field is required",
-                  validate: (value) =>
-                    !(value?.length < 4) || "Invalid Course Venue",
-                })}
-              />
+                 })}
+                >
+                {
+                  ...venueList?.venues?.map((ve, id) => (
+                    <option key={id} value={ve?.id}>
+                      {
+                        ve?.name
+                      }
+                    </option>
+                  ))
+                }
+              </select>
               {qrErrors.courseVenue && (
                 <span className="text-left text-rose-500 font-normal text-xs">
                   {qrErrors?.courseVenue?.message}

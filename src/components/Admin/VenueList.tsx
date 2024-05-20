@@ -2,9 +2,10 @@ import Loader from "../Loader";
 import { format } from "date-fns";
 import useGetVenues from "../../services/hooks/useGetVenues";
 import { useNavigate } from "react-router-dom";
+import { selectCurrentAdmin } from "../../services/adminReducer";
 
 const VenueList = () => {
-  const venueList = useGetVenues();
+  const venueList = useGetVenues(selectCurrentAdmin);
   const navigate = useNavigate();
 
   console.log(venueList);

@@ -4,9 +4,10 @@ import HttpService from "../HttpService";
 import { User, Venues } from "../User";
 import { selectCurrentAdmin } from "../adminReducer";
 
-const useGetVenues = () => {
+const useGetVenues = (admin: any) => {
     const [venues, setVenues] = useState<Venues[]>([]);
-    const user = useSelector(selectCurrentAdmin);
+    console.log("admin", selectCurrentAdmin)
+    const user = useSelector(admin);
   
     const [loading, setLoading] = useState(false);
   

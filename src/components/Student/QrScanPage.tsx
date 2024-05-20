@@ -17,7 +17,7 @@ const QrScanPage = () => {
   const videoEl = useRef<HTMLVideoElement>(null);
   const qrBoxEl = useRef<HTMLDivElement>(null);
   const [qrOn, setQrOn] = useState<boolean>(true);
-
+  
   const onScanSuccess = (result: QrScanner.ScanResult) => {
     console.log(result);
     // ✅ Handle success.
@@ -65,6 +65,46 @@ const QrScanPage = () => {
     };
   }, []);
 
+  const getLocation = async () => {
+    return new Promise<{ latitude: number; longitude: number }>(
+      (resolve, reject) => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const { latitude, longitude } = position.coords;
+              resolve({ latitude, longitude });
+            },
+            (error) => {
+              toast({
+                title: "Error",
+                description: `Error getting user's location: ${error}`,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                position: "top-right",
+              });
+              reject(error);
+            }
+          );
+        } else {
+          const error = new Error(
+            "Geolocation is not supported by this browser."
+          );
+          toast({
+            title: "Error",
+            description: "Geolocation is not supported by this browser.",
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+            position: "top-right",
+          });
+          console.error(error);
+          reject(error);
+        }
+      }
+    );
+  };
+
   useEffect(() => {
     if (!qrOn)
       alert(
@@ -73,10 +113,18 @@ const QrScanPage = () => {
   }, [qrOn]);
 
   const submitScanData = async (qrCode: any) => {
+    const { latitude, longitude } = await getLocation();
+
+    // console.log("Latitude in submitScanData:", latitude);
+    // console.log("Longitude in submitScanData:", longitude);
+
+
+    // console.log("Qrcode", qrCode);
+    // console.log("Student", user?.id);
+    // console.log(latitude, longitude);
+
     setLoading(true);
 
-    console.log("Qrcode", qrCode);
-    console.log("Student", user?.id);
     try {
       const saveCourseResponse = await HttpService.postWithToken<any>(
         "/api/v1/qrCodeScan",
@@ -84,6 +132,8 @@ const QrScanPage = () => {
         {
           qr_code_id: qrCode?.toString(),
           student_id: user?.id?.toString(),
+          latitude,
+          longitude,
         }
       );
       console.log("Response", saveCourseResponse);
