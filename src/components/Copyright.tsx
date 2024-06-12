@@ -10,8 +10,8 @@ export default function Copyright() {
     const link = [
       {name:'About',href:'https://sopps.ucc.edu.gh/about'},
       {name:'Contact Us',href:'https://sopps.ucc.edu.gh/about'},
-      {name:'Privacy Policy',href:'#'},
-      {name:'Help',href:'#'}
+      {name:'Privacy Policy',href:'/Policy'},
+      {name:'Help',href:'/help'}
     ]
 
   return (

@@ -1,4 +1,6 @@
 import LandingPage from "../LandingPage";
+import Policy from '../policy';
+import Help from "../help";
 import LecturerLogin from "../Lecturer/LecturerLogin";
 import StudentLogin from "../Student/StudentLogin";
 import AdminLogin from "../Admin/AdminLogin";
@@ -50,6 +52,13 @@ function Pages() {
                 </>
               }
             />
+
+            <Route path="/policy" element={<Policy/>} />
+          
+            <Route path="/help" element={<Help/>} />
+
+
+
             <Route
               path="/studentLogin"
               element={
