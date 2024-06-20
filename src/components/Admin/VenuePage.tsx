@@ -152,27 +152,63 @@ const VenuePage = () => {
   }, []);
 
   // Function to check if the position is within the room
-  const isWithinRoom = (position: { lat: any; lng: any; }) => {
+  // const isWithinRoom = (position: { lat: any; lng: any; }) => {
+  //   if (corners.length < 3) return false;
+
+  //   const { lat, lng } = position;
+  //   let isInside = false;
+
+  //   for (let i = 0, j = corners.length - 1; i < corners.length; j = i++) {
+  //     const xi = corners[i].lat, yi = corners[i].lng;
+  //     const xj = corners[j].lat, yj = corners[j].lng;
+
+  //     const intersect = ((yi > lng) !== (yj > lng)) &&
+  //                       (lat < (xj - xi) * (lng - yi) / (yj - yi) + xi);
+  //     if (intersect) isInside = !isInside;
+  //   }
+
+  //   return isInside;
+  // };
+  function isWithinRoom(position: { lat: number, lng: number }, corners: { lat: number, lng: number }[]): boolean {
+    // A polygon must have at least 3 corners
     if (corners.length < 3) return false;
 
-    const { lat, lng } = position;
+    const lat = position.lat;
+    const lng = position.lng;
     let isInside = false;
+    const epsilon = 1e-10; // Small tolerance for floating-point comparisons
 
     for (let i = 0, j = corners.length - 1; i < corners.length; j = i++) {
-      const xi = corners[i].lat, yi = corners[i].lng;
-      const xj = corners[j].lat, yj = corners[j].lng;
+        const xi = corners[i].lat;
+        const yi = corners[i].lng;
+        const xj = corners[j].lat;
+        const yj = corners[j].lng;
 
-      const intersect = ((yi > lng) !== (yj > lng)) &&
-                        (lat < (xj - xi) * (lng - yi) / (yj - yi) + xi);
-      if (intersect) isInside = !isInside;
+        // Check if point is on the vertex
+        if ((Math.abs(lat - xi) < epsilon && Math.abs(lng - yi) < epsilon) || 
+            (Math.abs(lat - xj) < epsilon && Math.abs(lng - yj) < epsilon)) {
+            return true;
+        }
+
+        // Check if point is on the edge (within the tolerance)
+        if (Math.abs((yi - lng) * (xj - xi) - (yj - lng) * (xi - lat)) < epsilon &&
+            Math.min(xi, xj) <= lat && lat <= Math.max(xi, xj) &&
+            Math.min(yi, yj) <= lng && lng <= Math.max(yi, yj)) {
+            return true;
+        }
+
+        const intersect = ((yi > lng) !== (yj > lng)) &&
+            (lat < (xj - xi) * (lng - yi) / (yj - yi) + xi);
+        if (intersect) isInside = !isInside;
     }
 
     return isInside;
-  };
+}
 
+  
   useEffect(() => {
     if (corners.length === 4) {
-      if (!isWithinRoom(currentPosition)) {
+      if (!isWithinRoom(currentPosition, corners)) {
         setError("You are outside the room boundaries!");
       } else {
         setError(null);
