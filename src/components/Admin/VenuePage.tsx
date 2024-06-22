@@ -73,8 +73,7 @@ const VenuePage = () => {
         toast({
           title: "Venue Added Successfully",
           description:
-            (saveVenueResponse as any).message +
-            "Kindly provide password to the student with student ID to login",
+            (saveVenueResponse as any).message,
           status: "success",
           duration: 7000,
           isClosable: true,

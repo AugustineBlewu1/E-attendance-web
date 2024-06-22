@@ -71,26 +71,86 @@ const QrScanPage = () => {
     timeout: 2000, // 2 seconds
     maximumAge: 0
   };
-  const getLocation = async () => {
-    return new Promise<{ latitude: number; longitude: number }>(
+  // const getLocation = async () => {
+  //   return new Promise<{ latitude: number; longitude: number }>(
+  //     (resolve, reject) => {
+  //       if (navigator.geolocation) {
+        
+  //         navigator.geolocation.getCurrentPosition(
+  //           (position) => {
+  //             const { latitude, longitude } = position.coords;
+  //             resolve({ latitude, longitude });
+  //           },
+  //           (error) => {
+  //             toast({
+  //               title: "Error",
+  //               description: `Error getting user's location: ${error}`,
+  //               status: "error",
+  //               duration: 5000,
+  //               isClosable: true,
+  //               position: "top-right",
+  //             });
+  //             console.log('Getting Location error',error)
+  //             reject(error);
+  //           },
+  //           positionOptions
+  //         );
+  //       } else {
+  //         const error = new Error(
+  //           "Geolocation is not supported by this browser."
+  //         );
+  //         toast({
+  //           title: "Error",
+  //           description: "Geolocation is not supported by this browser.",
+  //           status: "error",
+  //           duration: 5000,
+  //           isClosable: true,
+  //           position: "top-right",
+  //         });
+  //         console.error(error);
+  //         reject(error);
+  //       }
+  //     }
+  //   );
+  // };
+
+  const watchUserLocation = () => {
+    return new Promise<{ latitude: number; longitude: number; clearWatch: () => void }>(
       (resolve, reject) => {
         if (navigator.geolocation) {
-        
-          navigator.geolocation.getCurrentPosition(
+          const positionOptions = {
+            enableHighAccuracy: true,
+            timeout: 5000, // 10 seconds
+            maximumAge: 0
+          };
+  
+          const watchId = navigator.geolocation.watchPosition(
             (position) => {
               const { latitude, longitude } = position.coords;
-              resolve({ latitude, longitude });
+              resolve({ latitude, longitude, clearWatch: () => navigator.geolocation.clearWatch(watchId) });
             },
             (error) => {
+              let errorMessage;
+              switch(error.code) {
+                case error.PERMISSION_DENIED:
+                  errorMessage = "User denied the request for Geolocation.";
+                  break;
+                case error.POSITION_UNAVAILABLE:
+                  errorMessage = "Location information is unavailable.";
+                  break;
+                case error.TIMEOUT:
+                  errorMessage = "The request to get user location timed out.";
+                  break;
+             
+              }
               toast({
                 title: "Error",
-                description: `Error getting user's location: ${error}`,
+                description: `Error getting user's location: ${errorMessage}`,
                 status: "error",
                 duration: 5000,
                 isClosable: true,
                 position: "top-right",
               });
-              console.log('Getting Location error',error)
               reject(error);
             },
             positionOptions
@@ -113,7 +173,7 @@ const QrScanPage = () => {
       }
     );
   };
-
+  
   useEffect(() => {
     if (!qrOn)
       alert(
@@ -122,8 +182,12 @@ const QrScanPage = () => {
   }, [qrOn]);
 
   const submitScanData = async (qrCode: any) => {
-    const { latitude, longitude } = await getLocation();
-
+    // const { latitude, longitude } = await getLocation();
+    const { latitude, longitude, clearWatch } = await watchUserLocation();
+    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    
+    // To stop watching the location
+    // clearWatch();
      console.log("Latitude in submitScanData:", latitude);
      console.log("Longitude in submitScanData:", longitude);
 
@@ -157,6 +221,7 @@ const QrScanPage = () => {
           position: "top-right",
         });
         setLoading(false);
+        clearWatch()
       } else {
         toast({
           title: "Scan Succesful",
@@ -179,6 +244,8 @@ const QrScanPage = () => {
         position: "top-right",
       });
       navigate(-1);
+      clearWatch()
+
       console.log("catch error", error);
     }
   };
