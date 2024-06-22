@@ -44,6 +44,7 @@ const QrScanPage = () => {
         preferredCamera: "environment",
         highlightScanRegion: true,
         highlightCodeOutline: true,
+        maxScansPerSecond: 1,
         overlay: qrBoxEl?.current || undefined,
       });
 
@@ -65,10 +66,16 @@ const QrScanPage = () => {
     };
   }, []);
 
+  const positionOptions = {
+    enableHighAccuracy: true,
+    timeout: 200, // 2 seconds
+    maximumAge: 0
+  };
   const getLocation = async () => {
     return new Promise<{ latitude: number; longitude: number }>(
       (resolve, reject) => {
         if (navigator.geolocation) {
+        
           navigator.geolocation.getCurrentPosition(
             (position) => {
               const { latitude, longitude } = position.coords;
@@ -84,7 +91,8 @@ const QrScanPage = () => {
                 position: "top-right",
               });
               reject(error);
-            }
+            },
+            positionOptions
           );
         } else {
           const error = new Error(
@@ -115,14 +123,15 @@ const QrScanPage = () => {
   const submitScanData = async (qrCode: any) => {
     const { latitude, longitude } = await getLocation();
 
-    // console.log("Latitude in submitScanData:", latitude);
-    // console.log("Longitude in submitScanData:", longitude);
+     console.log("Latitude in submitScanData:", latitude);
+     console.log("Longitude in submitScanData:", longitude);
 
 
     // console.log("Qrcode", qrCode);
     // console.log("Student", user?.id);
     // console.log(latitude, longitude);
 
+    
     setLoading(true);
 
     try {

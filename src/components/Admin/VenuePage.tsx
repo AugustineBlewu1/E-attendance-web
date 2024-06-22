@@ -137,7 +137,7 @@ const VenuePage = () => {
         handleError,
         {
           enableHighAccuracy: true,
-          timeout: 5000,
+          timeout: 300,
           maximumAge: 0,
         }
       );
