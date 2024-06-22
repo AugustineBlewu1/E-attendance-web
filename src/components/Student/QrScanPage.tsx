@@ -68,7 +68,7 @@ const QrScanPage = () => {
 
   const positionOptions = {
     enableHighAccuracy: true,
-    timeout: 200, // 2 seconds
+    timeout: 2000, // 2 seconds
     maximumAge: 0
   };
   const getLocation = async () => {
@@ -90,6 +90,7 @@ const QrScanPage = () => {
                 isClosable: true,
                 position: "top-right",
               });
+              console.log('Getting Location error',error)
               reject(error);
             },
             positionOptions
