@@ -137,7 +137,7 @@ const VenuePage = () => {
         handleError,
         {
           enableHighAccuracy: true,
-          timeout: 300,
+          timeout: 1000,
           maximumAge: 0,
         }
       );
@@ -316,7 +316,7 @@ const VenuePage = () => {
           ? `(${currentPosition.lat}, ${currentPosition.lng})`
           : "Fetching..."}
       </p>
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500 text-2xl font-bold">{error}</p>}
     </div>
   );
 };
