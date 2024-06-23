@@ -66,11 +66,7 @@ const QrScanPage = () => {
     };
   }, []);
 
-  const positionOptions = {
-    enableHighAccuracy: true,
-    timeout: 2000, // 2 seconds
-    maximumAge: 0
-  };
+ 
   // const getLocation = async () => {
   //   return new Promise<{ latitude: number; longitude: number }>(
   //     (resolve, reject) => {
