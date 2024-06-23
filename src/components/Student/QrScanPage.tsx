@@ -120,7 +120,7 @@ const QrScanPage = () => {
         if (navigator.geolocation) {
           const positionOptions = {
             enableHighAccuracy: true,
-            timeout: 5000, // 10 seconds
+            timeout: 10000, // 10 seconds
             maximumAge: 0
           };
   
