@@ -20,7 +20,7 @@ const LecturerQrCodePage = () => {
   const [setQRCodeValue, SetQRCodeValue] = useState("");
   const toast = useToast();
   const navigate = useNavigate();
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement | any >(null);
    const venueList = useGetVenues(selectCurrentUser);
 
   //qrcode modal
@@ -88,16 +88,41 @@ const LecturerQrCodePage = () => {
   console.log('Venue',venueList);
 
   const downloadQRCode = () => {
-    const canvas = canvasRef.current;
-    const pngUrl = (canvas as any)
-      ?.toDataURL("image/png")
-      .replace("image/png", "image/octet-stream");
-    let downloadLink = document.createElement("a");
-    downloadLink.href = pngUrl;
-    downloadLink.download = "qrcode.png";
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
+    const svg = canvasRef.current; // Get the SVG element
+
+    // Create a canvas element to render the SVG
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+
+    // Calculate SVG dimensions
+    const svgWidth = svg.getAttribute('width');
+    const svgHeight = svg.getAttribute('height');
+
+    canvas.width = svgWidth;
+    canvas.height = svgHeight;
+
+    // Create a new image element
+    const image = new Image();
+
+    // Convert SVG to a data URL
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const svgUrl = 'data:image/svg+xml;base64,' + btoa(svgData);
+
+    // Draw SVG onto the canvas
+    image.onload = function () {
+      context?.drawImage(image, 0, 0);
+
+      // Convert canvas to PNG and download
+      const pngUrl = canvas.toDataURL('image/png');
+      const downloadLink = document.createElement('a');
+      downloadLink.href = pngUrl;
+      downloadLink.download = 'qrCodeImage.png';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    };
+
+    image.src = svgUrl;
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -354,7 +379,7 @@ const LecturerQrCodePage = () => {
       />
 
       <CustomModal
-        headerText="Generated QR CODE"
+        headerText="Generated QR Code"
         footerText="Download"
         isOpen={isdisplayQRCode}
         loading={false}

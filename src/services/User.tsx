@@ -56,3 +56,19 @@ export interface Venues {
     created_at: string,
     updated_at: string
 }
+
+export interface Attendance {
+    course_name: string,
+    total_scans: number,
+    total_qr_codes_created: number
+}
+export interface AttendanceByDay {
+    scan_date: string,
+    total_scans: number
+}
+
+export interface Reports {
+    attendance : Attendance[],
+    attendanceByDay: AttendanceByDay[]
+
+}

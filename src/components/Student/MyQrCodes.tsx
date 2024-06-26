@@ -35,7 +35,7 @@ const MyQrCodes = () => {
                   </span>
                   <span className="flex flex-row space-x-2">
                     <p className="font-bold">Venue - </p>{" "}
-                    <p>{e?.qr_code?.venue}</p>
+                    <p>{e?.qr_code?.venue?.name}</p>
                   </span>
                   <span className="flex flex-row space-x-2">
                     <p className="font-bold">Lecturer - </p>{" "}

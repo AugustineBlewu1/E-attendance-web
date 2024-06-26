@@ -27,7 +27,7 @@ const navigation = [
   //   { name: "QrCode", href: "/qrCode", icon: SquaresPlusIcon, current: false },
   //   { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
   //   { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
+  { name: "Reports", href: "/reports", icon: ChartPieIcon, current: false },
 ];
 
 const userNavigation = [

@@ -11,7 +11,7 @@ export interface MyQrCode {
 
 export interface QrCode {
   id: number;
-  venue: string;
+  venue: Venue;
   course_id: number;
   user_id: number;
   created_at: string;
@@ -26,6 +26,16 @@ export interface Course {
   code: string;
   level: number;
   name: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CourseQr {
+  id: number;
+  venue: Venue;
+  course_id: string;
+  course_name: string;
+  course_code: string;
   created_at: string;
   updated_at: string;
 }
@@ -46,6 +56,13 @@ export interface ScannedStudent {
   updated_at: string,
   qr_code : QrCode,
 
+}
+
+export interface Venue {
+  name: string,
+  created_at: string,
+  updated_at: string,
+  id: number
 }
 
 
