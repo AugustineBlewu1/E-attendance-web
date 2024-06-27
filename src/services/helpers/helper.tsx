@@ -1,8 +1,11 @@
 import { createColumnHelper } from "@tanstack/react-table";
-import { User, UserStudent } from "../User";
+import { Courses, User, UserStudent } from "../User";
+import { Scans } from "../types";
 
 export const columnUsersHelper = createColumnHelper<User>()
 export const columnStudentHelper = createColumnHelper<UserStudent>()
+export const columnLecturerHelper = createColumnHelper<Scans>()
+export const columnCoursesHelper = createColumnHelper<Courses>()
 
 
 export function validateIndexNumber(indexNumber: string): boolean {

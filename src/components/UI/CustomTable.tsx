@@ -19,6 +19,8 @@ import GlobalTableFilter from "./GlobalFilter";
 import Lottie from "react-lottie";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import Pagination from "./Pagination";
+import { Course } from "../../services/types";
+import { Courses } from "../../services/User";
 
 const NewCustomTable = <T extends object>({ data, columns }: TableProps<T>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -181,4 +183,12 @@ export interface TableFilterProps {
 export interface GlobalTableFilterProps {
   globalFilter: any; // Array of column filters
   setGlobalFilter: React.Dispatch<React.SetStateAction<string>>; // Setter function for column filters
+}
+
+
+export interface CustomDropDownFilter {
+  onChange:(value: any) => void,
+  items: Course[] | Courses[],
+
+
 }

@@ -5,25 +5,25 @@ import {  Scans } from "../../services/types";
 import useScanReports from "../../services/hooks/useScanReports";
 import Loader from "../Loader";
 import DropdownFilter from "../UI/CustomDropdownFilter";
-import useCourses from "../../services/hooks/useCourses";
 import { useState } from "react";
+import useGetMyCourses from "../../services/hooks/useGetMyCourses";
+import { selectCurrentUser } from "../../services/userReducer";
 import { useSelector } from "react-redux";
-import { selectCurrentAdmin } from "../../services/adminReducer";
 
-export default function ReportsPage() {
-    const user = useSelector(selectCurrentAdmin);
+export default function LecturerReportsPage() {
+    const user = useSelector(selectCurrentUser);
 
   const [queryParameters, setQueryParameters] = useState({ course_id: 'all', user: user });
 
   const scannedReports = useScanReports(queryParameters);
-  const courses = useCourses(user);
+  const courses = useGetMyCourses();
 
 
   console.log(courses);
 
   const onChange = (e: any) => {
     console.log('Errer',e)
-    setQueryParameters({ course_id: e?.target?.value , user: user});
+    setQueryParameters({ course_id: e?.target?.value , user:user});
   };
 
   const columns: ColumnDef<Scans, unknown>[] = [

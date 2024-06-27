@@ -45,13 +45,13 @@ export default function ({ data }: Line) {
   }, [data]);
 
   return (
-    <div className="flex flex-col pt-6">
+    <div className="flex flex-col pt-6 ">
       <h3 className="font-bold pt-3">Total number of scans over the period</h3>
       <Chart
         options={getGraph().options as ApexOptions}
         series={getGraph().series}
         type="line"
-        width="1000"
+        width="750"
       />
     </div>
   );

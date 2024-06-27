@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import HttpService from "../../services/HttpService";
-import { Courses, User } from "../../services/User";
+import {  User } from "../../services/User";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../services/userReducer";
 import { Button, useDisclosure, useToast } from "@chakra-ui/react";
@@ -10,11 +10,13 @@ import QRCode from "react-qr-code";
 import { encodeJson } from "../../services/store/security";
 import { useNavigate } from "react-router-dom";
 import useGetVenues from "../../services/hooks/useGetVenues";
+import useGetMyCourses from "../../services/hooks/useGetMyCourses";
+import Loader from "../Loader";
 // import useGetVenues from "../../services/hooks/useGetVenues";
 
 const LecturerQrCodePage = () => {
   const user = useSelector(selectCurrentUser);
-  const [courses, SetCourses] = useState<Courses[]>([]);
+  // const [courses, SetCourses] = useState<Courses[]>([]);
   const [loading, setLoading] = useState(false);
   const [courseId, setCourseId] = useState<number>(0);
   const [setQRCodeValue, SetQRCodeValue] = useState("");
@@ -22,6 +24,10 @@ const LecturerQrCodePage = () => {
   const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement | any >(null);
    const venueList = useGetVenues(selectCurrentUser);
+
+   const getMyCourses = useGetMyCourses();
+
+   console.log("myco", getMyCourses)
 
   //qrcode modal
   const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false });
@@ -73,18 +79,18 @@ const LecturerQrCodePage = () => {
 
   //get courses on first initialization of pages
   //dependency on user
-  useEffect(() => {
-    getCourse();
-  }, [user]);
+  // useEffect(() => {
+  //   getCourse();
+  // }, [user]);
 
-  const getCourse = async () => {
-    const course = await HttpService.getWithToken<any>(
-      "/api/v1/courses",
-      `${(user as User)?.accessToken}`
-    );
-    console.log("Courses", course?.data);
-    SetCourses(course?.data);
-  };
+  // const getCourse = async () => {
+  //   const course = await HttpService.getWithToken<any>(
+  //     "/api/v1/courses",
+  //     `${(user as User)?.accessToken}`
+  //   );
+  //   console.log("Courses", course?.data);
+  //   SetCourses(course?.data);
+  // };
   console.log('Venue',venueList);
 
   const downloadQRCode = () => {
@@ -159,7 +165,7 @@ const LecturerQrCodePage = () => {
         position: "top-right",
       });
       reset();
-      getCourse();
+      // getCourse();
       onClose();
       setLoading(false);
     }
@@ -304,8 +310,11 @@ const LecturerQrCodePage = () => {
           Add New Course
         </Button>
       </div>
+      {
+        getMyCourses?.loading ? <Loader />
+     :
       <div className="grid md:grid-cols-3 grid-cols-1">
-        {courses?.map((e) => (
+        {getMyCourses?.courseQrCode?.map((e) => (
           <div
             className="bg-white rounded-lg border-2 my-4 mx-4 hover:shadow-2xl hover:cursor-pointer"
             key={e?.course_id}
@@ -319,15 +328,12 @@ const LecturerQrCodePage = () => {
                   })
                 }
               >
-                <span className="text-sm">{e?.name}</span>
-                <span className="text-sm">{e?.course_code}</span>
-                <span className="text-sm">{`${new Date()?.getFullYear()}-${(
-                  "0" +
-                  (new Date()?.getMonth() + 1)
-                ).slice(-2)}-${("0" + new Date()?.getDate()).slice(-2)}`}</span>
+                <div className="font-bold text-lg">{e?.name}</div>
+                <div className="font-medium text-sm">{e?.course_code}</div>
+               
               </div>
-
-              <span
+                <div className="flex flex-row items-center justify-between">
+                <span
                 className="border-2  w-fit p-2 rounded-lg bg-gray-200"
                 onClick={() => {
                   onOpenQR();
@@ -336,11 +342,17 @@ const LecturerQrCodePage = () => {
               >
                 Generate QR
               </span>
+                <span className="text-sm">{`${new Date()?.getFullYear()}-${(
+                  "0" +
+                  (new Date()?.getMonth() + 1)
+                ).slice(-2)}-${("0" + new Date()?.getDate()).slice(-2)}`}</span>
+                </div>
+              
             </div>
           </div>
         ))}
       </div>
-
+ }
       <CustomModal
         headerText="Generate QR Code"
         footerText="Save"

@@ -24,10 +24,12 @@ const navigation = [
   { name: "Lecturers", href: "/lecturers", icon: UsersIcon, current: false },
   { name: "Students", href: "/students", icon: UsersIcon, current: false },
   { name: "Venue", href: "/venues", icon: MapPinIcon, current: false },
+  { name: "Courses", href: "/courses", icon: ChartPieIcon, current: false },
+
   //   { name: "QrCode", href: "/qrCode", icon: SquaresPlusIcon, current: false },
   //   { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
   //   { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "/reports", icon: ChartPieIcon, current: false },
+  { name: "Reports", href: "/adminReports", icon: ChartPieIcon, current: false },
 ];
 
 const userNavigation = [

@@ -122,7 +122,7 @@ function AdminLogin() {
               <input
                 type={showPassword ? "text" : "password"}
                 className=" py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
-                placeholder="password"
+                placeholder="Password"
                 {...register("password", {
                   required: "Password is required",
                 })}

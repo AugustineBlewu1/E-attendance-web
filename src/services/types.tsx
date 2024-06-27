@@ -17,7 +17,9 @@ export interface QrCode {
   created_at: string;
   updated_at: string;
   course: Course;
-  user: User | null
+  user: User | null;
+  closed_at: string;
+  expires_at: string;
 }
 
 export interface Course {
@@ -26,6 +28,7 @@ export interface Course {
   code: string;
   level: number;
   name: string;
+  course_id?: string;
   created_at: string;
   updated_at: string;
 }
@@ -41,28 +44,28 @@ export interface CourseQr {
 }
 
 export interface User {
-  id: number,
-  first_name: string,
-  last_name: string,
-  email: string
-
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
 }
 
-
-
 export interface ScannedStudent {
-  student: UserStudent,
-  created_at: string,
-  updated_at: string,
-  qr_code : QrCode,
-
+  student: UserStudent;
+  created_at: string;
+  updated_at: string;
+  qr_code: QrCode;
 }
 
 export interface Venue {
-  name: string,
-  created_at: string,
-  updated_at: string,
-  id: number
+  name: string;
+  created_at: string;
+  updated_at: string;
+  id: number;
 }
 
-
+export interface Scans {
+  indexNumber: string;
+  total_scans: number;
+  name: string;
+}

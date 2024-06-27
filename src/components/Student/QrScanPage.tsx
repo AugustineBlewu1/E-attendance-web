@@ -21,7 +21,6 @@ const QrScanPage = () => {
   const onScanSuccess = (result: QrScanner.ScanResult) => {
     console.log(result);
     // ✅ Handle success.
-    // 😎 You can do whatever you want with the scanned result.
 
     const decode = decodeJson(result?.data);
     console.log("decode", decode);
@@ -33,7 +32,6 @@ const QrScanPage = () => {
 
   // Fail
   const onScanFail = (err: string | Error) => {
-    // 🖨 Print the "err" to browser console.
     console.log(err);
   };
 

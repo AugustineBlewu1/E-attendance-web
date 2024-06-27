@@ -28,6 +28,8 @@ import PasswordChange from "../Student/PasswordChange";
 import VenuePage from "../Admin/VenuePage";
 import VenueList from "../Admin/VenueList";
 import ReportsPage from "../Admin/ReportsPage";
+import LecturerReportsPage from "../Lecturer/LecturerReportsPage";
+import CoursePageAdmin from "../Admin/CoursePageAdmin";
 function Pages() {
   return (
     <>
@@ -98,6 +100,10 @@ function Pages() {
                 path="/qrCode"
                 element={<MainLecturerLayout  content={<LecturerQrCodePage />} path="/qrCode" /> }
               />
+              <Route
+                path="/reports"
+                element={<MainLecturerLayout  content={<LecturerReportsPage />} path="/reports" /> }
+              />
               {/* <Route path="/LecturerDashboard/:id" element={<CoursePage />} /> */}
             </Route>
 
@@ -119,6 +125,10 @@ function Pages() {
                 element={<MainAdminLayout  content={<VenuePage />} path="/add_venue" /> }
               />
               <Route
+                path="/courses"
+                element={<MainAdminLayout  content={<CoursePageAdmin />} path="/courses" /> }
+              />
+              <Route
                 path="/students"
                 element={<MainAdminLayout  content={<StudentsPage />} path="/students" /> }
               />
@@ -127,8 +137,8 @@ function Pages() {
                 element={<MainAdminLayout  content={<CoursePage />} path="/course" /> }
               />
              <Route
-                path="/reports"
-                element={<MainAdminLayout  content={<ReportsPage />} path="/reports" /> }
+                path="/adminReports"
+                element={<MainAdminLayout  content={<ReportsPage />} path="/adminReports" /> }
               />
               {/* <Route
                 path="/qrCode"
