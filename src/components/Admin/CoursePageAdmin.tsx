@@ -132,7 +132,8 @@ const CoursePageAdmin = () => {
         code: data?.courseCode,
         name: data?.courseName,
         level: data?.courseLevel,
-        semester_id: 1,
+        // semester_id: "8393e036-93f7-4cdc-9a34-7cf5ca45e2d0",
+         semester_id: "47cd1e2e-b35d-4e2c-a0da-960e8432d911",
       }
     );
     console.log(saveCourseResponse);
