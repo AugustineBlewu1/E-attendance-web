@@ -7,26 +7,39 @@ import { useSelector } from "react-redux";
 import { selectCurrentAdmin } from "../../services/adminReducer";
 import { User } from "../../services/User";
 import useGetLecturers from "../../services/hooks/useGetLecturers";
-import { ColumnDef } from "@tanstack/react-table";
 import { columnUsersHelper } from "../../services/helpers/helper";
-import { format } from "date-fns";
 import NewCustomTable from "../UI/CustomTable";
+import { CopyIcon } from "@chakra-ui/icons";
+import { columnsLecturer } from "../../services/helpers/columns_lecturer";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import Loading from "../UI/Loading";
 
 const LecturerPage = () => {
   const user = useSelector(selectCurrentAdmin);
   const toast = useToast();
 
   const [loading, setLoading] = useState(false);
+  const [response, saveResponse] = useState("");
+  const [resetData, saveResetData] = useState<User>();
   const lecturers = useGetLecturers();
 
   //register  a new Lecturer
   const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false });
+  const {
+    isOpen: isOpenReponse,
+    onOpen: onOpenResponse,
+    onClose: onCloseResponse,
+  } = useDisclosure({ defaultIsOpen: false });
+  const {
+    isOpen: isOpenReset,
+    onOpen: onOpenReset,
+    onClose: onCloseReset,
+  } = useDisclosure({ defaultIsOpen: false });
 
   type Inputs = {
     first_name: string;
     last_name: string;
     email: string;
-    password: string;
   };
 
   const {
@@ -37,6 +50,11 @@ const LecturerPage = () => {
   } = useForm<Inputs>({
     defaultValues: {},
   });
+
+  const onOpenResetPassword = (data: User) => {
+    saveResetData(data);
+    onOpenReset();
+  };
 
   console.log(lecturers);
 
@@ -51,11 +69,12 @@ const LecturerPage = () => {
           first_name: data?.first_name,
           last_name: data?.last_name,
           email: data?.email,
-          password: data?.password,
           role: "lecturer",
         }
       );
+
       console.log(saveCourseResponse);
+      saveResponse(saveCourseResponse?.data!["generatedPassword"]);
       if (saveCourseResponse.hasOwnProperty("error")) {
         toast({
           title: "Error",
@@ -70,7 +89,6 @@ const LecturerPage = () => {
         toast({
           title: "Lecturer Registered Successfully",
           description:
-            (saveCourseResponse as any).data?.message +
             "Kindly provide password to the lecturer with email to login",
           status: "success",
           duration: 7000,
@@ -81,7 +99,8 @@ const LecturerPage = () => {
         reset();
         onClose();
         setLoading(false);
-        window.location.reload();
+        onOpenResponse();
+        // window.location.reload();
       }
     } catch (error) {
       toast({
@@ -96,46 +115,158 @@ const LecturerPage = () => {
     }
   };
 
-  const columns: ColumnDef<User, unknown>[] = [
+  const handleCopyPassword = () => {
+    navigator.clipboard
+      .writeText(response)
+      .then(() => {
+        toast({
+          title: "Copied Successfully",
+          description: "",
+          status: "success",
+          duration: 7000,
+          isClosable: true,
+          position: "top-right",
+        });
+      })
+      .catch((error) => {
+        console.error("Failed to copy text:", error);
+        toast({
+          title: "Error",
+          description: error as any,
+          status: "error",
+          duration: 7000,
+          isClosable: true,
+          position: "top-right",
+        });
+      });
+  };
+
+  const onPasswordReset = async (email: any) => {
+    console.log(email);
+    setLoading(true);
+    try {
+      const resetPassword = await HttpService.postWithToken<any>(
+        "/api/v1/auth/resetPassword",
+        `${(user as User)?.accessToken}`,
+        {
+          email: email,
+        }
+      );
+
+      console.log(resetPassword);
+      saveResponse(resetPassword?.data!["generatedPassword"]);
+      if (resetPassword.hasOwnProperty("error")) {
+        toast({
+          title: "Error",
+          description: (resetPassword as any).data?.message,
+          status: "error",
+          duration: 7000,
+          isClosable: true,
+          position: "top-right",
+        });
+        setLoading(false);
+      } else {
+        toast({
+          title: "Password Reset Successfully",
+          description:
+            "Kindly provide password to the lecturer with email to login",
+          status: "success",
+          duration: 7000,
+          isClosable: true,
+          position: "top-right",
+        });
+
+        reset();
+        onCloseReset();
+        setLoading(false);
+        onOpenResponse();
+        // window.location.reload();
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error as any,
+        status: "error",
+        duration: 7000,
+        isClosable: true,
+        position: "top-right",
+      });
+      setLoading(false);
+    }
+  };
+  const columns = [
+    ...columnsLecturer,
     columnUsersHelper.display({
-      header: () => "Full Name",
-      id: "Name",
-      cell: (props) => (
-        <span className="">
-          {props?.row?.original?.first_name} {props?.row?.original?.last_name}
-        </span>
-      ),
-      enableGlobalFilter: true,
-    
-    }),
-
-    columnUsersHelper.accessor("email", {
-      header: () => "Email",
+      header: () => "Reset Password",
+      id: "reset",
       cell: (props) => (
         <>
-          <div className="flex">
-            <span>{props?.getValue()}</span>
-          </div>
-        </>
-      ),
-    }),
-
-    columnUsersHelper.accessor("created_at", {
-      header: () => "Date Added",
-      cell: (props) => (
-        <>
-          <span>
-            <span>
-              {format(new Date(props.getValue() ?? ""), "dd/MM/yyy hh:mm a")}
-            </span>
+          <span className="flex justify-start">
+            <ArrowPathIcon
+              height={20}
+              width={30}
+              className="hover:cursor-pointer"
+              onClick={() => onOpenResetPassword(props?.row?.original)}
+            />
           </span>
         </>
       ),
     }),
-  ] as Array<ColumnDef<User, unknown>>;
+  ];
 
   return (
     <>
+      <CustomModal
+        headerText="Reset Password"
+        footerText="Done"
+        isOpen={isOpenReset}
+        loading={false}
+        onClose={onCloseReset}
+        onSubmit={onCloseReset}
+        showFooter={false}
+        children={
+          <div>
+            <p className="font-medium">{`Are you sure you want to reset ${resetData?.first_name} Password`}</p>
+
+            {loading ? (
+              <div className="text-center pt-3">
+                <Loading />
+              </div>
+            ) : (  <button
+              type="submit"
+              className=" w-[80%]  mx-[10%] bg-[#e62b2be8] border-2 rounded-full py-2  text-white    hover:bg-[#ff0000e8] hover:text-white hover:border-none
+          lg:mt-[1.3rem]"
+              onClick={() => {
+                onPasswordReset(resetData?.email);
+              }}
+            >
+              Reset
+            </button>)
+        }
+          </div>
+        }
+      />
+      <CustomModal
+        headerText="Copy Password"
+        footerText="Done"
+        isOpen={isOpenReponse}
+        loading={false}
+        onClose={onCloseResponse}
+        onSubmit={onCloseResponse}
+        children={
+          <div>
+            <p className="font-bold">Generated Lecturer's Password</p>
+            <p>Kindly copy the password below before closing this section.</p>
+            <span className="flex flex-row items-center gap-5 pt-4">
+              <p className="font-bold">{response}</p>
+              <CopyIcon
+                onClick={handleCopyPassword}
+                className="hover:cursor-pointer"
+              />
+            </span>
+          </div>
+        }
+      />
       <CustomModal
         headerText="Enter Lecturer Details"
         footerText="Save"
@@ -189,24 +320,6 @@ const LecturerPage = () => {
                 {errors?.email && (
                   <span className="text-left text-rose-500 font-normal text-xs">
                     {errors?.email?.message}
-                  </span>
-                )}
-              </div>
-              <div>
-                <input
-                  className="border border-primary rounded mt-2 mb-2 py-2 text-sm text-left pl-2 w-full"
-                  type="password"
-                  placeholder="Password"
-                  {...register("password", {
-                    required: "Password is required",
-                    validate: (value) =>
-                      !(value?.length < 8) ||
-                      "Password Length is short, must be at least 8 characters",
-                  })}
-                />
-                {errors?.password && (
-                  <span className="text-left text-rose-500 font-normal text-xs">
-                    {errors?.password?.message}
                   </span>
                 )}
               </div>

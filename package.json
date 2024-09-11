@@ -17,6 +17,7 @@
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
     "@reduxjs/toolkit": "^2.0.1",
+    "@rehookify/datepicker": "^6.6.7",
     "@tanstack/react-table": "^8.13.2",
     "@types/react-redux": "^7.1.33",
     "@types/redux": "^3.6.0",

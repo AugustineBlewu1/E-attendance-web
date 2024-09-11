@@ -269,27 +269,4 @@ const VenuePage = () => {
 
 export default VenuePage;
 
-// const haversineDistance = (
-//   coord1: { lat: number; lng: number },
-//   coord2: { lat: number; lng: number }
-// ) => {
-//   const toRadians = (degrees: number) => degrees * (Math.PI / 180);
 
-//   const lat1 = toRadians(coord1.lat);
-//   const lat2 = toRadians(coord2.lat);
-//   const deltaLat = toRadians(coord2.lat - coord1.lat);
-//   const deltaLong = toRadians(coord2.lng - coord1.lng);
-
-//   const a =
-//     Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-//     Math.cos(lat1) *
-//       Math.cos(lat2) *
-//       Math.sin(deltaLong / 2) *
-//       Math.sin(deltaLong / 2);
-//   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-//   const R = 6371; // Radius of the Earth in kilometers
-//   const distance = R * c; // Distance in kilometers
-
-//   return distance;
-// };

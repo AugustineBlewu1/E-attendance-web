@@ -69,3 +69,11 @@ export interface Scans {
   total_scans: number;
   name: string;
 }
+
+
+export type Semester = {
+  academic_year: string;
+  start_date: string;
+  end_date: string;
+  is_current: boolean | string;
+};

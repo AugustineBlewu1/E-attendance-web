@@ -18,6 +18,7 @@ import {
     loading: boolean;
     onSubmit : any;
     onClose: () => void;
+    showFooter?: boolean
   }
   
   const CustomModal: React.FC<IModal> = ({
@@ -27,7 +28,8 @@ import {
     loading,
     children,
     onClose,
-    onSubmit
+    onSubmit,
+    showFooter = true
   }) => {
     return (
       <>
@@ -39,7 +41,7 @@ import {
             <ModalBody pb={6}>{children}</ModalBody>
   
             <ModalFooter>
-              <Button  onClick={onSubmit} className="px-5" type="submit">{ loading ? 'Saving'  : footerText}</Button>
+            { showFooter &&  <Button  onClick={onSubmit} className="px-5" type="submit">{ loading ? 'Saving'  : footerText}</Button>}
             </ModalFooter>
           </ModalContent>
         </Modal>

@@ -1,8 +1,9 @@
 import Loader from "../Loader";
-import { format } from "date-fns";
 import useGetVenues from "../../services/hooks/useGetVenues";
 import { useNavigate } from "react-router-dom";
 import { selectCurrentAdmin } from "../../services/adminReducer";
+import NewCustomTable from "../UI/CustomTable";
+import { columnsVenue } from "../../services/helpers/columns_venue";
 
 const VenueList = () => {
   const venueList = useGetVenues(selectCurrentAdmin);
@@ -16,6 +17,9 @@ const VenueList = () => {
         <Loader></Loader>
       ) : (
         <>
+        <div className="flex flex-row justify-end">
+
+
           <button
             onClick={() => navigate("/add_venue")}
             className={`mb-4 px-4 py-2  bg-blue-500
@@ -23,7 +27,14 @@ const VenueList = () => {
           >
             <p>Add Venue</p>
           </button>
-          <div className="flex flex-col space-y-4">
+          </div>
+          {
+            <NewCustomTable
+              columns={columnsVenue}
+              data={venueList?.venues}
+            />
+          }
+          {/* <div className="">
             {venueList?.venues?.map((e) => (
               <div className="border-2 py-5 hover:shadow-lg rounded-lg px-10 flex justify-between flex-row hover:cursor-pointer w-fit ">
                 <div>
@@ -41,7 +52,7 @@ const VenueList = () => {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
         </>
       )}
     </>

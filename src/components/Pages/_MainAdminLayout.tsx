@@ -10,7 +10,8 @@ import {
   XMarkIcon,
   ArrowLeftIcon,
   UsersIcon,
-  MapPinIcon
+  MapPinIcon,
+  AcademicCapIcon
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useDispatch } from "react-redux";
@@ -21,6 +22,7 @@ import { useToast } from "@chakra-ui/react";
 
 const navigation = [
   { name: "Dashboard", href: "/adminDashboard", icon: HomeIcon, current: true },
+  { name: "Semesters", href: "/semesters", icon: AcademicCapIcon, current: false },
   { name: "Lecturers", href: "/lecturers", icon: UsersIcon, current: false },
   { name: "Students", href: "/students", icon: UsersIcon, current: false },
   { name: "Venue", href: "/venues", icon: MapPinIcon, current: false },

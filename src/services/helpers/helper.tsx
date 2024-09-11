@@ -1,8 +1,10 @@
 import { createColumnHelper } from "@tanstack/react-table";
-import { Courses, User, UserStudent } from "../User";
+import { Courses, Semesters, User, UserStudent, Venues } from "../User";
 import { Scans } from "../types";
 
 export const columnUsersHelper = createColumnHelper<User>()
+export const columnSemesterHelper = createColumnHelper<Semesters>()
+export const columnVenuesHelper = createColumnHelper<Venues>()
 export const columnStudentHelper = createColumnHelper<UserStudent>()
 export const columnLecturerHelper = createColumnHelper<Scans>()
 export const columnCoursesHelper = createColumnHelper<Courses>()

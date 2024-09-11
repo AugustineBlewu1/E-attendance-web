@@ -22,12 +22,10 @@ function LecturerLogin() {
   const dispatch = useDispatch();
   const toast = useToast();
 
-
   type Inputs = {
     email: string;
     password: string;
-  }
-
+  };
 
   const {
     register,
@@ -35,13 +33,10 @@ function LecturerLogin() {
     formState: { errors },
   } = useForm<Inputs>();
 
- 
-
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-
     console.log(data);
     setLoading(true);
 
@@ -70,8 +65,6 @@ function LecturerLogin() {
       };
       dispatch(setCredentials(user));
       navigate("/lecturerDashboard");
-
-     
     } catch (error: any) {
       // console.log(error?.message);
       toast({
@@ -92,9 +85,9 @@ function LecturerLogin() {
   return (
     <div className=" h-screen flex justify-center items-center overflow-y-auto">
       <div
-        className="max-w-[80%] h-auto mx-auto  shadow-shadow-1 border-solid  border-2 rounded 
+        className="max-w-[80%] h-auto mx-auto  shadow-shadow-1 border-solid  border-2 rounded-xl 
       md:max-w-[85%]   md:px-9
-        lg:max-w-[30%] lg:rounded-xl px-4"
+        lg:max-w-[30%] lg:rounded-xl px-4 py-5"
       >
         <figure
           className="max-w-[30%] bg-white flex justify-center items-center my-0 md:my-5 pt-0 md:pt-5 mx-auto
@@ -107,53 +100,54 @@ function LecturerLogin() {
         lg:max-w-[65%]"
           />
         </figure>
-        <p className=" text-center ">Lecturer's Login </p>
-        <form
-          method="POST"
-          onSubmit={handleSubmit(onSubmit)}
-          className="py-12"
-        >
+        <p className="text-center font-bold text-lg">Lecturer's Login </p>
+        <form method="POST" onSubmit={handleSubmit(onSubmit)} className="mt-4">
           {/* ... (unchanged input fields) */}
           <div className="space-y-2 ">
+            <span>Email</span>
+
             <input
               type="email"
               className="py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
-              placeholder="Email"
+              placeholder="Enter your email"
               {...register("email", {
                 required: "Email is required",
               })}
             />
             {errors.email && (
-                <span className="text-left text-rose-500 font-normal text-xs">
-                  {errors?.email?.message}
-                </span>
-              )}
+              <span className="text-left text-rose-500 font-normal text-xs">
+                {errors?.email?.message}
+              </span>
+            )}
 
             <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                className="py-2 w-full focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
-                placeholder="Password"
-                {...register("password", {
-                  required: "Password is required",
-                })}
-              />
-              {errors.password && (
-                <span className="text-left text-rose-500 font-normal text-xs">
-                  {errors?.password?.message}
-                </span>
-              )}
-              <button
-                type="button"
-                onClick={togglePasswordVisibility}
-                className="absolute inset-y-0 right-0 pr-2 flex items-center"
-              >
-                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-              </button>
+              <div className="relative w-full">
+                <span>Password</span>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="py-2 w-full  focus:border-2 focus:border-[#646cff] focus:outline-none pl-2"
+                  placeholder="Enter your password"
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
+                />
+                {errors.password && (
+                  <span className="text-left text-rose-500 font-normal text-xs">
+                    {errors?.password?.message}
+                  </span>
+                )}
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute top-8 right-2 pr-2 flex items-center hover:border-none"
+                >
+                  {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="text-center pt-2 md:pt-5">
+          <div className="text-center pt-5 md:pt-5">
             {loading ? (
               <div className="text-center pt-3">
                 <Loading />

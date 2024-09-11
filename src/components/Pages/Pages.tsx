@@ -30,6 +30,7 @@ import VenueList from "../Admin/VenueList";
 import ReportsPage from "../Admin/ReportsPage";
 import LecturerReportsPage from "../Lecturer/LecturerReportsPage";
 import CoursePageAdmin from "../Admin/CoursePageAdmin";
+import SemesterPage from "../Admin/SemestersPage";
 function Pages() {
   return (
     <>
@@ -131,6 +132,10 @@ function Pages() {
               <Route
                 path="/students"
                 element={<MainAdminLayout  content={<StudentsPage />} path="/students" /> }
+              />
+              <Route
+                path="/semesters"
+                element={<MainAdminLayout  content={<SemesterPage />} path="/semesters" /> }
               />
               <Route
                 path="/course/:id"

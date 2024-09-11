@@ -141,7 +141,6 @@ const LecturerQrCodePage = () => {
         code: data?.courseCode,
         name: data?.courseName,
         level: data?.courseLevel,
-        semester_id: 1,
       }
     );
     console.log(saveCourseResponse);

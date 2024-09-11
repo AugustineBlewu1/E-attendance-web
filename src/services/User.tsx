@@ -72,3 +72,12 @@ export interface Reports {
     attendanceByDay: AttendanceByDay[]
 
 }
+
+export interface Semesters {
+    id: string;
+    academic_year: string;
+    is_current: boolean;
+    start_date: string;
+    end_date: string;
+    created_at: string
+}
