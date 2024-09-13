@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Set the directory where your project is located
+PROJECT_DIR="/var/www/html/E-attendance-web"
+
+# Go to the project directory
+cd $PROJECT_DIR
+
+# Fetch the latest changes from the upstream branch (e.g., main)
+git fetch origin develop
+
+# Check out the latest changes
+git reset --hard origin/develop
+
+# Run your build command (replace 'build-command' with the actual build script/command)
+npm install
+
+npm run build
+
+# Optionally log the output of the build command
+echo "Build completed at $(date)" >> build.log
