@@ -129,8 +129,7 @@ function StudentLogin() {
           method="POST"
           onSubmit={handleSubmit(onSubmit)}
         >
-          {/* ... (unchanged input fields) */}
-
+        
           <div className="space-y-2">
             <span>Student ID</span>
             <input
