@@ -35,9 +35,7 @@ function AdminLogin() {
   };
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     SetLoading(true);
-
-    // Clear the input values after successful form submission
-
+    
     console.log(data);
     try {
       const result = await HttpService.post<LoginResponse>(
