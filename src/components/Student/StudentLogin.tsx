@@ -189,13 +189,7 @@ function StudentLogin() {
             )}
           </div>
 
-          {/* <Link
-            to="/SignUp"
-            className="lg:border-2 border-gradient-to-r from-blue-500 via-green-500 to-red  lg:w-[6rem] text-center lg:rounded-xl h-auto absolute top-8 right-8 hover:text-primary hover:border-primary"
-          >
-            Sign Up
-          </Link> */}
-
+        
           <p
             className="text-[0.9rem] mt-[20px]  text-center
         lg:mt-[1.4rem]"
