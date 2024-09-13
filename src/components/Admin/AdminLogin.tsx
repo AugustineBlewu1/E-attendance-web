@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Logo from "../../assets/ucclogo.png";
+import Logo from "../../assets/ucclogo1.png";
 import { LoginResponse } from "../../services/User";
 import HttpService from "../../services/HttpService";
 import { useToast } from "@chakra-ui/react";
