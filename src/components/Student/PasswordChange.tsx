@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import Logo from "../../assets/ucclogo.png";
+import Logo from "../../assets/ucclogo1.png";
 
 import "../../style/Login.css";
 import { useToast } from "@chakra-ui/react";
@@ -60,7 +60,7 @@ function PasswordChange() {
         position: "top-right",
       });
 
-      navigate("/studentLogin");
+      navigate("/");
       setLoading(false);
     } catch (error: any) {
       console.log(error);

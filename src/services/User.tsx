@@ -31,7 +31,9 @@ export interface UserStudent{
 export interface LoginResponse{
     message: string,
     user: User,
-    access_token: string
+    access_token: string,
+    student?: UserStudent,
+
 }
 export interface LoginStudentResponse{
     message: string,
