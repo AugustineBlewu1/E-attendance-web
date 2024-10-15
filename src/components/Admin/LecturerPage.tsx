@@ -9,7 +9,7 @@ import { User } from "../../services/User";
 import useGetLecturers from "../../services/hooks/useGetLecturers";
 import { columnUsersHelper } from "../../services/helpers/helper";
 import NewCustomTable from "../UI/CustomTable";
-import { CopyIcon } from "@chakra-ui/icons";
+import { CopyIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { columnsLecturer } from "../../services/helpers/columns_lecturer";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import Loading from "../UI/Loading";
@@ -20,7 +20,10 @@ const LecturerPage = () => {
 
   const [loading, setLoading] = useState(false);
   const [response, saveResponse] = useState("");
+  const [isUpdating, setUpdating] = useState(false);
+  const [isDeleting, setDeleting] = useState(false);
   const [resetData, saveResetData] = useState<User>();
+  const [deleteId, savedeleteId] = useState<User>();
   const lecturers = useGetLecturers();
 
   //register  a new Lecturer
@@ -37,15 +40,24 @@ const LecturerPage = () => {
   } = useDisclosure({ defaultIsOpen: false });
 
   type Inputs = {
+    id?: string;
     first_name: string;
     last_name: string;
-    email: string;
+    email?: string;
+    phone_number?: string;
   };
-
+const emptyForm = {
+  id: "",
+  first_name: "",
+  last_name:  "",
+  email: "",
+  phone_number: ""
+}
   const {
     register,
     handleSubmit,
     reset,
+    
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {},
@@ -56,19 +68,49 @@ const LecturerPage = () => {
     onOpenReset();
   };
 
+  const handleUpdatingUser = (formData: any) =>{
+    setUpdating(true)
+    reset(formData)
+    onOpen();
+  }
+
+  const onCloseUpdate = () => {
+    console.log('Zysdsdfsdfsdfdsfsd')
+
+    reset(
+        emptyForm
+    )
+    setUpdating(false)
+    onClose()
+    console.log('Zysd')
+  }
+
   console.log(lecturers);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     console.log(data);
     setLoading(true);
+
     try {
-      const saveCourseResponse = await HttpService.postWithToken<any>(
+      const saveCourseResponse = isUpdating ? 
+      await HttpService.patchWithToken<any>(
+        `/api/v1/admin/users/${data?.id}/update`,
+        `${(user as User)?.accessToken}`,
+        {
+          first_name: data?.first_name,
+          last_name: data?.last_name,
+          email: data?.email,
+          phone_number: data?.phone_number,
+          role: "lecturer",
+        }
+      ) : await HttpService.postWithToken<any>(
         "/api/v1/auth/register",
         `${(user as User)?.accessToken}`,
         {
           first_name: data?.first_name,
           last_name: data?.last_name,
           email: data?.email,
+          phone_number: data?.phone_number,
           role: "lecturer",
         }
       );
@@ -86,7 +128,15 @@ const LecturerPage = () => {
         });
         setLoading(false);
       } else {
-        toast({
+      isUpdating ? toast({
+          title: "Lecturer Updated Successfully",
+          description:
+            "",
+          status: "success",
+          duration: 7000,
+          isClosable: true,
+          position: "top-right",
+        }) : toast({
           title: "Lecturer Registered Successfully",
           description:
             "Kindly provide password to the lecturer with email to login",
@@ -99,8 +149,15 @@ const LecturerPage = () => {
         reset();
         onClose();
         setLoading(false);
-        onOpenResponse();
-        // window.location.reload();
+        if(!isUpdating) {
+          onOpenResponse();
+         
+        }else {
+          setTimeout(() => {
+            window.location.reload();
+          }, 600)
+        }
+       
       }
     } catch (error) {
       toast({
@@ -114,6 +171,71 @@ const LecturerPage = () => {
       setLoading(false);
     }
   };
+
+  const handleDelete = (user: User) => {
+    setDeleting(true);
+    savedeleteId(user);
+    onOpenReset();
+  }
+
+  const onCloseDelete = () => {
+    setDeleting(false);
+    onCloseReset();
+  }
+
+
+ const  handleFinalDelete = async (id: string) => {
+  // http://127.0.0.1/api/v1/admin/users/f3088232-31ea-49be-b8f0-c4b667e7fb3c
+  console.log(id);
+  setLoading(true);
+  try {
+    const deleteUser = await HttpService.deleteWithToken<any>(
+      `/api/v1/admin/users/${id}`,
+      `${(user as User)?.accessToken}`,
+      
+    );
+
+    if (deleteUser.hasOwnProperty("error")) {
+      toast({
+        title: "Error",
+        description: (deleteUser as any)?.message,
+        status: "error",
+        duration: 7000,
+        isClosable: true,
+        position: "top-right",
+      });
+      setLoading(false);
+    } else {
+      toast({
+        title: "Lecturer Deleted Successfully",
+        description:
+          "",
+        status: "success",
+        duration: 7000,
+        isClosable: true,
+        position: "top-right",
+      });
+
+      reset();
+      setLoading(false);
+      onCloseDelete();
+      setTimeout(() => {
+        window.location.reload();
+      }, 600)
+      // window.location.reload();
+    }
+  } catch (error) {
+    toast({
+      title: "Error",
+      description: error as any,
+      status: "error",
+      duration: 7000,
+      isClosable: true,
+      position: "top-right",
+    });
+    setLoading(false);
+  }
+  }
 
   const handleCopyPassword = () => {
     navigator.clipboard
@@ -212,21 +334,50 @@ const LecturerPage = () => {
         </>
       ),
     }),
+    columnUsersHelper.display({
+      header: () => "Action",
+      id: "actions",
+      cell: (props) => (
+        <span>
+          <span className="flex justify-start gap-2">
+            <EditIcon
+              height={5}
+              width={5}
+              color={"green"}
+              className="hover:cursor-pointer"
+              onClick={() => handleUpdatingUser(props?.row?.original)}
+            />
+            <DeleteIcon
+              height={5}
+              width={5}
+              color={"red"}
+              className="hover:cursor-pointer"
+              onClick={() => handleDelete(props?.row?.original)}
+            />
+          </span>
+        </span>
+      ),
+    }),
   ];
+
+ const onCopyComplete = () => {
+    onCloseResponse();
+    window.location.reload()
+  }
 
   return (
     <>
       <CustomModal
-        headerText="Reset Password"
+        headerText={isDeleting ? "Delete Lecturer" : "Reset Password"}
         footerText="Done"
         isOpen={isOpenReset}
         loading={false}
-        onClose={onCloseReset}
+        onClose={isDeleting ? onCloseDelete : onCloseReset}
         onSubmit={onCloseReset}
         showFooter={false}
         children={
           <div>
-            <p className="font-medium">{`Are you sure you want to reset ${resetData?.first_name} Password`}</p>
+            <p className="font-medium">{isDeleting ? `Are you sure you want to delete ${deleteId?.first_name}` : `Are you sure you want to reset ${resetData?.first_name} Password`}</p>
 
             {loading ? (
               <div className="text-center pt-3">
@@ -237,10 +388,10 @@ const LecturerPage = () => {
               className=" w-[80%]  mx-[10%] bg-[#e62b2be8] border-2 rounded-full py-2  text-white    hover:bg-[#ff0000e8] hover:text-white hover:border-none
           lg:mt-[1.3rem]"
               onClick={() => {
-                onPasswordReset(resetData?.email);
+               isDeleting ? handleFinalDelete(`${deleteId?.id}`) : onPasswordReset(resetData?.email);
               }}
             >
-              Reset
+              { isDeleting ? "Delete" : "Reset"}
             </button>)
         }
           </div>
@@ -251,8 +402,8 @@ const LecturerPage = () => {
         footerText="Done"
         isOpen={isOpenReponse}
         loading={false}
-        onClose={onCloseResponse}
-        onSubmit={onCloseResponse}
+        onClose={onCopyComplete}
+        onSubmit={onCopyComplete}
         children={
           <div>
             <p className="font-bold">Generated Lecturer's Password</p>
@@ -268,11 +419,11 @@ const LecturerPage = () => {
         }
       />
       <CustomModal
-        headerText="Enter Lecturer Details"
+        headerText={isUpdating ? "Update Lecturer Details" : "Enter Lecturer Details"}
         footerText="Save"
         isOpen={isOpen}
         loading={loading}
-        onClose={onClose}
+        onClose= { isUpdating ? onCloseUpdate  :onClose}
         onSubmit={handleSubmit(onSubmit)}
         children={
           <div>
@@ -322,6 +473,16 @@ const LecturerPage = () => {
                     {errors?.email?.message}
                   </span>
                 )}
+              </div>
+              <div>
+                <input
+                  className="border border-primary rounded mt-2 mb-2 py-2 text-sm text-left pl-2 w-full "
+                  type="phone_number"
+                  maxLength={10}
+                  placeholder="Phone Number"
+                  {...register("phone_number")}
+                />
+                
               </div>
             </form>
           </div>

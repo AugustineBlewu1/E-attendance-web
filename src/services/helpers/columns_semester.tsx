@@ -36,6 +36,18 @@ export const columnsSemester: ColumnDef<Semesters, unknown>[] = [
         </>
       ),
     }),
+    columnSemesterHelper.accessor("type", {
+      header: () => "Semester",
+      cell: (props) => (
+        <>
+          <span>
+            <span>
+              {props?.getValue()}
+            </span>
+          </span>
+        </>
+      ),
+    }),
     columnSemesterHelper.accessor("created_at", {
       header: () => "Date Added",
       cell: (props) => (

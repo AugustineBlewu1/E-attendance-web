@@ -15,7 +15,7 @@ const StudentSignUp = () => {
   const navigate = useNavigate();
 
   // Select level
-  const level: number[] = [100, 200, 300, 400, 500, 600];
+  const level: number[] = [100, 200, 300, 400, 500];
 
   const [formData, setFormData] = useState<SignUP>({
     fname: "",

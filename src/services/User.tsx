@@ -81,5 +81,6 @@ export interface Semesters {
     is_current: boolean;
     start_date: string;
     end_date: string;
-    created_at: string
+    created_at: string;
+    type: string;
 }

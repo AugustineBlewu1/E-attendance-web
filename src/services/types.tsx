@@ -76,4 +76,5 @@ export type Semester = {
   start_date: string;
   end_date: string;
   is_current: boolean | string;
+  type: '1st Semester' | '2nd Semester'
 };

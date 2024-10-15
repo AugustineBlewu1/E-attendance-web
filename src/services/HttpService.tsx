@@ -40,6 +40,32 @@ class HttpService {
       throw axiosError;
     }
   }
+  static async deleteWithToken<T>(url: string, token: string,): Promise<T> {
+    try {
+      const response: AxiosResponse<T> = await axios.delete(urlPath + url,  {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      throw axiosError;
+    }
+  }
+  static async patchWithToken<T>(url: string, token: string, data: any): Promise<T> {
+    try {
+      const response: AxiosResponse<T> = await axios.patch(urlPath + url, data,  {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      throw axiosError;
+    }
+  }
 
   static async post<T>(url: string, data: any): Promise<T> {
     try {

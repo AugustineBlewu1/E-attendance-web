@@ -44,6 +44,7 @@ const SemesterPage = () => {
           start_date: data?.start_date,
           end_date: data?.end_date,
           is_current: data?.is_current === "yes" ? true : false,
+          type: data?.type
         }
       );
       console.log(saveSemester);
@@ -155,6 +156,27 @@ const SemesterPage = () => {
                 {errors?.end_date && (
                   <span className="text-left text-rose-500 font-normal text-xs">
                     {errors?.end_date?.message}
+                  </span>
+                )}
+              </div>
+              <div>
+                <span className="pt-5">Semester</span>
+
+                <select
+                  className="border border-primary rounded mt-2 mb-2 h-11 pl-2 text-sm text-left w-full"
+                  {...register("type", {
+                    required: "Semester is required",
+                  })}
+                >
+                  <option selected disabled value="--select your state --">
+                    --select your semester --
+                  </option>
+                  <option value="1st Semester">First Semester</option>
+                  <option value="2nd Semester">Second Semester</option>
+                </select>
+                {errors.is_current && (
+                  <span className="text-left text-rose-500 font-normal text-xs">
+                    {errors?.is_current?.type}
                   </span>
                 )}
               </div>
