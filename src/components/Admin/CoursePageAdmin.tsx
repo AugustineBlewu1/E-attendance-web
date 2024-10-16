@@ -13,13 +13,18 @@ import { format } from "date-fns";
 // import useGetVenues from "../../services/hooks/useGetVenues";
 import { ArrowUpTrayIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import useGetLecturers from "../../services/hooks/useGetLecturers";
+import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import Loading from "../UI/Loading";
 
 const CoursePageAdmin = () => {
   const user = useSelector(selectCurrentAdmin);
   const [courses, SetCourses] = useState<Courses[]>([]);
   const [loading, setLoading] = useState(false);
-  const [courseId, setCourseId] = useState(0);
+  const [updating, setUpdating] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [courseId, setCourseId] = useState("");
   const lecturers = useGetLecturers();
+  const [courseData, saveCourseData] = useState<Courses | null>(null);
 
   const toast = useToast();
 
@@ -31,12 +36,6 @@ const CoursePageAdmin = () => {
     onClose: closeAssign,
   } = useDisclosure({ defaultIsOpen: false });
 
-  type Inputs = {
-    courseName: string;
-    courseCode: string;
-    courseLevel: string;
-    courseDescription: string | null;
-  };
   type Assign = {
     lecturer_id: string;
   };
@@ -48,7 +47,7 @@ const CoursePageAdmin = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<Courses>({
     defaultValues: {},
   });
 
@@ -58,10 +57,94 @@ const CoursePageAdmin = () => {
     register: assign,
     handleSubmit: handleAssign,
     reset: resetAassign,
-    
   } = useForm<Assign>({
     defaultValues: {},
   });
+
+  const emptyForm = {
+    course_id: "",
+    name: "",
+    level : "",
+    course_code: "",
+  }
+  const handleUpdatingCourse = (course: Courses) => {
+   
+    setUpdating(true);
+    reset(course);
+    onOpen();
+  };
+  const handleDeletingCourse = (course: Courses) => {
+    setDeleting(true);
+    saveCourseData(course)
+    openAssign()
+  };
+
+  const handleDeletingClose = ()=> {
+    setDeleting(false);
+    saveCourseData(null)
+
+    closeAssign();
+  }
+  const handleUpdateClose = () => {
+    setUpdating(false);
+    reset(
+      emptyForm
+  )
+    onClose();
+  };
+
+
+  const  handleDeletingFinalCourse = async (id: string) => {
+    console.log(id);
+    setLoading(true);
+    try {
+      const deleteUser = await HttpService.deleteWithToken<any>(
+        `/api/v1/courses/${id}`,
+        `${(user as User)?.accessToken}`
+      );
+  
+      if (deleteUser.hasOwnProperty("error")) {
+        toast({
+          title: "Error",
+          description: (deleteUser as any)?.message,
+          status: "error",
+          duration: 7000,
+          isClosable: true,
+          position: "top-right",
+        });
+        setLoading(false);
+      } else {
+        toast({
+          title: "Course Deleted Successfully",
+          description:
+            "",
+          status: "success",
+          duration: 7000,
+          isClosable: true,
+          position: "top-right",
+        });
+  
+        reset(emptyForm);
+        setLoading(false);
+        closeAssign();
+        setTimeout(() => {
+          window.location.reload();
+        }, 600)
+        // window.location.reload();
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error as any,
+        status: "error",
+        duration: 7000,
+        isClosable: true,
+        position: "top-right",
+      });
+      setLoading(false);
+    }
+    }
+
   //Generate a new qr Code
 
   //get courses on first initialization of pages
@@ -115,25 +198,35 @@ const CoursePageAdmin = () => {
       });
       resetAassign();
       closeAssign();
-      setCourseId(0);
+      setCourseId("");
       setLoading(false);
     }
     console.log(saveCourseResponse);
 
     //country id
   };
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  const onSubmit: SubmitHandler<Courses> = async (data) => {
     console.log(data);
     setLoading(true);
-    const saveCourseResponse = await HttpService.postWithToken<any>(
-      "/api/v1/courses",
-      `${(user as User)?.accessToken}`,
-      {
-        code: data?.courseCode,
-        name: data?.courseName,
-        level: data?.courseLevel,
-      }
-    );
+    const saveCourseResponse = !updating
+      ? await HttpService.postWithToken<any>(
+          "/api/v1/courses",
+          `${(user as User)?.accessToken}`,
+          {
+            code: data?.course_code,
+            name: data?.name,
+            level: data?.level,
+          }
+        )
+      : await HttpService.patchWithToken<any>(
+          `/api/v1/courses/${data?.course_id}`,
+          `${(user as User)?.accessToken}`,
+          {
+            code: data?.course_code,
+            name: data?.name,
+            level: data?.level,
+          }
+        );
     console.log(saveCourseResponse);
     if (saveCourseResponse.hasOwnProperty("error")) {
       toast({
@@ -146,14 +239,24 @@ const CoursePageAdmin = () => {
       });
       setLoading(false);
     } else {
-      toast({
-        title: "Course Created",
-        description: (saveCourseResponse as any).data?.message,
-        status: "success",
-        duration: 7000,
-        isClosable: true,
-        position: "top-right",
-      });
+      updating
+        ? toast({
+            title: "Course Updated",
+            description: (saveCourseResponse as any).data?.message,
+            status: "success",
+            duration: 7000,
+            isClosable: true,
+            position: "top-right",
+          })
+        : toast({
+            title: "Course Created",
+            description: (saveCourseResponse as any).data?.message,
+            status: "success",
+            duration: 7000,
+            isClosable: true,
+            position: "top-right",
+          });
+
       reset();
       getCourse();
       onClose();
@@ -204,10 +307,35 @@ const CoursePageAdmin = () => {
           <PlusCircleIcon
             className="h-6 hover:cursor-pointer"
             onClick={() => {
-              setCourseId(props?.row.original.course_id);
+              setCourseId(props?.row.original.course_id!);
               openAssign();
             }}
           />
+        </span>
+      ),
+      enableGlobalFilter: true,
+    }),
+    columnCoursesHelper.display({
+      header: () => "Actions",
+      id: "actions",
+      cell: (props) => (
+        <span>
+          <span className="flex justify-start gap-2">
+            <EditIcon
+              height={5}
+              width={5}
+              color={"green"}
+              className="hover:cursor-pointer"
+              onClick={() => handleUpdatingCourse(props?.row?.original)}
+            />
+            <DeleteIcon
+              height={5}
+              width={5}
+              color={"red"}
+              className="hover:cursor-pointer"
+              onClick={() => handleDeletingCourse(props?.row?.original)}
+            />
+          </span>
         </span>
       ),
       enableGlobalFilter: true,
@@ -217,11 +345,11 @@ const CoursePageAdmin = () => {
   return (
     <>
       <CustomModal
-        headerText="Enter Course Details"
-        footerText="Save"
+        headerText={updating ? "Update Course Details" : "Enter Course Details"}
+        footerText={updating ? "Update" : "Save"}
         isOpen={isOpen}
         loading={loading}
-        onClose={onClose}
+        onClose={updating ? handleUpdateClose : onClose}
         onSubmit={handleSubmit(onSubmit)}
         children={
           <div>
@@ -229,7 +357,7 @@ const CoursePageAdmin = () => {
             <form action="">
               <select
                 className="border border-primary rounded mt-2 mb-2 h-11 pl-2 text-sm text-left w-full"
-                {...register("courseLevel", {
+                {...register("level", {
                   required: "Course Level is required",
                 })}
               >
@@ -242,39 +370,39 @@ const CoursePageAdmin = () => {
                 <option value="400">400</option>
                 <option value="500">500</option>
               </select>
-              {errors.courseName && (
+              {errors.level && (
                 <span className="text-left text-rose-500 font-normal text-xs">
-                  {errors?.courseName?.message}
+                  {errors?.level?.message}
                 </span>
               )}
               <input
                 className="border border-primary rounded mt-2 mb-2 py-2 pl-2 text-sm text-left w-full"
                 type="text"
                 placeholder="Course Name"
-                {...register("courseName", {
+                {...register("name", {
                   required: "Course Venue field is required",
                   validate: (value) =>
                     !(value?.length < 4) || "Invalid Course Name",
                 })}
               />
-              {errors.courseName && (
+              {errors.name && (
                 <span className="text-left text-rose-500 font-normal text-xs">
-                  {errors?.courseName?.message}
+                  {errors?.name?.message}
                 </span>
               )}
               <input
                 className="border border-primary rounded mt-2 mb-2 py-2 text-sm text-left pl-2 w-full"
                 type="text"
                 placeholder="Course Code"
-                {...register("courseCode", {
+                {...register("course_code", {
                   required: "Course Code field is required",
                   validate: (value) =>
                     !(value?.length < 3) || "Invalid Course Code",
                 })}
               />
-              {errors.courseCode && (
+              {errors.course_code && (
                 <span className="text-left text-rose-500 font-normal text-xs">
-                  {errors?.courseCode?.message}
+                  {errors?.course_code?.message}
                 </span>
               )}
             </form>
@@ -317,14 +445,15 @@ const CoursePageAdmin = () => {
       {/* <CustomTable columns={isMobile.isMobile ? mobileBuyColumns : columns} data={buyTransactionsSet} /> */}
 
       <CustomModal
-        headerText="Select Lecturer to Assign Course"
-        footerText="Save"
+        headerText={deleting ? "Delete this Course?" : "Select Lecturer to Assign Course"}
+        footerText={deleting ? "Delete" : "Save"}
         isOpen={isAssign}
         loading={loading}
-        onClose={closeAssign}
+        onClose={deleting ?  handleDeletingClose  : closeAssign}
         onSubmit={handleAssign(onSubmitAssign)}
+        showFooter={false}
         children={
-          <div>
+      !deleting ?   ( <div>
             <p>Select a lecturer</p>
             <form action="">
               <select
@@ -349,7 +478,27 @@ const CoursePageAdmin = () => {
                 ))}
               </select>
             </form>
-          </div>
+          </div>) : (
+             <div>
+             <p className="font-medium">{`Are you sure you want to delete ${courseData?.name}`}</p>
+ 
+             {loading ? (
+               <div className="text-center pt-3">
+                 <Loading />
+               </div>
+             ) : (  <button
+               type="submit"
+               className=" w-[80%]  mx-[10%] bg-[#e62b2be8] border-2 rounded-full py-2  text-white    hover:bg-[#ff0000e8] hover:text-white hover:border-none
+           lg:mt-[1.3rem]"
+               onClick={() => {
+                handleDeletingFinalCourse(courseData?.course_id!)
+               }}
+             >
+               { "Delete"}
+             </button>)
+         }
+           </div>
+          )
         }
       />
     </>

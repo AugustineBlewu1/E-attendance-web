@@ -18,7 +18,7 @@ const LecturerQrCodePage = () => {
   const user = useSelector(selectCurrentUser);
   // const [courses, SetCourses] = useState<Courses[]>([]);
   const [loading, setLoading] = useState(false);
-  const [courseId, setCourseId] = useState<number>(0);
+  const [courseId, setCourseId] = useState<string>("");
   const [setQRCodeValue, SetQRCodeValue] = useState("");
   const toast = useToast();
   const navigate = useNavigate();
@@ -336,7 +336,7 @@ const LecturerQrCodePage = () => {
                 className="border-2  w-fit p-2 rounded-lg bg-gray-200"
                 onClick={() => {
                   onOpenQR();
-                  setCourseId(e?.course_id);
+                  setCourseId(e?.course_id!);
                 }}
               >
                 Generate QR

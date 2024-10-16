@@ -45,8 +45,9 @@ export interface PasswordUpdate{
 }
 
 export interface Courses {
-    course_id: number,
+    course_id?: string,
     name: string,
+    level : string,
     course_code: string,
     created_at: string,
     updated_at: string
