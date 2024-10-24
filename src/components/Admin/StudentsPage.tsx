@@ -14,26 +14,31 @@ import {
 import { format } from "date-fns";
 import NewCustomTable from "../UI/CustomTable";
 import useGetStudents from "../../services/hooks/useGetStudents";
-import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
-
+import {  EditIcon } from "@chakra-ui/icons";
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 const StudentsPage = () => {
   const user = useSelector(selectCurrentAdmin);
   const toast = useToast();
 
   const [loading, setLoading] = useState(false);
   const [fileForUpload, setFile] = useState<any>();
+  const [isUpdating, setUpdating] = useState(false);
+  // const [isDeleting, setDeleting] = useState(false);
   const lecturers = useGetStudents();
+
 
   //register  a new Lecturer
   const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false });
   const level: number[] = [100, 200, 300, 400, 500, 600];
 
   type Inputs = {
+    id?: string;
     first_name: string;
     last_name: string;
     email?: string;
     level: string;
-    password: string;
+    password?: string;
     student_id: string;
   };
 
@@ -47,6 +52,17 @@ const StudentsPage = () => {
   });
 
   console.log(lecturers);
+
+  const emptyForm = 
+    {
+      first_name: "",
+      last_name: "",
+      email: "",
+      level: "",
+      password: "",
+      student_id: ""
+    }
+  
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     console.log(data);
@@ -105,14 +121,22 @@ const StudentsPage = () => {
     }
   };
 
-  // const getFullName = (row: any) => `${row.first_name} ${row.last_name}`;
+  // const handleUpdatingUser = (formData: any) =>{
+  //   setUpdating(true)
+  //   reset(formData)
+  //   onOpen();
+  // }
 
-  // const filterByFullName = (rows: any, id: any, filterValue: any) => {
-  //   return rows.filter((row: any) => {
-  //     const rowValue = getFullName(row.original);
-  //     return rowValue.toLowerCase().includes(filterValue.toLowerCase());
-  //   });
-  // };
+
+  const onCloseUpdate = () => {
+
+    reset(
+        emptyForm
+    )
+    setUpdating(false)
+    onClose()
+    console.log('Zysd')
+  }
 
   const handleFileChange = (e: any) => {
     const file = e.target.files[0];
@@ -246,16 +270,70 @@ const StudentsPage = () => {
         </>
       ),
     }),
+    columnStudentHelper.display({
+      header: () => "Action",
+      id: "actions",
+      cell: (_) => (
+        <span>
+          <span className="flex justify-start gap-2">
+            <EditIcon
+              height={5}
+              width={5}
+              color={"green"}
+              className="hover:cursor-pointer"
+              onClick={() => {
+                // handleUpdatingUser(props?.row?.original)
+                toast({
+                  title: "Coming Soon",
+                  description:"",
+                  status: "success",
+                  duration: 7000,
+                  isClosable: true,
+                  position: "top-right",
+                });
+              }}
+            />
+            {/* <DeleteIcon
+              height={5}
+              width={5}
+              color={"red"}
+              className="hover:cursor-pointer"
+              onClick={() =>{}}
+            /> */}
+          </span>
+        </span>
+      ),
+    }),
   ] as Array<ColumnDef<UserStudent, unknown>>;
+
+  const exportToExcel = () => {
+    // Sample data
+    const data = [
+        { FullName: "John Doe", "Student ID": "PH/PHA/19/0050", level: "100" },
+        { FullName: "John Doe", "Student ID": "PH/PHA/19/0050", level: "100" },
+    ];
+
+    // Create a new workbook and a new worksheet
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sample Data");
+
+    // Generate the Excel file and trigger the download
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(blob, "sample_data.xlsx");
+};
 
   return (
     <>
       <CustomModal
-        headerText="Enter Student Details"
-        footerText="Save"
+        headerText={isUpdating ? "Update Student Details" : "Enter Student Details"}
+        footerText={isUpdating ? "Update" : "Save"}
         isOpen={isOpen}
         loading={loading}
-        onClose={onClose}
+        onClose={ isUpdating ? onCloseUpdate  :onClose}
         onSubmit={handleSubmit(onSubmit)}
         children={
           <div>
@@ -303,7 +381,7 @@ const StudentsPage = () => {
                   </option>
                 ))}
               </select>
-              <div>
+              {!isUpdating && <div>
                 <input
                   className="border border-primary rounded mt-2 mb-2 py-2 text-sm text-left pl-2 w-full"
                   type="text"
@@ -319,8 +397,8 @@ const StudentsPage = () => {
                     {errors?.student_id?.message}
                   </span>
                 )}
-              </div>
-              <div>
+              </div>}
+             { !isUpdating && <div>
                 <input
                   className="border border-primary rounded mt-2 mb-2 py-2 text-sm text-left pl-2 w-full"
                   type="password"
@@ -328,7 +406,7 @@ const StudentsPage = () => {
                   {...register("password", {
                     required: "Password is required",
                     validate: (value) =>
-                      !(value?.length < 8) ||
+                      !(value?.length! < 8) ||
                       "Password Length is short, must be at least 8 characters",
                   })}
                 />
@@ -337,7 +415,7 @@ const StudentsPage = () => {
                     {errors?.password?.message}
                   </span>
                 )}
-              </div>
+              </div>}
             </form>
           </div>
         }
@@ -357,10 +435,15 @@ const StudentsPage = () => {
             <input type="file" accept=".csv" onChange={handleFileChange} />
             <button type="submit" className="px-2">
               {" "}
-              <ArrowUpTrayIcon className="w-4 h-4" />
+              <div className="font-light text-green-light-mini">Upload</div>
+
             </button>
           </form>
-          <p className="py-2">Add Student CSV file for bulkupload</p>
+          <div className="flex flex-row items-center gap-4">
+          <p className="py-2">Add Students CSV file for bulkupload</p> 
+            <div className="hover:cursor-pointer hover:underline font-bold text-green-light-mini" onClick={exportToExcel}>Download Sample</div>
+          </div>
+          
         </div>
       </div>
 

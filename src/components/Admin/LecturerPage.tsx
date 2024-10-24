@@ -75,7 +75,6 @@ const emptyForm = {
   }
 
   const onCloseUpdate = () => {
-    console.log('Zysdsdfsdfsdfdsfsd')
 
     reset(
         emptyForm
@@ -420,7 +419,7 @@ const emptyForm = {
       />
       <CustomModal
         headerText={isUpdating ? "Update Lecturer Details" : "Enter Lecturer Details"}
-        footerText="Save"
+        footerText={isUpdating ? "Update" : "Save"}
         isOpen={isOpen}
         loading={loading}
         onClose= { isUpdating ? onCloseUpdate  :onClose}

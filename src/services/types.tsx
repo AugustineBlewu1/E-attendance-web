@@ -72,6 +72,7 @@ export interface Scans {
 
 
 export type Semester = {
+  id?: string
   academic_year: string;
   start_date: string;
   end_date: string;

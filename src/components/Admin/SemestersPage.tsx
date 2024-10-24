@@ -4,12 +4,15 @@ import { useDisclosure, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import useGetSemesters from "../../services/hooks/useGetSemesters";
 import NewCustomTable from "../UI/CustomTable";
-import { columnsSemester } from "../../services/helpers/columns_semester";
+import { columnsSemester,  } from "../../services/helpers/columns_semester";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Semester } from "../../services/types";
 import HttpService from "../../services/HttpService";
 import CustomModal from "../UI/CustomModal";
-import { User } from "../../services/User";
+import { Semesters, User } from "../../services/User";
+import { ColumnDef } from "@tanstack/react-table";
+import { columnSemesterHelper } from "../../services/helpers/helper";
+import { EditIcon } from "@chakra-ui/icons";
 
 const SemesterPage = () => {
   const user = useSelector(selectCurrentAdmin);
@@ -17,7 +20,15 @@ const SemesterPage = () => {
 
   const [loading, setLoading] = useState(false);
   const semesters = useGetSemesters();
+  const [isUpdating, setUpdating] = useState(false);
 
+ const emptyForm = {
+    academic_year: "",
+    start_date: "",
+    end_date: "",
+    is_current: false,
+    type: undefined
+  };
   console.log(semesters);
 
   //create a new semester
@@ -32,11 +43,44 @@ const SemesterPage = () => {
     defaultValues: {},
   });
 
+  const handleUpdatingUser = (formData: any) =>{
+    setUpdating(true)
+    const transformData = {
+      ...formData,
+      is_current : formData?.is_current ? 'yes': 'no'
+    }
+    reset(transformData)
+    onOpen();
+  }
+
+  const onCloseUpdate = () => {
+
+    reset(
+        emptyForm
+    )
+    setUpdating(false)
+    onClose()
+    console.log('Zysd')
+  }
+
   const onSubmit: SubmitHandler<Semester> = async (data) => {
     console.log(data);
     setLoading(true);
     try {
-      const saveSemester = await HttpService.postWithToken<any>(
+      const saveSemester = isUpdating ? 
+      await HttpService.patchWithToken<any>(
+        `/api/v1/semesters/${data?.id}`,
+        `${(user as User)?.accessToken}`,
+        {
+          academic_year: data?.academic_year,
+          start_date: data?.start_date,
+          end_date: data?.end_date,
+          is_current: data?.is_current === "yes" ? true : false,
+          type: data?.type
+        }
+      ) :
+      
+      await HttpService.postWithToken<any>(
         "/api/v1/semesters",
         `${(user as User)?.accessToken}`,
         {
@@ -71,7 +115,10 @@ const SemesterPage = () => {
         reset();
         onClose();
         setLoading(false);
-        window.location.reload();
+        setUpdating(false)
+        setTimeout(() => {
+          window.location.reload();
+        }, 600)
       }
     } catch (error) {
       toast({
@@ -86,14 +133,36 @@ const SemesterPage = () => {
     }
   };
 
+  const columnsSemesterHere: ColumnDef<Semesters, unknown>[] = [
+    ...columnsSemester,
+    columnSemesterHelper.display({
+      header: () => "Action",
+      id: "actions",
+      cell: (props) => (
+        <span>
+          <span className="flex justify-start gap-2">
+            <EditIcon
+              height={5}
+              width={5}
+              color={"green"}
+              className="hover:cursor-pointer"
+              onClick={() => handleUpdatingUser(props?.row?.original)}
+            />
+          
+          </span>
+        </span>
+      ),
+    }),
+  ]
+
   return (
     <>
       <CustomModal
-        headerText="Provide New Semester Details"
-        footerText="Save"
+        headerText={isUpdating ? "Update Semester" : "Provide New Semester Details"}
+        footerText={isUpdating ? "Update" : "Save"}
         isOpen={isOpen}
         loading={loading}
-        onClose={onClose}
+        onClose={isUpdating ? onCloseUpdate : onClose}
         onSubmit={handleSubmit(onSubmit)}
         children={
           <div>
@@ -217,7 +286,7 @@ const SemesterPage = () => {
         <div className="mt-5 md:ml-5">
           {
             <NewCustomTable
-              columns={columnsSemester}
+              columns={columnsSemesterHere}
               data={semesters?.semesters}
             />
           }
