@@ -533,7 +533,7 @@ const CoursePageAdmin = () => {
         </Button>
       </div>
 
-      <NewCustomTable columns={columns} data={courses} />
+      <NewCustomTable columns={columns} data={courses} showPopoverFilter={false} updateStudentsLevels={false} />
 
       {/* <CustomTable columns={isMobile.isMobile ? mobileBuyColumns : columns} data={buyTransactionsSet} /> */}
 

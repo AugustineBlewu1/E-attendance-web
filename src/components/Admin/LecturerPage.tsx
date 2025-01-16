@@ -498,7 +498,9 @@ const emptyForm = {
 
       <div>
         <div className="mt-5 md:ml-5">
-          {<NewCustomTable columns={columns} data={lecturers?.lecturers} />}
+          {<NewCustomTable columns={columns} data={lecturers?.lecturers}
+          showPopoverFilter={false}
+          updateStudentsLevels={false} />}
 
           {/* <CustomTable columns={isMobile.isMobile ? mobileBuyColumns : columns} data={buyTransactionsSet} /> */}
         </div>

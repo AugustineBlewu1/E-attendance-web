@@ -69,7 +69,9 @@ export default function ReportsPage() {
             {" "}
             <NewCustomTable
               columns={columns}
+              updateStudentsLevels={false}
               data={scannedReports.reports ?? []}
+              showPopoverFilter={false}
             />
           </div>
         </>

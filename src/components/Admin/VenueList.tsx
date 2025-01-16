@@ -32,6 +32,8 @@ const VenueList = () => {
             <NewCustomTable
               columns={columnsVenue}
               data={venueList?.venues}
+              showPopoverFilter={false}
+              updateStudentsLevels={false}
             />
           }
           {/* <div className="">

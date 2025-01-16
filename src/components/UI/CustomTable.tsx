@@ -4,7 +4,6 @@ import {
   PaginationState,
   SortingState,
   Table,
- 
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -21,8 +20,18 @@ import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import Pagination from "./Pagination";
 import { Course } from "../../services/types";
 import { Courses } from "../../services/User";
+import FilterDropdown from "./FilterDropdown";
 
-const NewCustomTable = <T extends object>({ data, columns }: TableProps<T>) => {
+const NewCustomTable = <T extends object>({
+  data,
+  columns,
+  showPopoverFilter,
+  updateStudentsLevels,
+  updateLevels,
+  updateLevel,
+  confirmLevelUpdate,
+  selectedLevels
+}: TableProps<T>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [sorting, setSorting] = useState<SortingState>([
@@ -32,6 +41,7 @@ const NewCustomTable = <T extends object>({ data, columns }: TableProps<T>) => {
     pageIndex: 0,
     pageSize: 5,
   });
+  const levels = ["100", "200", "300", "400", "500", "600"];
 
   const filterFns = {
     // Add a new filter function for filtering by full name
@@ -41,6 +51,10 @@ const NewCustomTable = <T extends object>({ data, columns }: TableProps<T>) => {
         return fullName.toLowerCase().includes(filterValue.toLowerCase());
       });
     },
+  };
+
+  const activateUpdateLevels = () => {
+    updateLevels && updateLevels();
   };
 
   const table = useReactTable({
@@ -93,12 +107,59 @@ const NewCustomTable = <T extends object>({ data, columns }: TableProps<T>) => {
         </>
       ) : (
         <>
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-between ">
             <GlobalTableFilter
               globalFilter={globalFilter}
               setGlobalFilter={setGlobalFilter}
             />
-            {/* <FilterPopover  columnFilters={columnFilters} setColumnFilters={setColumnFilters}/> */}
+            <div className="flex flex-row justify-center items-center gap-3">
+              {updateStudentsLevels && (
+                <div className="flex gap-3">
+                  {" "}
+                  {updateLevel && (
+                    <>
+                      <select
+                        name="selectedLevel"
+                        id="level"
+                        className="border-2 text-[10px] w-full md:w-[300px] pl-3 rounded-lg h-14 mr-8 bg-white "
+                        onChange={(event) => {
+                        selectedLevels &&  selectedLevels(event)
+                        }}
+                      >
+                      
+                        <option value={"none"}>{"Select a level to update to"}</option>
+                        {levels?.map((item, index) => (
+                          <option key={index} value={item}>
+                            {item}
+                          </option>
+                        ))}
+                      </select>  
+                      
+                      <button
+                          onClick={confirmLevelUpdate}
+                          className="hover:border-none"
+                        >
+                          <p className="text-lg text-white bg-green px-2 rounded-sm">{"Update"}</p>
+                        </button>
+
+
+                    </>
+                  )}
+                  <button
+                    onClick={activateUpdateLevels}
+                    className="hover:border-none"
+                  >
+                   { updateLevel ? <p className="text-lg text-white bg-rose-600 px-2 rounded-sm">Cancel Update</p> : <p className="text-lg text-white bg-green px-2 rounded-sm">{"Update Levels"}</p>}
+                  </button>{" "}
+                </div>
+              )}
+              {showPopoverFilter && (
+                <FilterDropdown
+                  columnFilters={columnFilters}
+                  setColumnFilters={setColumnFilters}
+                />
+              )}
+            </div>
           </div>
           <table className="w-full">
             <thead>
@@ -169,6 +230,12 @@ export default NewCustomTable;
 
 export interface TableProps<T> {
   data: Array<T>;
+  showPopoverFilter: boolean;
+  updateStudentsLevels: boolean;
+  updateLevels?: () => void;
+  updateLevel?: boolean;
+  confirmLevelUpdate?: () => void;
+  selectedLevels? : (event:  React.ChangeEvent<HTMLSelectElement>) => void;
   columns: Array<ColumnDef<T, unknown>>;
 }
 
@@ -185,10 +252,7 @@ export interface GlobalTableFilterProps {
   setGlobalFilter: React.Dispatch<React.SetStateAction<string>>; // Setter function for column filters
 }
 
-
 export interface CustomDropDownFilter {
-  onChange:(value: any) => void,
-  items: Course[] | Courses[],
-
-
+  onChange: (value: any) => void;
+  items: Course[] | Courses[];
 }

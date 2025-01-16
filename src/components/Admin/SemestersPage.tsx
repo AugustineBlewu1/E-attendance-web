@@ -288,6 +288,8 @@ const SemesterPage = () => {
             <NewCustomTable
               columns={columnsSemesterHere}
               data={semesters?.semesters}
+              showPopoverFilter={false}
+              updateStudentsLevels= {false}
             />
           }
 
