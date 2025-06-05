@@ -3,7 +3,7 @@ import { Venues } from "../User";
 import { columnVenuesHelper } from "./helper";
 import { format } from "date-fns";
 
-export const columnsVenue: ColumnDef<Venues, unknown>[] = [
+export const updatedListcolumnsVenue: ColumnDef<Venues, unknown>[] = [
     columnVenuesHelper.accessor("name", {
       header: () => "Venue",
       cell: (props) => <span className="">{props?.getValue()}</span>,
@@ -22,5 +22,6 @@ export const columnsVenue: ColumnDef<Venues, unknown>[] = [
         </>
       ),
     }),
+  
    
   ] as Array<ColumnDef<Venues, unknown>>;
