@@ -14,7 +14,6 @@ import { setStudentCredentials } from "../services/studentReducer";
 
 function LandingPage() {
   // buttons containing links to either the administrator, student or lecturer's login
- 
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -45,9 +44,11 @@ function LandingPage() {
       setLoading(true);
 
       // Determine userType based on provided data (email vs student ID)
-      const isStudent = !(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.emailorStudnetId)); 
+      const isStudent = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        data.emailorStudnetId
+      );
       // Check if it's a student ID (you can refine this)
-      console.log("isStudent", isStudent)
+      console.log("isStudent", isStudent);
       const payload = isStudent
         ? {
             student_id: data.emailorStudnetId.trim(),
@@ -148,9 +149,9 @@ function LandingPage() {
   return (
     <div className="h-screen flex justify-center md:items-center">
       <div
-        className="mx-auto w-[90%]   h-auto  rounded bg-grey-bg shadow-sm
-    md:w-[95%] md:flex md:justify-between md:items-center  md:px-[3%] md:py-[4rem]  lg:shadow-md
-    lg:w-[70%]  lg:rounded-xl lg:px-[4%] lg:py-[1rem]"
+        className="mx-auto w-[90%]   h-auto  rounded lg:bg-grey-bg shadow-sm
+    md:w-[95%] md:flex md:flex-col lg:flex-row md:justify-between md:items-center  md:px-[3%] md:py-[4rem]  lg:shadow-md
+    lg:w-[70%]  lg:rounded-xl lg:px-[4%] "
       >
         <div>
           <figure>
@@ -162,22 +163,22 @@ function LandingPage() {
               />
             </a>
           </figure>
-          <h4 className="text-center mb-5">
+          <h4 className="text-center mb-5 text-sm">
             University of Cape Coast <br />
             School of Pharmacy and Pharmaceutical Sciences <br />
             <span className="text-primary "> Electronic Attendance </span>
           </h4>
         </div>
 
-        <div className="bg-white flex flex-col justify-center items-center px-24 rounded-lg py-10">
-          <p className="text-center font-bold text-2xl pb-10"> Login </p>
+        <div className="bg-white flex flex-col justify-center items-center lg:px-24 rounded-lg lg:py-10">
+          <p className="text-center font-bold text-2xl lg:pb-10"> Login </p>
           <form
             method="POST"
             onSubmit={handleSubmit(onSubmit)}
             className="mt-4"
           >
             {/* ... (unchanged input fields) */}
-            <div className="space-y-2 w-[22rem] ">
+            <div className="space-y-2 w-[22rem]  px-5 lg:px-0 ">
               <span>Email / Index Number</span>
 
               <input
@@ -248,7 +249,7 @@ function LandingPage() {
             </div>
 
             <p
-              className="text-[0.9rem] mt-[2rem]  text-center
+              className="text-[0.9rem] mt-[1rem]  text-center
         lg:mt-[1.4rem]"
             >
               Forget Password?{" "}
